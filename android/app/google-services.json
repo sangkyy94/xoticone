@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "603108533490",
+    "project_id": "xoticonev2",
+    "storage_bucket": "xoticonev2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603108533490:android:a42cfd7a2d928a6fd85c6b",
+        "android_client_info": {
+          "package_name": "com.exoticone.xoticonev2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "603108533490-st4lbpp3qoujpom0op14skhea4vn651a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.exoticone.xoticonev2",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "603108533490-3cam8j4358gmmhnvp9362a59shlk4rl9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACjG8xyKwxSkOSGVsLktiBWCOowgLV0dM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "603108533490-3cam8j4358gmmhnvp9362a59shlk4rl9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "603108533490-v5cfss6tnskh9e4l4at2dcnmpl7r8ufl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.exoticone.xoticonev2"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

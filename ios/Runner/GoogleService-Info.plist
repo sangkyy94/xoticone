@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>603108533490-v5cfss6tnskh9e4l4at2dcnmpl7r8ufl.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.603108533490-v5cfss6tnskh9e4l4at2dcnmpl7r8ufl</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>603108533490-st4lbpp3qoujpom0op14skhea4vn651a.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAyi9vTMAzDhvapNGbPoYG-o-_l6_417cA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>603108533490</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.exoticone.xoticonev2</string>
+	<key>PROJECT_ID</key>
+	<string>xoticonev2</string>
+	<key>STORAGE_BUCKET</key>
+	<string>xoticonev2.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:603108533490:ios:92ed7d715bfa066ed85c6b</string>
+</dict>
+</plist>
