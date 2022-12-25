@@ -470,10 +470,8 @@ class _QRScanResultWidgetState extends State<QRScanResultWidget> {
                                             updateCount: (count) async {
                                               setState(() =>
                                                   countControllerValue = count);
-                                              setState(() {
-                                                FFAppState().stampCount =
-                                                    countControllerValue!;
-                                              });
+                                              FFAppState().stampCount =
+                                                  countControllerValue!;
                                             },
                                             stepSize: 1,
                                           ),

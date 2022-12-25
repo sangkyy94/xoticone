@@ -26,7 +26,14 @@ class StrainDetailsWidget extends StatefulWidget {
 
 class _StrainDetailsWidgetState extends State<StrainDetailsWidget> {
   String? choiceChipsValue;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void dispose() {
+    _unfocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +89,7 @@ class _StrainDetailsWidgetState extends State<StrainDetailsWidget> {
             elevation: 2,
           ),
           body: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -442,10 +449,13 @@ class _StrainDetailsWidgetState extends State<StrainDetailsWidget> {
                                       'StoreDetailView',
                                       queryParams: {
                                         'storeRef': serializeParam(
-                                          listViewStoresRecord.reference,
-                                          ParamType.DocumentReference,
+                                          listViewStoresRecord,
+                                          ParamType.Document,
                                         ),
                                       }.withoutNulls,
+                                      extra: <String, dynamic>{
+                                        'storeRef': listViewStoresRecord,
+                                      },
                                     );
                                   },
                                   child: Row(

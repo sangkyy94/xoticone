@@ -27,6 +27,7 @@ class CSDetailsForAdminWidget extends StatefulWidget {
 
 class _CSDetailsForAdminWidgetState extends State<CSDetailsForAdminWidget> {
   TextEditingController? commentBoxController;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -37,6 +38,7 @@ class _CSDetailsForAdminWidgetState extends State<CSDetailsForAdminWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     commentBoxController?.dispose();
     super.dispose();
   }
@@ -87,7 +89,7 @@ class _CSDetailsForAdminWidgetState extends State<CSDetailsForAdminWidget> {
             elevation: 0,
           ),
           body: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

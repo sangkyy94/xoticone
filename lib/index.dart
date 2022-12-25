@@ -16,7 +16,8 @@ export 'store_detail_view/store_detail_view_widget.dart'
 export 'notification_list/notification_list_widget.dart'
     show NotificationListWidget;
 export 'suburb_list/suburb_list_widget.dart' show SuburbListWidget;
-export 'noti_details/noti_details_widget.dart' show NotiDetailsWidget;
+export 'notification_details/notification_details_widget.dart'
+    show NotificationDetailsWidget;
 export 'admin_main/admin_main_widget.dart' show AdminMainWidget;
 export 'my_profile/my_profile_widget.dart' show MyProfileWidget;
 export 'product_upload/product_upload_widget.dart' show ProductUploadWidget;
@@ -55,7 +56,6 @@ export 'smokers_around_me/smokers_around_me_widget.dart'
     show SmokersAroundMeWidget;
 export 'my_puff_stor_edit/my_puff_stor_edit_widget.dart'
     show MyPuffStorEditWidget;
-export 'near_me_copy/near_me_copy_widget.dart' show NearMeCopyWidget;
 export 'c_s_post/c_s_post_widget.dart' show CSPostWidget;
 export 'c_s_center_for_customer/c_s_center_for_customer_widget.dart'
     show CSCenterForCustomerWidget;
@@ -72,3 +72,7 @@ export 'c_s_center_for_admin/c_s_center_for_admin_widget.dart'
     show CSCenterForAdminWidget;
 export 'c_s_details_for_admin/c_s_details_for_admin_widget.dart'
     show CSDetailsForAdminWidget;
+export 'near_me_for_oversea/near_me_for_oversea_widget.dart'
+    show NearMeForOverseaWidget;
+export 'store_detail_view_copy/store_detail_view_copy_widget.dart'
+    show StoreDetailViewCopyWidget;

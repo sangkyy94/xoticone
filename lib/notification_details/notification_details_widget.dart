@@ -1,3 +1,4 @@
+import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -6,14 +7,20 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class NotiDetailsWidget extends StatefulWidget {
-  const NotiDetailsWidget({Key? key}) : super(key: key);
+class NotificationDetailsWidget extends StatefulWidget {
+  const NotificationDetailsWidget({
+    Key? key,
+    this.notificationRef,
+  }) : super(key: key);
+
+  final NotificationRecord? notificationRef;
 
   @override
-  _NotiDetailsWidgetState createState() => _NotiDetailsWidgetState();
+  _NotificationDetailsWidgetState createState() =>
+      _NotificationDetailsWidgetState();
 }
 
-class _NotiDetailsWidgetState extends State<NotiDetailsWidget> {
+class _NotificationDetailsWidgetState extends State<NotificationDetailsWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override

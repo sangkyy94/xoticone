@@ -82,6 +82,13 @@ class _$ReviewForProductRecordSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.nameProduct;
+    if (value != null) {
+      result
+        ..add('name_Product')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -141,6 +148,10 @@ class _$ReviewForProductRecordSerializer
           result.thumbnail = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'name_Product':
+          result.nameProduct = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -172,6 +183,8 @@ class _$ReviewForProductRecord extends ReviewForProductRecord {
   @override
   final String? thumbnail;
   @override
+  final String? nameProduct;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$ReviewForProductRecord(
@@ -187,6 +200,7 @@ class _$ReviewForProductRecord extends ReviewForProductRecord {
       this.createdAt,
       this.updatedAt,
       this.thumbnail,
+      this.nameProduct,
       this.ffRef})
       : super._();
 
@@ -211,6 +225,7 @@ class _$ReviewForProductRecord extends ReviewForProductRecord {
         createdAt == other.createdAt &&
         updatedAt == other.updatedAt &&
         thumbnail == other.thumbnail &&
+        nameProduct == other.nameProduct &&
         ffRef == other.ffRef;
   }
 
@@ -222,13 +237,17 @@ class _$ReviewForProductRecord extends ReviewForProductRecord {
                 $jc(
                     $jc(
                         $jc(
-                            $jc($jc($jc(0, title.hashCode), contents.hashCode),
-                                numberLikes.hashCode),
-                            writer.hashCode),
-                        product.hashCode),
-                    createdAt.hashCode),
-                updatedAt.hashCode),
-            thumbnail.hashCode),
+                            $jc(
+                                $jc(
+                                    $jc($jc(0, title.hashCode),
+                                        contents.hashCode),
+                                    numberLikes.hashCode),
+                                writer.hashCode),
+                            product.hashCode),
+                        createdAt.hashCode),
+                    updatedAt.hashCode),
+                thumbnail.hashCode),
+            nameProduct.hashCode),
         ffRef.hashCode));
   }
 
@@ -243,6 +262,7 @@ class _$ReviewForProductRecord extends ReviewForProductRecord {
           ..add('createdAt', createdAt)
           ..add('updatedAt', updatedAt)
           ..add('thumbnail', thumbnail)
+          ..add('nameProduct', nameProduct)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -284,6 +304,10 @@ class ReviewForProductRecordBuilder
   String? get thumbnail => _$this._thumbnail;
   set thumbnail(String? thumbnail) => _$this._thumbnail = thumbnail;
 
+  String? _nameProduct;
+  String? get nameProduct => _$this._nameProduct;
+  set nameProduct(String? nameProduct) => _$this._nameProduct = nameProduct;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -303,6 +327,7 @@ class ReviewForProductRecordBuilder
       _createdAt = $v.createdAt;
       _updatedAt = $v.updatedAt;
       _thumbnail = $v.thumbnail;
+      _nameProduct = $v.nameProduct;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -334,6 +359,7 @@ class ReviewForProductRecordBuilder
             createdAt: createdAt,
             updatedAt: updatedAt,
             thumbnail: thumbnail,
+            nameProduct: nameProduct,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

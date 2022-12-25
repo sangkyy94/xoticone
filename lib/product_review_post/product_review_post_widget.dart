@@ -26,8 +26,9 @@ class ProductReviewPostWidget extends StatefulWidget {
 class _ProductReviewPostWidgetState extends State<ProductReviewPostWidget> {
   TextEditingController? textFieldContentsController;
   TextEditingController? textFieldTitleController;
-  final formKey = GlobalKey<FormState>();
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -38,6 +39,7 @@ class _ProductReviewPostWidgetState extends State<ProductReviewPostWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     textFieldContentsController?.dispose();
     textFieldTitleController?.dispose();
     super.dispose();
@@ -83,7 +85,7 @@ class _ProductReviewPostWidgetState extends State<ProductReviewPostWidget> {
       ),
       body: SafeArea(
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [

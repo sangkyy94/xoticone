@@ -30,6 +30,9 @@ abstract class ReviewForProductRecord
 
   String? get thumbnail;
 
+  @BuiltValueField(wireName: 'name_Product')
+  String? get nameProduct;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -39,7 +42,8 @@ abstract class ReviewForProductRecord
         ..title = ''
         ..contents = ''
         ..numberLikes = 0
-        ..thumbnail = '';
+        ..thumbnail = ''
+        ..nameProduct = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('ReviewForProduct');
@@ -73,6 +77,7 @@ Map<String, dynamic> createReviewForProductRecordData({
   DateTime? createdAt,
   DateTime? updatedAt,
   String? thumbnail,
+  String? nameProduct,
 }) {
   final firestoreData = serializers.toFirestore(
     ReviewForProductRecord.serializer,
@@ -85,7 +90,8 @@ Map<String, dynamic> createReviewForProductRecordData({
         ..product = product
         ..createdAt = createdAt
         ..updatedAt = updatedAt
-        ..thumbnail = thumbnail,
+        ..thumbnail = thumbnail
+        ..nameProduct = nameProduct,
     ),
   );
 

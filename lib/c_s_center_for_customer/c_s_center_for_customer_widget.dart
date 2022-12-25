@@ -25,7 +25,14 @@ class CSCenterForCustomerWidget extends StatefulWidget {
 }
 
 class _CSCenterForCustomerWidgetState extends State<CSCenterForCustomerWidget> {
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void dispose() {
+    _unfocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +73,7 @@ class _CSCenterForCustomerWidgetState extends State<CSCenterForCustomerWidget> {
         elevation: 2,
       ),
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [

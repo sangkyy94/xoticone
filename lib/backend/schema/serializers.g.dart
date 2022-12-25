@@ -18,6 +18,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(MoodsRecord.serializer)
       ..add(MyPuffStoryRecord.serializer)
       ..add(NoticeRecord.serializer)
+      ..add(NotificationRecord.serializer)
       ..add(PaymentTypesStruct.serializer)
       ..add(ProductTypesRecord.serializer)
       ..add(ProductTypesStruct.serializer)
@@ -34,6 +35,12 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(SuburbsRecord.serializer)
       ..add(TerpeneTypesRecord.serializer)
       ..add(UsersRecord.serializer)
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])
+          ]),
+          () => new ListBuilder<DocumentReference<Object?>>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [
             const FullType(

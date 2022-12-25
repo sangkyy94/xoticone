@@ -18,19 +18,20 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class StoreDetailViewWidget extends StatefulWidget {
-  const StoreDetailViewWidget({
+class StoreDetailViewCopyWidget extends StatefulWidget {
+  const StoreDetailViewCopyWidget({
     Key? key,
     this.storeRef,
   }) : super(key: key);
 
-  final StoresRecord? storeRef;
+  final DocumentReference? storeRef;
 
   @override
-  _StoreDetailViewWidgetState createState() => _StoreDetailViewWidgetState();
+  _StoreDetailViewCopyWidgetState createState() =>
+      _StoreDetailViewCopyWidgetState();
 }
 
-class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
+class _StoreDetailViewCopyWidgetState extends State<StoreDetailViewCopyWidget>
     with TickerProviderStateMixin {
   double? ratingBarValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -40,7 +41,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
     context.watch<FFAppState>();
 
     return StreamBuilder<StoresRecord>(
-      stream: StoresRecord.getDocument(widget.storeRef!.reference),
+      stream: StoresRecord.getDocument(widget.storeRef!),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -55,7 +56,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
             ),
           );
         }
-        final storeDetailViewStoresRecord = snapshot.data!;
+        final storeDetailViewCopyStoresRecord = snapshot.data!;
         return Scaffold(
           key: scaffoldKey,
           backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -77,8 +78,12 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
               },
             ),
             title: Text(
-              widget.storeRef!.nameStore!,
-              style: FlutterFlowTheme.of(context).title3,
+              storeDetailViewCopyStoresRecord.nameStore!,
+              style: FlutterFlowTheme.of(context).title2.override(
+                    fontFamily: 'Poppins',
+                    color: Colors.white,
+                    fontSize: 22,
+                  ),
             ),
             actions: [],
             centerTitle: true,
@@ -99,7 +104,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                   child: Stack(
                     children: [
                       Image.network(
-                        storeDetailViewStoresRecord.mainPhoto!,
+                        storeDetailViewCopyStoresRecord.mainPhoto!,
                         width: double.infinity,
                         height: 250,
                         fit: BoxFit.cover,
@@ -120,33 +125,15 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      16, 0, 0, 0),
-                                  child: Text(
-                                    widget.storeRef!.suburb!,
-                                    style:
-                                        FlutterFlowTheme.of(context).subtitle2,
-                                  ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                              child: Text(
+                                FFLocalizations.of(context).getText(
+                                  'cog0c3z2' /*  */,
                                 ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      16, 0, 0, 0),
-                                  child: Text(
-                                    widget.storeRef!.nameStore!
-                                        .maybeHandleOverflow(
-                                      maxChars: 22,
-                                      replacement: '…',
-                                    ),
-                                    maxLines: 1,
-                                    style: FlutterFlowTheme.of(context).title3,
-                                  ),
-                                ),
-                              ],
+                                style: FlutterFlowTheme.of(context).title3,
+                              ),
                             ),
                             Container(
                               width: 150,
@@ -159,36 +146,36 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   if (FFAppState().favoriteStoreList.contains(
-                                          storeDetailViewStoresRecord
+                                          storeDetailViewCopyStoresRecord
                                               .storeUUID) ==
                                       false)
                                     FFButtonWidget(
                                       onPressed: () async {
                                         FFAppState().addToFavoriteStoreList(
-                                            storeDetailViewStoresRecord
+                                            storeDetailViewCopyStoresRecord
                                                 .storeUUID!);
 
                                         final storesUpdateData =
                                             createStoresRecordData(
                                           favoritedBy: currentUserReference,
                                         );
-                                        await storeDetailViewStoresRecord
+                                        await storeDetailViewCopyStoresRecord
                                             .reference
                                             .update(storesUpdateData);
 
                                         final usersUpdateData = {
                                           'favorite_Stores':
                                               FieldValue.arrayUnion(
-                                                  [widget.storeRef!.reference]),
+                                                  [widget.storeRef]),
                                         };
                                         await currentUserReference!
                                             .update(usersUpdateData);
                                       },
                                       text: FFLocalizations.of(context).getText(
-                                        'zlmoov3g' /* Favorite */,
+                                        'riwkh6tt' /* Favorite */,
                                       ),
                                       options: FFButtonOptions(
-                                        width: 100,
+                                        width: 130,
                                         height: 40,
                                         color: FlutterFlowTheme.of(context)
                                             .primaryColor,
@@ -206,27 +193,27 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                       ),
                                     ),
                                   if (FFAppState().favoriteStoreList.contains(
-                                          storeDetailViewStoresRecord
+                                          storeDetailViewCopyStoresRecord
                                               .storeUUID) ==
                                       true)
                                     FFButtonWidget(
                                       onPressed: () async {
                                         FFAppState()
                                             .removeFromFavoriteStoreList(
-                                                storeDetailViewStoresRecord
+                                                storeDetailViewCopyStoresRecord
                                                     .storeUUID!);
 
                                         final storesUpdateData = {
                                           'favorited_By': FieldValue.delete(),
                                         };
-                                        await storeDetailViewStoresRecord
+                                        await storeDetailViewCopyStoresRecord
                                             .reference
                                             .update(storesUpdateData);
 
                                         final usersUpdateData = {
                                           'favorite_Stores':
                                               FieldValue.arrayRemove([
-                                            storeDetailViewStoresRecord
+                                            storeDetailViewCopyStoresRecord
                                                 .reference
                                           ]),
                                         };
@@ -234,10 +221,10 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                             .update(usersUpdateData);
                                       },
                                       text: FFLocalizations.of(context).getText(
-                                        'lktz731s' /* Favorited */,
+                                        '0rkcif2q' /* Favorited */,
                                       ),
                                       options: FFButtonOptions(
-                                        width: 100,
+                                        width: 130,
                                         height: 40,
                                         color: FlutterFlowTheme.of(context)
                                             .darkSeaGreen,
@@ -269,7 +256,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                 EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                             child: Text(
                               FFLocalizations.of(context).getText(
-                                '4rhu2mf2' /* Address */,
+                                'ym4dm9ml' /* Address */,
                               ),
                               style: FlutterFlowTheme.of(context).title3,
                             ),
@@ -297,7 +284,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                       ),
                                       direction: Axis.horizontal,
                                       initialRating: ratingBarValue ??=
-                                          storeDetailViewStoresRecord
+                                          storeDetailViewCopyStoresRecord
                                               .numberRating!,
                                       unratedColor: Color(0xFF9E9E9E),
                                       itemCount: 5,
@@ -307,7 +294,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                     ),
                                     Text(
                                       formatNumber(
-                                        storeDetailViewStoresRecord
+                                        storeDetailViewCopyStoresRecord
                                             .numberRating!,
                                         formatType: FormatType.decimal,
                                         decimalType: DecimalType.periodDecimal,
@@ -325,7 +312,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(16, 4, 0, 0),
                         child: Text(
-                          widget.storeRef!.address!,
+                          storeDetailViewCopyStoresRecord.address!,
                           style: FlutterFlowTheme.of(context).bodyText2,
                         ),
                       ),
@@ -349,7 +336,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                 child: ExpandablePanel(
                                   header: Text(
                                     FFLocalizations.of(context).getText(
-                                      'gqtnt06z' /* Description */,
+                                      'p12abcvw' /* Description */,
                                     ),
                                     style: FlutterFlowTheme.of(context).title3,
                                   ),
@@ -360,7 +347,8 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                           .secondaryBackground,
                                     ),
                                     child: Text(
-                                      widget.storeRef!.description!,
+                                      storeDetailViewCopyStoresRecord
+                                          .description!,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText2,
                                     ),
@@ -370,7 +358,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                     children: [
                                       Text(
                                         FFLocalizations.of(context).getText(
-                                          'jqru7oa0' /* Lorem ipsum dolor sit amet, co... */,
+                                          'xqy69o6c' /* Lorem ipsum dolor sit amet, co... */,
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyText2,
@@ -395,7 +383,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                         padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 12),
                         child: Text(
                           FFLocalizations.of(context).getText(
-                            '9xg2d7vo' /* Amenities */,
+                            '6dolitsd' /* Amenities */,
                           ),
                           style: FlutterFlowTheme.of(context).title3,
                         ),
@@ -441,7 +429,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                           0, 8, 0, 0),
                                       child: Text(
                                         FFLocalizations.of(context).getText(
-                                          'h48nwli7' /* 5 */,
+                                          'np7f7bo0' /* 5 */,
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .subtitle1,
@@ -452,7 +440,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                           0, 4, 0, 0),
                                       child: Text(
                                         FFLocalizations.of(context).getText(
-                                          'f1aol5xw' /* Strains */,
+                                          'oiw3e283' /* Strains */,
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyText2,
@@ -491,7 +479,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                           0, 8, 0, 0),
                                       child: Text(
                                         FFLocalizations.of(context).getText(
-                                          '6hbotdyo' /* 3.5 */,
+                                          'uc0jppku' /* 3.5 */,
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .subtitle1,
@@ -502,7 +490,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                           0, 4, 0, 0),
                                       child: Text(
                                         FFLocalizations.of(context).getText(
-                                          'zpfc8fo8' /* Products */,
+                                          'bx8yz164' /* Products */,
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyText2,
@@ -541,7 +529,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                           0, 8, 0, 0),
                                       child: Text(
                                         FFLocalizations.of(context).getText(
-                                          'ztssm6cu' /* 4,302 */,
+                                          'gu6sdtan' /* 4,302 */,
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .subtitle1,
@@ -552,7 +540,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                           0, 4, 0, 0),
                                       child: Text(
                                         FFLocalizations.of(context).getText(
-                                          'x96v0pq2' /* Square Feet */,
+                                          'de5sn0nm' /* Square Feet */,
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyText2,
@@ -569,7 +557,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                         padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 10),
                         child: Text(
                           FFLocalizations.of(context).getText(
-                            'tbm99xym' /* What we are selling now */,
+                            'c1i70pga' /* What we are selling now */,
                           ),
                           style: FlutterFlowTheme.of(context).title3,
                         ),
@@ -585,7 +573,8 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                           stream: queryProductsRecord(
                             queryBuilder: (productsRecord) =>
                                 productsRecord.where('Store_UUID',
-                                    isEqualTo: widget.storeRef!.storeUUID),
+                                    isEqualTo: storeDetailViewCopyStoresRecord
+                                        .storeUUID),
                           ),
                           builder: (context, snapshot) {
                             // Customize what your widget looks like when it's loading.
@@ -622,13 +611,14 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                           ParamType.Document,
                                         ),
                                         'storeRef': serializeParam(
-                                          storeDetailViewStoresRecord,
+                                          storeDetailViewCopyStoresRecord,
                                           ParamType.Document,
                                         ),
                                       }.withoutNulls,
                                       extra: <String, dynamic>{
                                         'productRef': listViewProductsRecord,
-                                        'storeRef': storeDetailViewStoresRecord,
+                                        'storeRef':
+                                            storeDetailViewCopyStoresRecord,
                                       },
                                     );
                                   },
@@ -642,176 +632,169 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 0, 4),
-                                          child: Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: 100,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  blurRadius: 3,
-                                                  color: Color(0x411D2429),
-                                                  offset: Offset(0, 1),
-                                                )
-                                              ],
-                                              borderRadius:
-                                                  BorderRadius.circular(16),
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(8, 8, 8, 8),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Padding(
+                                        Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          height: 100,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                blurRadius: 3,
+                                                color: Color(0x411D2429),
+                                                offset: Offset(0, 1),
+                                              )
+                                            ],
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                          ),
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    8, 8, 8, 8),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0, 1, 1, 1),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12),
+                                                    child: Image.network(
+                                                      'https://images.unsplash.com/photo-1574914629385-46448b767aec?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8bGF0dGV8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60',
+                                                      width: 100,
+                                                      height: 100,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Padding(
                                                     padding:
                                                         EdgeInsetsDirectional
                                                             .fromSTEB(
-                                                                0, 1, 1, 1),
-                                                    child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              12),
-                                                      child: Image.network(
-                                                        'https://images.unsplash.com/photo-1574914629385-46448b767aec?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8bGF0dGV8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60',
-                                                        width: 100,
-                                                        height: 100,
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  8, 8, 4, 0),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            listViewProductsRecord
-                                                                .nameProduct!
-                                                                .maybeHandleOverflow(
-                                                                    maxChars:
-                                                                        20),
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .title3
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Poppins',
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .gray600,
-                                                                ),
-                                                          ),
-                                                          Expanded(
-                                                            child: Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          4,
-                                                                          8,
-                                                                          0),
-                                                              child:
-                                                                  AutoSizeText(
-                                                                listViewProductsRecord
-                                                                    .description1!
-                                                                    .maybeHandleOverflow(
-                                                                  maxChars: 70,
-                                                                  replacement:
-                                                                      '…',
-                                                                ),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .start,
-                                                                maxLines: 2,
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyText2
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Outfit',
-                                                                      color: Color(
-                                                                          0xFF7C8791),
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.end,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0, 4, 0, 0),
-                                                        child: Icon(
-                                                          Icons
-                                                              .chevron_right_rounded,
-                                                          color:
-                                                              Color(0xFF57636C),
-                                                          size: 24,
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0, 0, 4, 8),
-                                                        child: Text(
-                                                          '${listViewProductsRecord.price1g?.toString()}THB / gram',
-                                                          textAlign:
-                                                              TextAlign.end,
+                                                                8, 8, 4, 0),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          listViewProductsRecord
+                                                              .nameProduct!,
                                                           style: FlutterFlowTheme
                                                                   .of(context)
-                                                              .bodyText1
+                                                              .subtitle1
                                                               .override(
                                                                 fontFamily:
                                                                     'Outfit',
                                                                 color: Color(
-                                                                    0xFF4B39EF),
-                                                                fontSize: 14,
+                                                                    0xFF090F13),
+                                                                fontSize: 20,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w500,
                                                               ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                        Expanded(
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0,
+                                                                        4,
+                                                                        8,
+                                                                        0),
+                                                            child: AutoSizeText(
+                                                              listViewProductsRecord
+                                                                  .description1!
+                                                                  .maybeHandleOverflow(
+                                                                maxChars: 70,
+                                                                replacement:
+                                                                    '…',
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .start,
+                                                              maxLines: 2,
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyText2
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Outfit',
+                                                                    color: Color(
+                                                                        0xFF7C8791),
+                                                                    fontSize:
+                                                                        14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                                Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0, 4, 0, 0),
+                                                      child: Icon(
+                                                        Icons
+                                                            .chevron_right_rounded,
+                                                        color:
+                                                            Color(0xFF57636C),
+                                                        size: 24,
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0, 0, 4, 8),
+                                                      child: Text(
+                                                        '${listViewProductsRecord.price1g?.toString()}THB / gram',
+                                                        textAlign:
+                                                            TextAlign.end,
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Outfit',
+                                                                  color: Color(
+                                                                      0xFF4B39EF),
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
@@ -867,7 +850,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                                 Text(
                                                   FFLocalizations.of(context)
                                                       .getText(
-                                                    '5bbof29t' /* Reviews */,
+                                                    'qkht453d' /* Reviews */,
                                                   ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -893,12 +876,12 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                               'StoreReviewPost',
                                               queryParams: {
                                                 'storeRef': serializeParam(
-                                                  storeDetailViewStoresRecord
+                                                  storeDetailViewCopyStoresRecord
                                                       .reference,
                                                   ParamType.DocumentReference,
                                                 ),
                                                 'ownerUserRef': serializeParam(
-                                                  storeDetailViewStoresRecord
+                                                  storeDetailViewCopyStoresRecord
                                                       .ownerRef,
                                                   ParamType.DocumentReference,
                                                 ),
@@ -916,12 +899,10 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                         stream: queryReviewForStoreRecord(
                                           queryBuilder:
                                               (reviewForStoreRecord) =>
-                                                  reviewForStoreRecord
-                                                      .where('Store',
-                                                          isEqualTo: widget
-                                                              .storeRef!
-                                                              .reference)
-                                                      .orderBy('created_at'),
+                                                  reviewForStoreRecord.where(
+                                                      'Store',
+                                                      isEqualTo:
+                                                          widget.storeRef),
                                         ),
                                         builder: (context, snapshot) {
                                           // Customize what your widget looks like when it's loading.
@@ -1118,7 +1099,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                     children: [
                       Column(
                         mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Row(
                             mainAxisSize: MainAxisSize.max,
@@ -1133,7 +1114,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                         0, 0, 60, 0),
                                     child: Text(
                                       FFLocalizations.of(context).getText(
-                                        'v9trkrtm' /* Coupon */,
+                                        '605t8vlq' /* Coupon */,
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .title1
@@ -1150,7 +1131,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                               if ((currentUserDocument?.stmpCpnSTOREList
                                               ?.toList() ??
                                           [])
-                                      .contains(widget.storeRef!.reference) ==
+                                      .contains(widget.storeRef) ==
                                   false)
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
@@ -1162,8 +1143,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                         queryBuilder: (stampCouponsRecord) =>
                                             stampCouponsRecord.where(
                                                 'Store_Ref',
-                                                isEqualTo:
-                                                    widget.storeRef!.reference),
+                                                isEqualTo: widget.storeRef),
                                       ),
                                       builder: (context, snapshot) {
                                         // Customize what your widget looks like when it's loading.
@@ -1189,14 +1169,14 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                             final stampCouponsCreateData =
                                                 createStampCouponsRecordData(
                                               couponName:
-                                                  '${storeDetailViewStoresRecord.nameStore}\'s Stamp Coupon',
+                                                  '${storeDetailViewCopyStoresRecord.nameStore}\'s Stamp Coupon',
                                               stampCount: 0,
                                               received: true,
                                               storeRef:
-                                                  storeDetailViewStoresRecord
+                                                  storeDetailViewCopyStoresRecord
                                                       .reference,
                                               storeName:
-                                                  storeDetailViewStoresRecord
+                                                  storeDetailViewCopyStoresRecord
                                                       .nameStore,
                                               customerRef: currentUserReference,
                                               customerId: currentUserEmail,
@@ -1217,29 +1197,15 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
 
                                             final usersUpdateData = {
                                               'stmp_Cpn_STORE_List':
-                                                  FieldValue.arrayUnion([
-                                                widget.storeRef!.reference
-                                              ]),
+                                                  FieldValue.arrayUnion(
+                                                      [widget.storeRef]),
                                             };
                                             await currentUserReference!
                                                 .update(usersUpdateData);
-
-                                            context.pushNamed(
-                                              'StoreDetailView',
-                                              queryParams: {
-                                                'storeRef': serializeParam(
-                                                  widget.storeRef,
-                                                  ParamType.Document,
-                                                ),
-                                              }.withoutNulls,
-                                              extra: <String, dynamic>{
-                                                'storeRef': widget.storeRef,
-                                              },
-                                            );
                                           },
                                           text: FFLocalizations.of(context)
                                               .getText(
-                                            'rocv24cj' /* DOWNLOAD */,
+                                            'pmmhgenu' /* DOWNLOAD */,
                                           ),
                                           options: FFButtonOptions(
                                             width: 120,
@@ -1272,7 +1238,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                             stream: queryStampCouponsRecord(
                               queryBuilder: (stampCouponsRecord) =>
                                   stampCouponsRecord.where('Store_Ref',
-                                      isEqualTo: widget.storeRef!.reference),
+                                      isEqualTo: widget.storeRef),
                               limit: 1,
                             ),
                             builder: (context, snapshot) {
@@ -1311,7 +1277,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                             0, 0, 10, 0),
                                         child: Text(
                                           FFLocalizations.of(context).getText(
-                                            'n9rhr0yu' /* COUPON ID :  */,
+                                            'ovmn6av1' /* COUPON ID :  */,
                                           ),
                                           style: FlutterFlowTheme.of(context)
                                               .bodyText1
@@ -1341,7 +1307,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                               'StampCoupon',
                                               queryParams: {
                                                 'storeRef': serializeParam(
-                                                  widget.storeRef!.reference,
+                                                  widget.storeRef,
                                                   ParamType.DocumentReference,
                                                 ),
                                                 'couponRef': serializeParam(
@@ -1357,7 +1323,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                           },
                                           text: FFLocalizations.of(context)
                                               .getText(
-                                            'w13v3h0m' /* OPEN */,
+                                            '6r7dho7l' /* OPEN */,
                                           ),
                                           options: FFButtonOptions(
                                             width: 140,

@@ -35,8 +35,9 @@ class _MyPuffStoryPostWidgetState extends State<MyPuffStoryPostWidget> {
   TextEditingController? textFieldStrainController;
   TextEditingController? textFieldStoryController;
   LatLng? currentUserLocationValue;
-  final formKey = GlobalKey<FormState>();
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -47,6 +48,7 @@ class _MyPuffStoryPostWidgetState extends State<MyPuffStoryPostWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     textFieldStoryController?.dispose();
     textFieldStrainController?.dispose();
     super.dispose();
@@ -92,7 +94,7 @@ class _MyPuffStoryPostWidgetState extends State<MyPuffStoryPostWidget> {
       ),
       body: SafeArea(
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [

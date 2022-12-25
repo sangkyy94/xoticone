@@ -42,8 +42,9 @@ class _ProductUploadWidgetState extends State<ProductUploadWidget> {
   TextEditingController? textFieldDescriptionController;
   TextEditingController? textController12;
   TextEditingController? textController13;
-  final formKey = GlobalKey<FormState>();
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -68,6 +69,7 @@ class _ProductUploadWidgetState extends State<ProductUploadWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     textController12?.dispose();
     textController13?.dispose();
     textFieldDescriptionController?.dispose();
@@ -124,7 +126,7 @@ class _ProductUploadWidgetState extends State<ProductUploadWidget> {
       ),
       body: SafeArea(
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.max,

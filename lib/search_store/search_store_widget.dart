@@ -282,10 +282,8 @@ class _SearchStoreWidgetState extends State<SearchStoreWidget> {
                                                     .whenComplete(
                                                         () => setState(() {}));
 
-                                                setState(() {
-                                                  FFAppState().showListView =
-                                                      true;
-                                                });
+                                                FFAppState().showListView =
+                                                    true;
                                               },
                                               text: FFLocalizations.of(context)
                                                   .getText(
@@ -323,10 +321,8 @@ class _SearchStoreWidgetState extends State<SearchStoreWidget> {
                                                     40, 0, 0, 0),
                                             child: InkWell(
                                               onTap: () async {
-                                                setState(() {
-                                                  FFAppState().showListView =
-                                                      false;
-                                                });
+                                                FFAppState().showListView =
+                                                    false;
                                                 setState(() {
                                                   textController?.clear();
                                                 });
@@ -425,10 +421,13 @@ class _SearchStoreWidgetState extends State<SearchStoreWidget> {
                                       'StoreDetailView',
                                       queryParams: {
                                         'storeRef': serializeParam(
-                                          columnViewallStoresRecord.reference,
-                                          ParamType.DocumentReference,
+                                          columnViewallStoresRecord,
+                                          ParamType.Document,
                                         ),
                                       }.withoutNulls,
+                                      extra: <String, dynamic>{
+                                        'storeRef': columnViewallStoresRecord,
+                                      },
                                     );
                                   },
                                   child: Container(
@@ -572,6 +571,17 @@ class _SearchStoreWidgetState extends State<SearchStoreWidget> {
                                                                 ),
                                                       ),
                                                     ),
+                                                    Text(
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'hpkktkj0' /* Km */,
+                                                      ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1,
+                                                    ),
                                                   ],
                                                 ),
                                               ],
@@ -629,10 +639,13 @@ class _SearchStoreWidgetState extends State<SearchStoreWidget> {
                                       'StoreDetailView',
                                       queryParams: {
                                         'storeRef': serializeParam(
-                                          searchResultItem.reference,
-                                          ParamType.DocumentReference,
+                                          searchResultItem,
+                                          ParamType.Document,
                                         ),
                                       }.withoutNulls,
+                                      extra: <String, dynamic>{
+                                        'storeRef': searchResultItem,
+                                      },
                                     );
                                   },
                                   child: Container(

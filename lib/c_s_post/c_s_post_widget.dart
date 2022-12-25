@@ -28,8 +28,9 @@ class _CSPostWidgetState extends State<CSPostWidget> {
   String? dropDownCSTypeValue;
   TextEditingController? textFieldTitleController;
   TextEditingController? textFieldContentController;
-  final formKey = GlobalKey<FormState>();
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -40,6 +41,7 @@ class _CSPostWidgetState extends State<CSPostWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     textFieldContentController?.dispose();
     textFieldTitleController?.dispose();
     super.dispose();
@@ -85,7 +87,7 @@ class _CSPostWidgetState extends State<CSPostWidget> {
       ),
       body: SafeArea(
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [

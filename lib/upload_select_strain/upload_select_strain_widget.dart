@@ -28,6 +28,7 @@ class UploadSelectStrainWidget extends StatefulWidget {
 class _UploadSelectStrainWidgetState extends State<UploadSelectStrainWidget> {
   List<StrainsRecord>? algoliaSearchResults = [];
   TextEditingController? searchBarController;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -38,6 +39,7 @@ class _UploadSelectStrainWidgetState extends State<UploadSelectStrainWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     searchBarController?.dispose();
     super.dispose();
   }
@@ -81,7 +83,7 @@ class _UploadSelectStrainWidgetState extends State<UploadSelectStrainWidget> {
         elevation: 2,
       ),
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -165,9 +167,7 @@ class _UploadSelectStrainWidgetState extends State<UploadSelectStrainWidget> {
                           .onError((_, __) => algoliaSearchResults = [])
                           .whenComplete(() => setState(() {}));
 
-                      setState(() {
-                        FFAppState().showListView = true;
-                      });
+                      FFAppState().showListView = true;
                     },
                   ),
                 ),

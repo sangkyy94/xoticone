@@ -16,7 +16,14 @@ class MyFavoritesWidget extends StatefulWidget {
 }
 
 class _MyFavoritesWidgetState extends State<MyFavoritesWidget> {
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void dispose() {
+    _unfocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +60,7 @@ class _MyFavoritesWidgetState extends State<MyFavoritesWidget> {
         elevation: 0,
       ),
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -123,112 +130,127 @@ class _MyFavoritesWidgetState extends State<MyFavoritesWidget> {
                                     }
                                     List<StoresRecord> columnStoresRecordList =
                                         snapshot.data!;
-                                    return Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: List.generate(
-                                          columnStoresRecordList.length,
-                                          (columnIndex) {
-                                        final columnStoresRecord =
-                                            columnStoresRecordList[columnIndex];
-                                        return Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  16, 8, 16, 0),
-                                          child: InkWell(
-                                            onTap: () async {
-                                              context.pushNamed(
-                                                'StoreDetailView',
-                                                queryParams: {
-                                                  'storeRef': serializeParam(
-                                                    columnStoresRecord
-                                                        .reference,
-                                                    ParamType.DocumentReference,
-                                                  ),
-                                                }.withoutNulls,
-                                              );
-                                            },
-                                            child: Container(
-                                              width: double.infinity,
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryBackground,
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
-                                              child: Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(8, 8, 12, 8),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
-                                                      child: Image.network(
-                                                        columnStoresRecord
-                                                            .thumbnail!,
-                                                        width: 70,
-                                                        height: 70,
-                                                        fit: BoxFit.cover,
+                                    return SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: List.generate(
+                                            columnStoresRecordList.length,
+                                            (columnIndex) {
+                                          final columnStoresRecord =
+                                              columnStoresRecordList[
+                                                  columnIndex];
+                                          return Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    16, 8, 16, 0),
+                                            child: InkWell(
+                                              onTap: () async {
+                                                context.pushNamed(
+                                                  'StoreDetailView',
+                                                  queryParams: {
+                                                    'storeRef': serializeParam(
+                                                      columnStoresRecord,
+                                                      ParamType.Document,
+                                                    ),
+                                                  }.withoutNulls,
+                                                  extra: <String, dynamic>{
+                                                    'storeRef':
+                                                        columnStoresRecord,
+                                                  },
+                                                );
+                                              },
+                                              child: Container(
+                                                width: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryBackground,
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(8, 8, 12, 8),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                        child: Image.network(
+                                                          columnStoresRecord
+                                                              .thumbnail!,
+                                                          width: 70,
+                                                          height: 70,
+                                                          fit: BoxFit.cover,
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(16,
-                                                                      0, 0, 0),
-                                                          child: Text(
-                                                            columnStoresRecord
-                                                                .nameStore!
-                                                                .maybeHandleOverflow(
-                                                              maxChars: 26,
-                                                              replacement: '…',
+                                                      Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        16,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                            child: Text(
+                                                              columnStoresRecord
+                                                                  .nameStore!
+                                                                  .maybeHandleOverflow(
+                                                                maxChars: 26,
+                                                                replacement:
+                                                                    '…',
+                                                              ),
+                                                              maxLines: 1,
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .subtitle1,
                                                             ),
-                                                            maxLines: 1,
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .subtitle1,
                                                           ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(16,
-                                                                      0, 0, 0),
-                                                          child: Text(
-                                                            columnStoresRecord
-                                                                .address!
-                                                                .maybeHandleOverflow(
-                                                              maxChars: 30,
-                                                              replacement: '…',
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        16,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                            child: Text(
+                                                              columnStoresRecord
+                                                                  .address!
+                                                                  .maybeHandleOverflow(
+                                                                maxChars: 30,
+                                                                replacement:
+                                                                    '…',
+                                                              ),
+                                                              maxLines: 2,
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .subtitle2,
                                                             ),
-                                                            maxLines: 2,
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .subtitle2,
                                                           ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        );
-                                      }),
+                                          );
+                                        }),
+                                      ),
                                     );
                                   },
                                 ),
@@ -272,90 +294,100 @@ class _MyFavoritesWidgetState extends State<MyFavoritesWidget> {
                                     List<StrainsRecord>
                                         columnStrainsRecordList =
                                         snapshot.data!;
-                                    return Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: List.generate(
-                                          columnStrainsRecordList.length,
-                                          (columnIndex) {
-                                        final columnStrainsRecord =
-                                            columnStrainsRecordList[
-                                                columnIndex];
-                                        return Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  16, 8, 16, 0),
-                                          child: InkWell(
-                                            onTap: () async {
-                                              context.pushNamed(
-                                                'storebystrain',
-                                                queryParams: {
-                                                  'strainRef': serializeParam(
-                                                    columnStrainsRecord
-                                                        .reference,
-                                                    ParamType.DocumentReference,
-                                                  ),
-                                                }.withoutNulls,
-                                              );
-                                            },
-                                            child: Container(
-                                              width: double.infinity,
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryBackground,
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
-                                              child: Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(8, 8, 12, 8),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(16,
-                                                                      0, 0, 0),
-                                                          child: Text(
-                                                            columnStrainsRecord
-                                                                .strainName!,
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .subtitle1,
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(16,
-                                                                      0, 0, 0),
-                                                          child: Text(
-                                                            'THC : ${columnStrainsRecord.thc?.toString()}% , CBD : ${columnStrainsRecord.cbd?.toString()} %',
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .subtitle2,
-                                                          ),
-                                                        ),
-                                                      ],
+                                    return SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: List.generate(
+                                            columnStrainsRecordList.length,
+                                            (columnIndex) {
+                                          final columnStrainsRecord =
+                                              columnStrainsRecordList[
+                                                  columnIndex];
+                                          return Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    16, 8, 16, 0),
+                                            child: InkWell(
+                                              onTap: () async {
+                                                context.pushNamed(
+                                                  'storebystrain',
+                                                  queryParams: {
+                                                    'strainRef': serializeParam(
+                                                      columnStrainsRecord
+                                                          .reference,
+                                                      ParamType
+                                                          .DocumentReference,
                                                     ),
-                                                  ],
+                                                  }.withoutNulls,
+                                                );
+                                              },
+                                              child: Container(
+                                                width: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryBackground,
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(8, 8, 12, 8),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        16,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                            child: Text(
+                                                              columnStrainsRecord
+                                                                  .strainName!,
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .subtitle1,
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        16,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                            child: Text(
+                                                              'THC : ${columnStrainsRecord.thc?.toString()}% , CBD : ${columnStrainsRecord.cbd?.toString()} %',
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .subtitle2,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        );
-                                      }),
+                                          );
+                                        }),
+                                      ),
                                     );
                                   },
                                 ),

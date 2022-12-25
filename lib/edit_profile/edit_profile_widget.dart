@@ -34,8 +34,9 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
 
   TextEditingController? textFieldNameController;
   TextEditingController? textFieldSelfintroController;
-  final formKey = GlobalKey<FormState>();
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -48,6 +49,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     textFieldNameController?.dispose();
     textFieldSelfintroController?.dispose();
     super.dispose();
@@ -119,7 +121,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
           ),
           body: SafeArea(
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,

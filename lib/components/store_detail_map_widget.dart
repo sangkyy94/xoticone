@@ -109,7 +109,11 @@ class _StoreDetailMapWidgetState extends State<StoreDetailMapWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          containerStoresRecord.nameStore!,
+                          containerStoresRecord.nameStore!.maybeHandleOverflow(
+                            maxChars: 30,
+                            replacement: '…',
+                          ),
+                          maxLines: 1,
                           style: FlutterFlowTheme.of(context).subtitle1,
                         ),
                         InkWell(
@@ -195,18 +199,10 @@ class _StoreDetailMapWidgetState extends State<StoreDetailMapWidget> {
                                 padding:
                                     EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
                                 child: Text(
-                                  '${functions.distanceGeo(widget.storeRef!.geolocation!, currentUserLocationValue!).toString()} Km away from me.',
+                                  '${functions.distanceGeo(widget.storeRef!.geolocation!, currentUserLocationValue!).toString()} Km away from me.'
+                                      .maybeHandleOverflow(maxChars: 25),
+                                  maxLines: 1,
                                   style: FlutterFlowTheme.of(context).subtitle1,
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
-                                child: Text(
-                                  FFLocalizations.of(context).getText(
-                                    '1acrxoms' /* STAR RATING */,
-                                  ),
-                                  style: FlutterFlowTheme.of(context).title3,
                                 ),
                               ),
                             ],
@@ -274,7 +270,7 @@ class _StoreDetailMapWidgetState extends State<StoreDetailMapWidget> {
                       children: [
                         Text(
                           FFLocalizations.of(context).getText(
-                            'xk5wnwkn' /* HOT DEAL */,
+                            'xk5wnwkn' /* Product List */,
                           ),
                           style: FlutterFlowTheme.of(context).bodyText2,
                         ),
@@ -325,10 +321,13 @@ class _StoreDetailMapWidgetState extends State<StoreDetailMapWidget> {
                               'StoreDetailView',
                               queryParams: {
                                 'storeRef': serializeParam(
-                                  widget.storeRef!.reference,
-                                  ParamType.DocumentReference,
+                                  widget.storeRef,
+                                  ParamType.Document,
                                 ),
                               }.withoutNulls,
+                              extra: <String, dynamic>{
+                                'storeRef': widget.storeRef,
+                              },
                             );
                           },
                           text: FFLocalizations.of(context).getText(

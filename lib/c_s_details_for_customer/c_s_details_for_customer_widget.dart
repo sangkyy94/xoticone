@@ -28,6 +28,7 @@ class CSDetailsForCustomerWidget extends StatefulWidget {
 class _CSDetailsForCustomerWidgetState
     extends State<CSDetailsForCustomerWidget> {
   TextEditingController? commentBoxController;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -38,6 +39,7 @@ class _CSDetailsForCustomerWidgetState
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     commentBoxController?.dispose();
     super.dispose();
   }
@@ -88,7 +90,7 @@ class _CSDetailsForCustomerWidgetState
             elevation: 0,
           ),
           body: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

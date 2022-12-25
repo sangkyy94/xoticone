@@ -23,6 +23,7 @@ import 'search_record_by_strain_record.dart';
 import 'cs_db_record.dart';
 import 'c_s_types_record.dart';
 import 'puff_story_review_record.dart';
+import 'notification_record.dart';
 
 import 'index.dart';
 
@@ -56,6 +57,7 @@ const kDocumentReferenceField = 'Document__Reference__Field';
   CsDbRecord,
   CSTypesRecord,
   PuffStoryReviewRecord,
+  NotificationRecord,
   LanguageTypesStruct,
   PaymentTypesStruct,
   AmenityTypesStruct,

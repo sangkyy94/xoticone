@@ -73,6 +73,15 @@ abstract class ProductsRecord
   @BuiltValueField(wireName: 'FarmingMethod')
   String? get farmingMethod;
 
+  @BuiltValueField(wireName: 'Thumbnail')
+  String? get thumbnail;
+
+  @BuiltValueField(wireName: 'Photo1')
+  String? get photo1;
+
+  @BuiltValueField(wireName: 'Photo2')
+  String? get photo2;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -99,7 +108,10 @@ abstract class ProductsRecord
     ..seedBank = ''
     ..farm = ''
     ..environment = ''
-    ..farmingMethod = '';
+    ..farmingMethod = ''
+    ..thumbnail = ''
+    ..photo1 = ''
+    ..photo2 = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('Products');
@@ -148,6 +160,9 @@ Map<String, dynamic> createProductsRecordData({
   String? farm,
   String? environment,
   String? farmingMethod,
+  String? thumbnail,
+  String? photo1,
+  String? photo2,
 }) {
   final firestoreData = serializers.toFirestore(
     ProductsRecord.serializer,
@@ -177,7 +192,10 @@ Map<String, dynamic> createProductsRecordData({
         ..seedBank = seedBank
         ..farm = farm
         ..environment = environment
-        ..farmingMethod = farmingMethod,
+        ..farmingMethod = farmingMethod
+        ..thumbnail = thumbnail
+        ..photo1 = photo1
+        ..photo2 = photo2,
     ),
   );
 

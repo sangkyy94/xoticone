@@ -79,6 +79,11 @@
       <string>In order to upload media, this app requires permission to access the photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
       <string>In order to get access Photo Library. This app requires permission to access Photo Library.</string>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>remote-notification</string>
+    </array>
 
 
 	<key>UILaunchStoryboardName</key>

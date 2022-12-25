@@ -25,7 +25,14 @@ class MyProfileWidget extends StatefulWidget {
 }
 
 class _MyProfileWidgetState extends State<MyProfileWidget> {
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void dispose() {
+    _unfocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +90,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
           ),
           body: SafeArea(
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -392,10 +399,13 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
                                       'StoreDetailView',
                                       queryParams: {
                                         'storeRef': serializeParam(
-                                          listViewStoresRecord.reference,
-                                          ParamType.DocumentReference,
+                                          listViewStoresRecord,
+                                          ParamType.Document,
                                         ),
                                       }.withoutNulls,
+                                      extra: <String, dynamic>{
+                                        'storeRef': listViewStoresRecord,
+                                      },
                                     );
                                   },
                                   child: Container(

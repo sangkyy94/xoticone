@@ -189,6 +189,27 @@ class _$ProductsRecordSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.thumbnail;
+    if (value != null) {
+      result
+        ..add('Thumbnail')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.photo1;
+    if (value != null) {
+      result
+        ..add('Photo1')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.photo2;
+    if (value != null) {
+      result
+        ..add('Photo2')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -318,6 +339,18 @@ class _$ProductsRecordSerializer
           result.farmingMethod = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'Thumbnail':
+          result.thumbnail = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'Photo1':
+          result.photo1 = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'Photo2':
+          result.photo2 = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -383,6 +416,12 @@ class _$ProductsRecord extends ProductsRecord {
   @override
   final String? farmingMethod;
   @override
+  final String? thumbnail;
+  @override
+  final String? photo1;
+  @override
+  final String? photo2;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$ProductsRecord([void Function(ProductsRecordBuilder)? updates]) =>
@@ -414,6 +453,9 @@ class _$ProductsRecord extends ProductsRecord {
       this.farm,
       this.environment,
       this.farmingMethod,
+      this.thumbnail,
+      this.photo1,
+      this.photo2,
       this.ffRef})
       : super._();
 
@@ -454,6 +496,9 @@ class _$ProductsRecord extends ProductsRecord {
         farm == other.farm &&
         environment == other.environment &&
         farmingMethod == other.farmingMethod &&
+        thumbnail == other.thumbnail &&
+        photo1 == other.photo1 &&
+        photo2 == other.photo2 &&
         ffRef == other.ffRef;
   }
 
@@ -477,25 +522,25 @@ class _$ProductsRecord extends ProductsRecord {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc(0, nameProduct.hashCode), stock.hashCode), price1g.hashCode), price3g.hashCode), pricce3halfg.hashCode), price7g.hashCode), price14g.hashCode),
-                                                                                pricce28g.hashCode),
-                                                                            priceUnit.hashCode),
-                                                                        description1.hashCode),
-                                                                    description2.hashCode),
-                                                                onSale.hashCode),
-                                                            outOfStock.hashCode),
-                                                        strainRef.hashCode),
-                                                    strainName.hashCode),
-                                                storeRef.hashCode),
-                                            storeUUID.hashCode),
-                                        productTypeRef.hashCode),
-                                    productType.hashCode),
-                                thc.hashCode),
-                            cbd.hashCode),
-                        seedBank.hashCode),
-                    farm.hashCode),
-                environment.hashCode),
-            farmingMethod.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, nameProduct.hashCode), stock.hashCode), price1g.hashCode), price3g.hashCode), pricce3halfg.hashCode), price7g.hashCode), price14g.hashCode), pricce28g.hashCode), priceUnit.hashCode), description1.hashCode),
+                                                                                description2.hashCode),
+                                                                            onSale.hashCode),
+                                                                        outOfStock.hashCode),
+                                                                    strainRef.hashCode),
+                                                                strainName.hashCode),
+                                                            storeRef.hashCode),
+                                                        storeUUID.hashCode),
+                                                    productTypeRef.hashCode),
+                                                productType.hashCode),
+                                            thc.hashCode),
+                                        cbd.hashCode),
+                                    seedBank.hashCode),
+                                farm.hashCode),
+                            environment.hashCode),
+                        farmingMethod.hashCode),
+                    thumbnail.hashCode),
+                photo1.hashCode),
+            photo2.hashCode),
         ffRef.hashCode));
   }
 
@@ -527,6 +572,9 @@ class _$ProductsRecord extends ProductsRecord {
           ..add('farm', farm)
           ..add('environment', environment)
           ..add('farmingMethod', farmingMethod)
+          ..add('thumbnail', thumbnail)
+          ..add('photo1', photo1)
+          ..add('photo2', photo2)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -640,6 +688,18 @@ class ProductsRecordBuilder
   set farmingMethod(String? farmingMethod) =>
       _$this._farmingMethod = farmingMethod;
 
+  String? _thumbnail;
+  String? get thumbnail => _$this._thumbnail;
+  set thumbnail(String? thumbnail) => _$this._thumbnail = thumbnail;
+
+  String? _photo1;
+  String? get photo1 => _$this._photo1;
+  set photo1(String? photo1) => _$this._photo1 = photo1;
+
+  String? _photo2;
+  String? get photo2 => _$this._photo2;
+  set photo2(String? photo2) => _$this._photo2 = photo2;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -676,6 +736,9 @@ class ProductsRecordBuilder
       _farm = $v.farm;
       _environment = $v.environment;
       _farmingMethod = $v.farmingMethod;
+      _thumbnail = $v.thumbnail;
+      _photo1 = $v.photo1;
+      _photo2 = $v.photo2;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -724,6 +787,9 @@ class ProductsRecordBuilder
             farm: farm,
             environment: environment,
             farmingMethod: farmingMethod,
+            thumbnail: thumbnail,
+            photo1: photo1,
+            photo2: photo2,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

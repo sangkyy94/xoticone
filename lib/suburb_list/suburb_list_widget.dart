@@ -26,6 +26,7 @@ class SuburbListWidget extends StatefulWidget {
 class _SuburbListWidgetState extends State<SuburbListWidget> {
   List<SuburbsRecord> simpleSearchResults = [];
   TextEditingController? textController;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -36,6 +37,7 @@ class _SuburbListWidgetState extends State<SuburbListWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     textController?.dispose();
     super.dispose();
   }
@@ -113,7 +115,7 @@ class _SuburbListWidgetState extends State<SuburbListWidget> {
             elevation: 2,
           ),
           body: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,

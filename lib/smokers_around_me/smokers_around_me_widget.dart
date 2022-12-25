@@ -17,6 +17,7 @@ class SmokersAroundMeWidget extends StatefulWidget {
 
 class _SmokersAroundMeWidgetState extends State<SmokersAroundMeWidget> {
   LatLng? currentUserLocationValue;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   LatLng? googleMapsCenter;
   final googleMapsController = Completer<GoogleMapController>();
@@ -26,6 +27,12 @@ class _SmokersAroundMeWidgetState extends State<SmokersAroundMeWidget> {
     super.initState();
     getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
         .then((loc) => setState(() => currentUserLocationValue = loc));
+  }
+
+  @override
+  void dispose() {
+    _unfocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -84,7 +91,7 @@ class _SmokersAroundMeWidgetState extends State<SmokersAroundMeWidget> {
       ),
       body: SafeArea(
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [

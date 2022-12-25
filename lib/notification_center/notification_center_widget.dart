@@ -23,7 +23,14 @@ class NotificationCenterWidget extends StatefulWidget {
 }
 
 class _NotificationCenterWidgetState extends State<NotificationCenterWidget> {
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void dispose() {
+    _unfocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +71,7 @@ class _NotificationCenterWidgetState extends State<NotificationCenterWidget> {
         elevation: 2,
       ),
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -162,14 +169,12 @@ class _NotificationCenterWidgetState extends State<NotificationCenterWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       16, 12, 0, 0),
                                   child:
-                                      StreamBuilder<List<StampCouponsRecord>>(
-                                    stream: queryStampCouponsRecord(
-                                      queryBuilder: (stampCouponsRecord) =>
-                                          stampCouponsRecord
-                                              .where('Customer_Id',
-                                                  isEqualTo: currentUserEmail)
-                                              .where('Stamp_Count',
-                                                  isEqualTo: 0),
+                                      StreamBuilder<List<NotificationRecord>>(
+                                    stream: queryNotificationRecord(
+                                      queryBuilder: (notificationRecord) =>
+                                          notificationRecord.where('recipient',
+                                              arrayContains:
+                                                  currentUserReference),
                                     ),
                                     builder: (context, snapshot) {
                                       // Customize what your widget looks like when it's loading.
@@ -187,205 +192,163 @@ class _NotificationCenterWidgetState extends State<NotificationCenterWidget> {
                                           ),
                                         );
                                       }
-                                      List<StampCouponsRecord>
-                                          textStampCouponsRecordList =
+                                      List<NotificationRecord>
+                                          textNotificationRecordList =
                                           snapshot.data!;
                                       return Text(
-                                        'Number of Noti : ${textStampCouponsRecordList.length.toString()}',
+                                        'Number of Noti : ${textNotificationRecordList.length.toString()}',
                                         style: FlutterFlowTheme.of(context)
                                             .bodyText2,
                                       );
                                     },
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      16, 8, 16, 0),
-                                  child: InkWell(
-                                    onTap: () async {
-                                      context.pushNamed('Noti_Details');
-                                    },
-                                    child: Container(
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryBackground,
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            8, 8, 12, 8),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Column(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(16, 0, 0, 0),
-                                                  child: Text(
-                                                    FFLocalizations.of(context)
-                                                        .getText(
-                                                      'u4k1f1kn' /* Limited Edition */,
-                                                    ),
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .subtitle1,
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(16, 0, 0, 0),
-                                                  child: Text(
-                                                    FFLocalizations.of(context)
-                                                        .getText(
-                                                      'd67ijwl3' /* Limited Edition */,
-                                                    ),
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .subtitle2,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                                StreamBuilder<List<NotificationRecord>>(
+                                  stream: queryNotificationRecord(
+                                    queryBuilder: (notificationRecord) =>
+                                        notificationRecord.where('recipient',
+                                            arrayContains:
+                                                currentUserReference),
                                   ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      16, 12, 16, 0),
-                                  child: Container(
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryBackground,
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          8, 8, 12, 8),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(16, 0, 0, 0),
-                                                child: Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    'q1wn90s0' /* Outerwear */,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .subtitle1,
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(16, 0, 0, 0),
-                                                child: Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    'zt6159qb' /* Outerwear */,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .subtitle2,
-                                                ),
-                                              ),
-                                            ],
+                                  builder: (context, snapshot) {
+                                    // Customize what your widget looks like when it's loading.
+                                    if (!snapshot.hasData) {
+                                      return Center(
+                                        child: SizedBox(
+                                          width: 50,
+                                          height: 50,
+                                          child: SpinKitRipple(
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryColor,
+                                            size: 50,
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      16, 12, 16, 0),
-                                  child: Container(
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryBackground,
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16, 12, 16, 0),
-                                      child: Container(
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryBackground,
-                                          borderRadius:
-                                              BorderRadius.circular(12),
                                         ),
-                                        child: Padding(
+                                      );
+                                    }
+                                    List<NotificationRecord>
+                                        columnNotificationRecordList =
+                                        snapshot.data!;
+                                    return Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: List.generate(
+                                          columnNotificationRecordList.length,
+                                          (columnIndex) {
+                                        final columnNotificationRecord =
+                                            columnNotificationRecordList[
+                                                columnIndex];
+                                        return Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  8, 8, 12, 8),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                16, 0, 0, 0),
-                                                    child: Text(
-                                                      FFLocalizations.of(
-                                                              context)
-                                                          .getText(
-                                                        'qf4bowbh' /* Outerwear */,
-                                                      ),
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .subtitle1,
-                                                    ),
+                                                  16, 8, 16, 0),
+                                          child: InkWell(
+                                            onTap: () async {
+                                              context.pushNamed(
+                                                'Notification_Details',
+                                                queryParams: {
+                                                  'notificationRef':
+                                                      serializeParam(
+                                                    columnNotificationRecord,
+                                                    ParamType.Document,
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                16, 0, 0, 0),
-                                                    child: Text(
-                                                      FFLocalizations.of(
-                                                              context)
-                                                          .getText(
-                                                        'ozzbddg5' /* Outerwear */,
-                                                      ),
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .subtitle2,
-                                                    ),
-                                                  ),
-                                                ],
+                                                }.withoutNulls,
+                                                extra: <String, dynamic>{
+                                                  'notificationRef':
+                                                      columnNotificationRecord,
+                                                },
+                                              );
+                                            },
+                                            child: Container(
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryBackground,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
                                               ),
-                                            ],
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(8, 8, 12, 8),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(16,
+                                                                      0, 0, 0),
+                                                          child: Text(
+                                                            columnNotificationRecord
+                                                                .title!
+                                                                .maybeHandleOverflow(
+                                                              maxChars: 30,
+                                                              replacement: '…',
+                                                            ),
+                                                            maxLines: 1,
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .subtitle1,
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(16,
+                                                                      0, 0, 0),
+                                                          child: Text(
+                                                            columnNotificationRecord
+                                                                .createdAt!
+                                                                .toString()
+                                                                .maybeHandleOverflow(
+                                                                  maxChars: 35,
+                                                                  replacement:
+                                                                      '…',
+                                                                ),
+                                                            maxLines: 1,
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .subtitle2,
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(16,
+                                                                      0, 0, 0),
+                                                          child: Text(
+                                                            columnNotificationRecord
+                                                                .content!
+                                                                .maybeHandleOverflow(
+                                                              maxChars: 35,
+                                                              replacement: '…',
+                                                            ),
+                                                            maxLines: 1,
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .subtitle2,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                        );
+                                      }),
+                                    );
+                                  },
                                 ),
                               ],
                             ),
@@ -577,7 +540,8 @@ class _NotificationCenterWidgetState extends State<NotificationCenterWidget> {
                                                   16, 8, 16, 0),
                                           child: InkWell(
                                             onTap: () async {
-                                              context.pushNamed('Noti_Details');
+                                              context.pushNamed(
+                                                  'Notification_Details');
                                             },
                                             child: Container(
                                               width: double.infinity,

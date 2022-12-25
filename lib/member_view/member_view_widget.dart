@@ -26,7 +26,14 @@ class MemberViewWidget extends StatefulWidget {
 }
 
 class _MemberViewWidgetState extends State<MemberViewWidget> {
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void dispose() {
+    _unfocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +69,7 @@ class _MemberViewWidgetState extends State<MemberViewWidget> {
           key: scaffoldKey,
           backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
           body: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
             child: Container(
               width: double.infinity,
               height: double.infinity,
@@ -639,63 +646,84 @@ class _MemberViewWidgetState extends State<MemberViewWidget> {
                                                                           12,
                                                                           16,
                                                                           8),
-                                                                  child: Row(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Expanded(
-                                                                        child:
-                                                                            Column(
-                                                                          mainAxisSize:
-                                                                              MainAxisSize.max,
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.start,
-                                                                          children: [
-                                                                            Text(
-                                                                              listViewStoresRecord.suburb!,
-                                                                              style: FlutterFlowTheme.of(context).bodyText2,
-                                                                            ),
-                                                                            Padding(
-                                                                              padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 8),
-                                                                              child: Text(
-                                                                                listViewStoresRecord.nameStore!,
-                                                                                style: FlutterFlowTheme.of(context).title3,
-                                                                              ),
-                                                                            ),
-                                                                            Text(
-                                                                              listViewStoresRecord.numberRating!.toString(),
-                                                                              style: FlutterFlowTheme.of(context).bodyText2,
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                                                            8,
-                                                                            8,
-                                                                            0,
-                                                                            8),
-                                                                        child:
-                                                                            ClipRRect(
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(12),
+                                                                  child:
+                                                                      InkWell(
+                                                                    onTap:
+                                                                        () async {
+                                                                      context
+                                                                          .pushNamed(
+                                                                        'StoreDetailView',
+                                                                        queryParams:
+                                                                            {
+                                                                          'storeRef':
+                                                                              serializeParam(
+                                                                            listViewStoresRecord,
+                                                                            ParamType.Document,
+                                                                          ),
+                                                                        }.withoutNulls,
+                                                                        extra: <
+                                                                            String,
+                                                                            dynamic>{
+                                                                          'storeRef':
+                                                                              listViewStoresRecord,
+                                                                        },
+                                                                      );
+                                                                    },
+                                                                    child: Row(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: [
+                                                                        Expanded(
                                                                           child:
-                                                                              Image.network(
-                                                                            listViewStoresRecord.thumbnail!,
-                                                                            width:
-                                                                                100,
-                                                                            height:
-                                                                                100,
-                                                                            fit:
-                                                                                BoxFit.cover,
+                                                                              Column(
+                                                                            mainAxisSize:
+                                                                                MainAxisSize.max,
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              Text(
+                                                                                listViewStoresRecord.suburb!,
+                                                                                style: FlutterFlowTheme.of(context).bodyText2,
+                                                                              ),
+                                                                              Padding(
+                                                                                padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 8),
+                                                                                child: Text(
+                                                                                  listViewStoresRecord.nameStore!,
+                                                                                  style: FlutterFlowTheme.of(context).title3,
+                                                                                ),
+                                                                              ),
+                                                                              Text(
+                                                                                listViewStoresRecord.numberRating!.toString(),
+                                                                                style: FlutterFlowTheme.of(context).bodyText2,
+                                                                              ),
+                                                                            ],
                                                                           ),
                                                                         ),
-                                                                      ),
-                                                                    ],
+                                                                        Padding(
+                                                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                                                              8,
+                                                                              8,
+                                                                              0,
+                                                                              8),
+                                                                          child:
+                                                                              ClipRRect(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(12),
+                                                                            child:
+                                                                                Image.network(
+                                                                              listViewStoresRecord.thumbnail!,
+                                                                              width: 100,
+                                                                              height: 100,
+                                                                              fit: BoxFit.cover,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
                                                                   ),
                                                                 );
                                                               },
@@ -785,40 +813,35 @@ class _MemberViewWidgetState extends State<MemberViewWidget> {
                                                                       InkWell(
                                                                         onTap:
                                                                             () async {
-                                                                          await Navigator
-                                                                              .push(
-                                                                            context,
-                                                                            PageTransition(
-                                                                              type: PageTransitionType.fade,
-                                                                              child: FlutterFlowExpandedImageView(
-                                                                                image: Image.network(
-                                                                                  gridViewMyPuffStoryRecord.photo!,
-                                                                                  fit: BoxFit.contain,
-                                                                                ),
-                                                                                allowRotation: false,
-                                                                                tag: gridViewMyPuffStoryRecord.photo!,
-                                                                                useHeroAnimation: true,
+                                                                          context
+                                                                              .pushNamed(
+                                                                            'Puff_Story_Details',
+                                                                            queryParams:
+                                                                                {
+                                                                              'puffstoryRef': serializeParam(
+                                                                                gridViewMyPuffStoryRecord,
+                                                                                ParamType.Document,
                                                                               ),
-                                                                            ),
+                                                                            }.withoutNulls,
+                                                                            extra: <String,
+                                                                                dynamic>{
+                                                                              'puffstoryRef': gridViewMyPuffStoryRecord,
+                                                                            },
                                                                           );
                                                                         },
                                                                         child:
-                                                                            Hero(
-                                                                          tag: gridViewMyPuffStoryRecord
-                                                                              .photo!,
-                                                                          transitionOnUserGestures:
-                                                                              true,
+                                                                            ClipRRect(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(12),
                                                                           child:
-                                                                              ClipRRect(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(12),
-                                                                            child:
-                                                                                Image.network(
-                                                                              gridViewMyPuffStoryRecord.photo!,
-                                                                              width: 100,
-                                                                              height: 100,
-                                                                              fit: BoxFit.cover,
-                                                                            ),
+                                                                              Image.network(
+                                                                            gridViewMyPuffStoryRecord.photo!,
+                                                                            width:
+                                                                                100,
+                                                                            height:
+                                                                                100,
+                                                                            fit:
+                                                                                BoxFit.cover,
                                                                           ),
                                                                         ),
                                                                       ),

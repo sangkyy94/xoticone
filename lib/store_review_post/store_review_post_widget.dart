@@ -14,11 +14,11 @@ class StoreReviewPostWidget extends StatefulWidget {
   const StoreReviewPostWidget({
     Key? key,
     this.storeRef,
-    this.userRef,
+    this.ownerUserRef,
   }) : super(key: key);
 
   final DocumentReference? storeRef;
-  final DocumentReference? userRef;
+  final DocumentReference? ownerUserRef;
 
   @override
   _StoreReviewPostWidgetState createState() => _StoreReviewPostWidgetState();
@@ -27,8 +27,9 @@ class StoreReviewPostWidget extends StatefulWidget {
 class _StoreReviewPostWidgetState extends State<StoreReviewPostWidget> {
   TextEditingController? textFieldContentsController;
   TextEditingController? textFieldTitleController;
-  final formKey = GlobalKey<FormState>();
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -39,6 +40,7 @@ class _StoreReviewPostWidgetState extends State<StoreReviewPostWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     textFieldContentsController?.dispose();
     textFieldTitleController?.dispose();
     super.dispose();
@@ -84,7 +86,7 @@ class _StoreReviewPostWidgetState extends State<StoreReviewPostWidget> {
       ),
       body: SafeArea(
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [

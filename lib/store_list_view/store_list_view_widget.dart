@@ -174,7 +174,7 @@ class _StoreListViewWidgetState extends State<StoreListViewWidget> {
                             children: [
                               Padding(
                                 padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                                    EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
                                 child: Container(
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
@@ -301,7 +301,6 @@ class _StoreListViewWidgetState extends State<StoreListViewWidget> {
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodyText1,
-                                                    maxLines: null,
                                                   ),
                                                 ),
                                               ),
@@ -344,11 +343,8 @@ class _StoreListViewWidgetState extends State<StoreListViewWidget> {
                                                           .whenComplete(() =>
                                                               setState(() {}));
 
-                                                      setState(() {
-                                                        FFAppState()
-                                                                .showListView =
-                                                            true;
-                                                      });
+                                                      FFAppState()
+                                                          .showListView = true;
                                                     },
                                                     text: FFLocalizations.of(
                                                             context)
@@ -392,11 +388,8 @@ class _StoreListViewWidgetState extends State<StoreListViewWidget> {
                                                       .fromSTEB(40, 0, 0, 0),
                                                   child: InkWell(
                                                     onTap: () async {
-                                                      setState(() {
-                                                        FFAppState()
-                                                                .showListView =
-                                                            false;
-                                                      });
+                                                      FFAppState()
+                                                          .showListView = false;
                                                     },
                                                     child: Icon(
                                                       Icons.replay,
@@ -422,7 +415,9 @@ class _StoreListViewWidgetState extends State<StoreListViewWidget> {
                         ],
                       ),
                     ),
-                    Container(
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: 100),
+                      curve: Curves.easeIn,
                       width: double.infinity,
                       height: 300,
                       decoration: BoxDecoration(
@@ -501,6 +496,9 @@ class _StoreListViewWidgetState extends State<StoreListViewWidget> {
                     Container(
                       width: double.infinity,
                       height: 600,
+                      constraints: BoxConstraints(
+                        maxHeight: 330,
+                      ),
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
@@ -529,6 +527,7 @@ class _StoreListViewWidgetState extends State<StoreListViewWidget> {
                           List<StoresRecord> columnStoresRecordList =
                               snapshot.data!;
                           return SingleChildScrollView(
+                            primary: false,
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               children: List.generate(
@@ -544,10 +543,13 @@ class _StoreListViewWidgetState extends State<StoreListViewWidget> {
                                         'StoreDetailView',
                                         queryParams: {
                                           'storeRef': serializeParam(
-                                            columnStoresRecord.reference,
-                                            ParamType.DocumentReference,
+                                            columnStoresRecord,
+                                            ParamType.Document,
                                           ),
                                         }.withoutNulls,
+                                        extra: <String, dynamic>{
+                                          'storeRef': columnStoresRecord,
+                                        },
                                       );
                                     },
                                     child: Container(
@@ -583,7 +585,7 @@ class _StoreListViewWidgetState extends State<StoreListViewWidget> {
                                           Expanded(
                                             child: Padding(
                                               padding: EdgeInsetsDirectional
-                                                  .fromSTEB(8, 1, 0, 0),
+                                                  .fromSTEB(4, 1, 0, 0),
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.max,
                                                 mainAxisAlignment:

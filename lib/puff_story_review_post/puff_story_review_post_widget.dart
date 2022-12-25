@@ -1,5 +1,6 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../backend/push_notifications/push_notifications_util.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -26,8 +27,9 @@ class PuffStoryReviewPostWidget extends StatefulWidget {
 class _PuffStoryReviewPostWidgetState extends State<PuffStoryReviewPostWidget> {
   TextEditingController? textFieldContentsController;
   TextEditingController? textFieldTitleController;
-  final formKey = GlobalKey<FormState>();
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -38,6 +40,7 @@ class _PuffStoryReviewPostWidgetState extends State<PuffStoryReviewPostWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     textFieldContentsController?.dispose();
     textFieldTitleController?.dispose();
     super.dispose();
@@ -83,7 +86,7 @@ class _PuffStoryReviewPostWidgetState extends State<PuffStoryReviewPostWidget> {
       ),
       body: SafeArea(
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
@@ -288,6 +291,17 @@ class _PuffStoryReviewPostWidgetState extends State<PuffStoryReviewPostWidget> {
                             await PuffStoryReviewRecord.collection
                                 .doc()
                                 .set(puffStoryReviewCreateData);
+                            triggerPushNotification(
+                              notificationTitle: textFieldTitleController!.text,
+                              notificationText:
+                                  textFieldContentsController!.text,
+                              notificationImageUrl: currentUserPhoto,
+                              userRefs: [widget.puffstoryRef!.writer!],
+                              initialPageName: 'Puff_Story_Details',
+                              parameterData: {
+                                'puffstoryRef': widget.puffstoryRef,
+                              },
+                            );
                             context.pop();
                           },
                           text: FFLocalizations.of(context).getText(

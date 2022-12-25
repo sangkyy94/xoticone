@@ -185,10 +185,8 @@ class _SearchStrainWidgetState extends State<SearchStrainWidget> {
                                                     .whenComplete(
                                                         () => setState(() {}));
 
-                                                setState(() {
-                                                  FFAppState().showListView =
-                                                      true;
-                                                });
+                                                FFAppState().showListView =
+                                                    true;
                                               },
                                               text: FFLocalizations.of(context)
                                                   .getText(
@@ -226,9 +224,7 @@ class _SearchStrainWidgetState extends State<SearchStrainWidget> {
                                             10, 0, 0, 0),
                                         child: InkWell(
                                           onTap: () async {
-                                            setState(() {
-                                              FFAppState().showListView = false;
-                                            });
+                                            FFAppState().showListView = false;
                                           },
                                           child: Icon(
                                             Icons.cancel_outlined,

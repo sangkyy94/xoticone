@@ -27,6 +27,7 @@ import 'schema/search_record_by_strain_record.dart';
 import 'schema/cs_db_record.dart';
 import 'schema/c_s_types_record.dart';
 import 'schema/puff_story_review_record.dart';
+import 'schema/notification_record.dart';
 import 'schema/serializers.dart';
 
 export 'dart:async' show StreamSubscription;
@@ -56,6 +57,7 @@ export 'schema/search_record_by_strain_record.dart';
 export 'schema/cs_db_record.dart';
 export 'schema/c_s_types_record.dart';
 export 'schema/puff_story_review_record.dart';
+export 'schema/notification_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
 Stream<List<UsersRecord>> queryUsersRecord({
@@ -977,6 +979,48 @@ Future<FFFirestorePage<PuffStoryReviewRecord>> queryPuffStoryReviewRecordPage({
     queryCollectionPage(
       PuffStoryReviewRecord.collection,
       PuffStoryReviewRecord.serializer,
+      queryBuilder: queryBuilder,
+      nextPageMarker: nextPageMarker,
+      pageSize: pageSize,
+      isStream: isStream,
+    );
+
+/// Functions to query NotificationRecords (as a Stream and as a Future).
+Stream<List<NotificationRecord>> queryNotificationRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      NotificationRecord.collection,
+      NotificationRecord.serializer,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<NotificationRecord>> queryNotificationRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      NotificationRecord.collection,
+      NotificationRecord.serializer,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<FFFirestorePage<NotificationRecord>> queryNotificationRecordPage({
+  Query Function(Query)? queryBuilder,
+  DocumentSnapshot? nextPageMarker,
+  required int pageSize,
+  required bool isStream,
+}) =>
+    queryCollectionPage(
+      NotificationRecord.collection,
+      NotificationRecord.serializer,
       queryBuilder: queryBuilder,
       nextPageMarker: nextPageMarker,
       pageSize: pageSize,

@@ -25,6 +25,7 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
   TextEditingController? textController;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -40,6 +41,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     textController?.dispose();
     super.dispose();
   }
@@ -822,7 +824,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
         ),
       ),
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -834,8 +836,8 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                   children: [
                     Align(
                       alignment: AlignmentDirectional(0.05, -1),
-                      child: Image.network(
-                        'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1286&q=80',
+                      child: Image.asset(
+                        'assets/images/tan-kaninthanond-RFumqN-7zI0-unsplash.png',
                         width: double.infinity,
                         height: 500,
                         fit: BoxFit.cover,
@@ -955,51 +957,84 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                           ),
                                         ),
                                       ),
-                                    Badge(
-                                      badgeContent: Text(
-                                        FFLocalizations.of(context).getText(
-                                          'seykqker' /* 1 */,
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText1
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.white,
-                                            ),
+                                    StreamBuilder<List<NotificationRecord>>(
+                                      stream: queryNotificationRecord(
+                                        queryBuilder: (notificationRecord) =>
+                                            notificationRecord.where(
+                                                'recipient',
+                                                arrayContains:
+                                                    currentUserReference),
                                       ),
-                                      showBadge: true,
-                                      shape: BadgeShape.circle,
-                                      badgeColor: FlutterFlowTheme.of(context)
-                                          .primaryColor,
-                                      elevation: 4,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          8, 8, 8, 8),
-                                      position: BadgePosition.topEnd(),
-                                      animationType: BadgeAnimationType.scale,
-                                      toAnimate: true,
-                                      child: FlutterFlowIconButton(
-                                        borderColor: Colors.transparent,
-                                        borderRadius: 30,
-                                        borderWidth: 1,
-                                        buttonSize: 60,
-                                        icon: Icon(
-                                          Icons.notifications,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryBtnText,
-                                          size: 30,
-                                        ),
-                                        onPressed: () async {
-                                          context.pushNamed(
-                                            'NotificationCenter',
-                                            queryParams: {
-                                              'userRef': serializeParam(
-                                                currentUserReference,
-                                                ParamType.DocumentReference,
+                                      builder: (context, snapshot) {
+                                        // Customize what your widget looks like when it's loading.
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                            child: SizedBox(
+                                              width: 50,
+                                              height: 50,
+                                              child: SpinKitRipple(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryColor,
+                                                size: 50,
                                               ),
-                                            }.withoutNulls,
+                                            ),
                                           );
-                                        },
-                                      ),
+                                        }
+                                        List<NotificationRecord>
+                                            badgeNotificationRecordList =
+                                            snapshot.data!;
+                                        return Badge(
+                                          badgeContent: Text(
+                                            badgeNotificationRecordList.length
+                                                .toString(),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1
+                                                .override(
+                                                  fontFamily: 'Poppins',
+                                                  color: Colors.white,
+                                                  fontSize: 9,
+                                                ),
+                                          ),
+                                          showBadge: true,
+                                          shape: BadgeShape.circle,
+                                          badgeColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primaryColor,
+                                          elevation: 4,
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  8, 8, 8, 8),
+                                          position: BadgePosition.topEnd(),
+                                          animationType:
+                                              BadgeAnimationType.scale,
+                                          toAnimate: true,
+                                          child: FlutterFlowIconButton(
+                                            borderColor: Colors.transparent,
+                                            borderRadius: 30,
+                                            borderWidth: 1,
+                                            buttonSize: 60,
+                                            icon: Icon(
+                                              Icons.notifications,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryBtnText,
+                                              size: 30,
+                                            ),
+                                            onPressed: () async {
+                                              context.pushNamed(
+                                                'NotificationCenter',
+                                                queryParams: {
+                                                  'userRef': serializeParam(
+                                                    currentUserReference,
+                                                    ParamType.DocumentReference,
+                                                  ),
+                                                }.withoutNulls,
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
@@ -1367,13 +1402,6 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                             Text(
                                                                               horizontalListCitiesRecord.nameCity!,
                                                                               style: FlutterFlowTheme.of(context).subtitle1,
-                                                                            ),
-                                                                            Padding(
-                                                                              padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
-                                                                              child: Row(
-                                                                                mainAxisSize: MainAxisSize.max,
-                                                                                children: [],
-                                                                              ),
                                                                             ),
                                                                           ],
                                                                         ),

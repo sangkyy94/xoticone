@@ -8,6 +8,8 @@ import '../flutter_flow_theme.dart';
 import '../../backend/backend.dart';
 
 import '../../auth/firebase_user_provider.dart';
+import '../../backend/push_notifications/push_notifications_handler.dart'
+    show PushNotificationsHandler;
 
 import '../../index.dart';
 import '../../main.dart';
@@ -136,7 +138,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'searchStore',
               builder: (context, params) => SearchStoreWidget(
                 user: params.getParam(
-                    'user', ParamType.DocumentReference, false, 'users'),
+                    'user', ParamType.DocumentReference, false, ['users']),
                 searchKeyword:
                     params.getParam('searchKeyword', ParamType.String),
               ),
@@ -145,8 +147,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'StoreListView',
               path: 'storeListView',
               builder: (context, params) => StoreListViewWidget(
-                suburbRef: params.getParam(
-                    'suburbRef', ParamType.DocumentReference, false, 'Suburbs'),
+                suburbRef: params.getParam('suburbRef',
+                    ParamType.DocumentReference, false, ['Suburbs']),
               ),
             ),
             FFRoute(
@@ -154,17 +156,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'storebystrain',
               builder: (context, params) => StorebystrainWidget(
                 storebystrainRef: params.getParam('storebystrainRef',
-                    ParamType.DocumentReference, false, 'Stores'),
-                strainRef: params.getParam(
-                    'strainRef', ParamType.DocumentReference, false, 'strains'),
+                    ParamType.DocumentReference, false, ['Stores']),
+                strainRef: params.getParam('strainRef',
+                    ParamType.DocumentReference, false, ['strains']),
               ),
             ),
             FFRoute(
               name: 'StoreDetailView',
               path: 'storeDetailView',
+              asyncParams: {
+                'storeRef': getDoc(['Stores'], StoresRecord.serializer),
+              },
               builder: (context, params) => StoreDetailViewWidget(
-                storeRef: params.getParam(
-                    'storeRef', ParamType.DocumentReference, false, 'Stores'),
+                storeRef: params.getParam('storeRef', ParamType.Document),
               ),
             ),
             FFRoute(
@@ -172,7 +176,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'notificationList',
               builder: (context, params) => NotificationListWidget(
                 userRef: params.getParam(
-                    'userRef', ParamType.DocumentReference, false, 'users'),
+                    'userRef', ParamType.DocumentReference, false, ['users']),
               ),
             ),
             FFRoute(
@@ -180,13 +184,20 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'suburbList',
               builder: (context, params) => SuburbListWidget(
                 cityRef: params.getParam(
-                    'cityRef', ParamType.DocumentReference, false, 'Cities'),
+                    'cityRef', ParamType.DocumentReference, false, ['Cities']),
               ),
             ),
             FFRoute(
-              name: 'Noti_Details',
-              path: 'notiDetails',
-              builder: (context, params) => NotiDetailsWidget(),
+              name: 'Notification_Details',
+              path: 'notificationDetails',
+              asyncParams: {
+                'notificationRef':
+                    getDoc(['Notification'], NotificationRecord.serializer),
+              },
+              builder: (context, params) => NotificationDetailsWidget(
+                notificationRef:
+                    params.getParam('notificationRef', ParamType.Document),
+              ),
             ),
             FFRoute(
               name: 'Admin_Main',
@@ -198,15 +209,15 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'myProfile',
               builder: (context, params) => MyProfileWidget(
                 userRef: params.getParam(
-                    'userRef', ParamType.DocumentReference, false, 'users'),
+                    'userRef', ParamType.DocumentReference, false, ['users']),
               ),
             ),
             FFRoute(
               name: 'Product_Upload',
               path: 'productUpload',
               asyncParams: {
-                'strainRef': getDoc('strains', StrainsRecord.serializer),
-                'storeRef': getDoc('Stores', StoresRecord.serializer),
+                'strainRef': getDoc(['strains'], StrainsRecord.serializer),
+                'storeRef': getDoc(['Stores'], StoresRecord.serializer),
               },
               builder: (context, params) => ProductUploadWidget(
                 strainRef: params.getParam('strainRef', ParamType.Document),
@@ -217,12 +228,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'Upload_SelectStrain',
               path: 'uploadSelectStrain',
               asyncParams: {
-                'storeRef': getDoc('Stores', StoresRecord.serializer),
+                'storeRef': getDoc(['Stores'], StoresRecord.serializer),
               },
               builder: (context, params) => UploadSelectStrainWidget(
                 storeRef: params.getParam('storeRef', ParamType.Document),
                 productsRef: params.getParam('productsRef',
-                    ParamType.DocumentReference, false, 'Products'),
+                    ParamType.DocumentReference, false, ['Products']),
               ),
             ),
             FFRoute(
@@ -234,7 +245,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'Store_Productlist',
               path: 'storeProductlist',
               asyncParams: {
-                'storeRef': getDoc('Stores', StoresRecord.serializer),
+                'storeRef': getDoc(['Stores'], StoresRecord.serializer),
               },
               builder: (context, params) => StoreProductlistWidget(
                 storeRef: params.getParam('storeRef', ParamType.Document),
@@ -245,9 +256,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'storeReviewPost',
               builder: (context, params) => StoreReviewPostWidget(
                 storeRef: params.getParam(
-                    'storeRef', ParamType.DocumentReference, false, 'Stores'),
-                userRef: params.getParam(
-                    'userRef', ParamType.DocumentReference, false, 'users'),
+                    'storeRef', ParamType.DocumentReference, false, ['Stores']),
+                ownerUserRef: params.getParam('ownerUserRef',
+                    ParamType.DocumentReference, false, ['users']),
               ),
             ),
             FFRoute(
@@ -255,7 +266,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'rewardCenter',
               builder: (context, params) => RewardCenterWidget(
                 userRef: params.getParam(
-                    'userRef', ParamType.DocumentReference, false, 'users'),
+                    'userRef', ParamType.DocumentReference, false, ['users']),
               ),
             ),
             FFRoute(
@@ -263,11 +274,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'stampCoupon',
               asyncParams: {
                 'couponRef':
-                    getDoc('Stamp_Coupons', StampCouponsRecord.serializer),
+                    getDoc(['Stamp_Coupons'], StampCouponsRecord.serializer),
               },
               builder: (context, params) => StampCouponWidget(
                 storeRef: params.getParam(
-                    'storeRef', ParamType.DocumentReference, false, 'Stores'),
+                    'storeRef', ParamType.DocumentReference, false, ['Stores']),
                 couponRef: params.getParam('couponRef', ParamType.Document),
               ),
             ),
@@ -275,14 +286,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'ProductDetailsView',
               path: 'productDetailsView',
               asyncParams: {
-                'productRef': getDoc('Products', ProductsRecord.serializer),
-                'storeRef': getDoc('Stores', StoresRecord.serializer),
+                'productRef': getDoc(['Products'], ProductsRecord.serializer),
+                'storeRef': getDoc(['Stores'], StoresRecord.serializer),
               },
               builder: (context, params) => ProductDetailsViewWidget(
                 productRef: params.getParam('productRef', ParamType.Document),
                 storeRef: params.getParam('storeRef', ParamType.Document),
-                strainRef: params.getParam(
-                    'strainRef', ParamType.DocumentReference, false, 'strains'),
+                strainRef: params.getParam('strainRef',
+                    ParamType.DocumentReference, false, ['strains']),
               ),
             ),
             FFRoute(
@@ -290,7 +301,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'storeStoreListProduct',
               builder: (context, params) => StoreStoreListProductWidget(
                 ownerRef: params.getParam(
-                    'ownerRef', ParamType.DocumentReference, false, 'users'),
+                    'ownerRef', ParamType.DocumentReference, false, ['users']),
               ),
             ),
             FFRoute(
@@ -298,7 +309,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'productReviewPost',
               builder: (context, params) => ProductReviewPostWidget(
                 productref: params.getParam('productref',
-                    ParamType.DocumentReference, false, 'Products'),
+                    ParamType.DocumentReference, false, ['Products']),
               ),
             ),
             FFRoute(
@@ -306,9 +317,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'myPuffStoryPost',
               builder: (context, params) => MyPuffStoryPostWidget(
                 storeRef: params.getParam(
-                    'storeRef', ParamType.DocumentReference, false, 'Stores'),
+                    'storeRef', ParamType.DocumentReference, false, ['Stores']),
                 userRef: params.getParam(
-                    'userRef', ParamType.DocumentReference, false, 'users'),
+                    'userRef', ParamType.DocumentReference, false, ['users']),
               ),
             ),
             FFRoute(
@@ -316,9 +327,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'strainDetails',
               builder: (context, params) => StrainDetailsWidget(
                 storebystrainRef: params.getParam('storebystrainRef',
-                    ParamType.DocumentReference, false, 'Stores'),
-                strainRef: params.getParam(
-                    'strainRef', ParamType.DocumentReference, false, 'strains'),
+                    ParamType.DocumentReference, false, ['Stores']),
+                strainRef: params.getParam('strainRef',
+                    ParamType.DocumentReference, false, ['strains']),
               ),
             ),
             FFRoute(
@@ -326,7 +337,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'myCoupon',
               builder: (context, params) => MyCouponWidget(
                 userRef: params.getParam(
-                    'userRef', ParamType.DocumentReference, false, 'users'),
+                    'userRef', ParamType.DocumentReference, false, ['users']),
               ),
             ),
             FFRoute(
@@ -334,7 +345,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'notificationCenter',
               builder: (context, params) => NotificationCenterWidget(
                 userRef: params.getParam(
-                    'userRef', ParamType.DocumentReference, false, 'users'),
+                    'userRef', ParamType.DocumentReference, false, ['users']),
               ),
             ),
             FFRoute(
@@ -342,7 +353,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'myRefereeList',
               builder: (context, params) => MyRefereeListWidget(
                 userRef: params.getParam(
-                    'userRef', ParamType.DocumentReference, false, 'users'),
+                    'userRef', ParamType.DocumentReference, false, ['users']),
               ),
             ),
             FFRoute(
@@ -350,7 +361,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'myPeers',
               builder: (context, params) => MyPeersWidget(
                 userRef: params.getParam(
-                    'userRef', ParamType.DocumentReference, false, 'users'),
+                    'userRef', ParamType.DocumentReference, false, ['users']),
               ),
             ),
             FFRoute(
@@ -367,7 +378,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'MemberView',
               path: 'memberView',
               asyncParams: {
-                'userRef': getDoc('users', UsersRecord.serializer),
+                'userRef': getDoc(['users'], UsersRecord.serializer),
               },
               builder: (context, params) => MemberViewWidget(
                 userRef: params.getParam('userRef', ParamType.Document),
@@ -377,8 +388,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'Notice_Details',
               path: 'noticeDetails',
               builder: (context, params) => NoticeDetailsWidget(
-                noticeRef: params.getParam(
-                    'noticeRef', ParamType.DocumentReference, false, 'Notice'),
+                noticeRef: params.getParam('noticeRef',
+                    ParamType.DocumentReference, false, ['Notice']),
               ),
             ),
             FFRoute(
@@ -386,14 +397,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'storeCouponlDlUserIst',
               builder: (context, params) => StoreCouponlDlUserIstWidget(
                 storeRef: params.getParam(
-                    'storeRef', ParamType.DocumentReference, false, 'Stores'),
+                    'storeRef', ParamType.DocumentReference, false, ['Stores']),
               ),
             ),
             FFRoute(
               name: 'Edit_Profile',
               path: 'editProfile',
               asyncParams: {
-                'userRef': getDoc('users', UsersRecord.serializer),
+                'userRef': getDoc(['users'], UsersRecord.serializer),
               },
               builder: (context, params) => EditProfileWidget(
                 userRef: params.getParam('userRef', ParamType.Document),
@@ -404,9 +415,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'qRscanforShop',
               builder: (context, params) => QRscanforShopWidget(
                 storeRef: params.getParam(
-                    'storeRef', ParamType.DocumentReference, false, 'Stores'),
+                    'storeRef', ParamType.DocumentReference, false, ['Stores']),
                 userRef: params.getParam(
-                    'userRef', ParamType.DocumentReference, false, 'users'),
+                    'userRef', ParamType.DocumentReference, false, ['users']),
               ),
             ),
             FFRoute(
@@ -419,28 +430,23 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'myPuffStorEdit',
               asyncParams: {
                 'puffSttoryRef':
-                    getDoc('MyPuffStory', MyPuffStoryRecord.serializer),
+                    getDoc(['MyPuffStory'], MyPuffStoryRecord.serializer),
               },
               builder: (context, params) => MyPuffStorEditWidget(
                 storeRef: params.getParam(
-                    'storeRef', ParamType.DocumentReference, false, 'Stores'),
+                    'storeRef', ParamType.DocumentReference, false, ['Stores']),
                 userRef: params.getParam(
-                    'userRef', ParamType.DocumentReference, false, 'users'),
+                    'userRef', ParamType.DocumentReference, false, ['users']),
                 puffSttoryRef:
                     params.getParam('puffSttoryRef', ParamType.Document),
               ),
-            ),
-            FFRoute(
-              name: 'NearMeCopy',
-              path: 'nearMeCopy',
-              builder: (context, params) => NearMeCopyWidget(),
             ),
             FFRoute(
               name: 'CS_Post',
               path: 'cSPost',
               builder: (context, params) => CSPostWidget(
                 userRef: params.getParam(
-                    'userRef', ParamType.DocumentReference, false, 'users'),
+                    'userRef', ParamType.DocumentReference, false, ['users']),
               ),
             ),
             FFRoute(
@@ -448,7 +454,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'cSCenterForCustomer',
               builder: (context, params) => CSCenterForCustomerWidget(
                 userRef: params.getParam(
-                    'userRef', ParamType.DocumentReference, false, 'users'),
+                    'userRef', ParamType.DocumentReference, false, ['users']),
               ),
             ),
             FFRoute(
@@ -456,9 +462,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'cSDetailsForCustomer',
               builder: (context, params) => CSDetailsForCustomerWidget(
                 userRef: params.getParam(
-                    'userRef', ParamType.DocumentReference, false, 'users'),
+                    'userRef', ParamType.DocumentReference, false, ['users']),
                 csRef: params.getParam(
-                    'csRef', ParamType.DocumentReference, false, 'CS_DB'),
+                    'csRef', ParamType.DocumentReference, false, ['CS_DB']),
               ),
             ),
             FFRoute(
@@ -466,16 +472,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'storeStoreListCoupon',
               builder: (context, params) => StoreStoreListCouponWidget(
                 ownerRef: params.getParam(
-                    'ownerRef', ParamType.DocumentReference, false, 'users'),
+                    'ownerRef', ParamType.DocumentReference, false, ['users']),
               ),
             ),
             FFRoute(
               name: 'Product_Edit',
               path: 'productEdit',
               asyncParams: {
-                'strainRef': getDoc('strains', StrainsRecord.serializer),
-                'storeRef': getDoc('Stores', StoresRecord.serializer),
-                'productRef': getDoc('Products', ProductsRecord.serializer),
+                'strainRef': getDoc(['strains'], StrainsRecord.serializer),
+                'storeRef': getDoc(['Stores'], StoresRecord.serializer),
+                'productRef': getDoc(['Products'], ProductsRecord.serializer),
               },
               builder: (context, params) => ProductEditWidget(
                 strainRef: params.getParam('strainRef', ParamType.Document),
@@ -488,7 +494,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'puffStoryDetails',
               asyncParams: {
                 'puffstoryRef':
-                    getDoc('MyPuffStory', MyPuffStoryRecord.serializer),
+                    getDoc(['MyPuffStory'], MyPuffStoryRecord.serializer),
               },
               builder: (context, params) => PuffStoryDetailsWidget(
                 puffstoryRef:
@@ -500,7 +506,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'puffStoryReviewPost',
               asyncParams: {
                 'puffstoryRef':
-                    getDoc('MyPuffStory', MyPuffStoryRecord.serializer),
+                    getDoc(['MyPuffStory'], MyPuffStoryRecord.serializer),
               },
               builder: (context, params) => PuffStoryReviewPostWidget(
                 puffstoryRef:
@@ -512,7 +518,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'cSCenterForAdmin',
               builder: (context, params) => CSCenterForAdminWidget(
                 userRef: params.getParam(
-                    'userRef', ParamType.DocumentReference, false, 'users'),
+                    'userRef', ParamType.DocumentReference, false, ['users']),
               ),
             ),
             FFRoute(
@@ -520,9 +526,22 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               path: 'cSDetailsForAdmin',
               builder: (context, params) => CSDetailsForAdminWidget(
                 userRef: params.getParam(
-                    'userRef', ParamType.DocumentReference, false, 'users'),
+                    'userRef', ParamType.DocumentReference, false, ['users']),
                 csRef: params.getParam(
-                    'csRef', ParamType.DocumentReference, false, 'CS_DB'),
+                    'csRef', ParamType.DocumentReference, false, ['CS_DB']),
+              ),
+            ),
+            FFRoute(
+              name: 'NearMeForOversea',
+              path: 'nearMeForOversea',
+              builder: (context, params) => NearMeForOverseaWidget(),
+            ),
+            FFRoute(
+              name: 'StoreDetailViewCopy',
+              path: 'storeDetailViewCopy',
+              builder: (context, params) => StoreDetailViewCopyWidget(
+                storeRef: params.getParam(
+                    'storeRef', ParamType.DocumentReference, false, ['Stores']),
               ),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
@@ -636,7 +655,7 @@ class FFParameters {
     String paramName,
     ParamType type, [
     bool isList = false,
-    String? collectionName,
+    List<String>? collectionNamePath,
   ]) {
     if (futureParamValues.containsKey(paramName)) {
       return futureParamValues[paramName];
@@ -650,7 +669,7 @@ class FFParameters {
       return param;
     }
     // Return serialized value.
-    return deserializeParam<T>(param, type, isList, collectionName);
+    return deserializeParam<T>(param, type, isList, collectionNamePath);
   }
 }
 
@@ -703,7 +722,7 @@ class FFRoute {
                     fit: BoxFit.cover,
                   ),
                 )
-              : page;
+              : PushNotificationsHandler(child: page);
 
           final transitionInfo = state.transitionInfo;
           return transitionInfo.hasTransition

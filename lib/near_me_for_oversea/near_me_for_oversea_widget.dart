@@ -2,25 +2,31 @@ import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../components/store_detail_map_widget.dart';
 import '../flutter_flow/flutter_flow_google_map.dart';
+import '../flutter_flow/flutter_flow_icon_button.dart';
+import '../flutter_flow/flutter_flow_place_picker.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../flutter_flow/flutter_flow_widgets.dart';
+import '../flutter_flow/place.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class NearMeCopyWidget extends StatefulWidget {
-  const NearMeCopyWidget({Key? key}) : super(key: key);
+class NearMeForOverseaWidget extends StatefulWidget {
+  const NearMeForOverseaWidget({Key? key}) : super(key: key);
 
   @override
-  _NearMeCopyWidgetState createState() => _NearMeCopyWidgetState();
+  _NearMeForOverseaWidgetState createState() => _NearMeForOverseaWidgetState();
 }
 
-class _NearMeCopyWidgetState extends State<NearMeCopyWidget> {
+class _NearMeForOverseaWidgetState extends State<NearMeForOverseaWidget> {
   LatLng? currentUserLocationValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   LatLng? googleMapsCenter;
   final googleMapsController = Completer<GoogleMapController>();
+  var placePickerValue = FFPlace();
 
   @override
   void initState() {
@@ -52,6 +58,37 @@ class _NearMeCopyWidgetState extends State<NearMeCopyWidget> {
       key: scaffoldKey,
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFFEFEFEF),
+      appBar: AppBar(
+        backgroundColor: FlutterFlowTheme.of(context).primaryColor,
+        automaticallyImplyLeading: false,
+        leading: FlutterFlowIconButton(
+          borderColor: Colors.transparent,
+          borderRadius: 30,
+          borderWidth: 1,
+          buttonSize: 60,
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            color: Colors.white,
+            size: 30,
+          ),
+          onPressed: () async {
+            context.pop();
+          },
+        ),
+        title: Text(
+          FFLocalizations.of(context).getText(
+            'nv1qrn0r' /* NEar Me For Foreigners */,
+          ),
+          style: FlutterFlowTheme.of(context).title2.override(
+                fontFamily: 'Poppins',
+                color: Colors.white,
+                fontSize: 22,
+              ),
+        ),
+        actions: [],
+        centerTitle: false,
+        elevation: 2,
+      ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -82,7 +119,7 @@ class _NearMeCopyWidgetState extends State<NearMeCopyWidget> {
                         children: [
                           Text(
                             FFLocalizations.of(context).getText(
-                              'v81f0tty' /* Hello */,
+                              'heqtpp4z' /* Hello */,
                             ),
                             style: FlutterFlowTheme.of(context).title1,
                           ),
@@ -116,7 +153,10 @@ class _NearMeCopyWidgetState extends State<NearMeCopyWidget> {
             children: [
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: 40,
+                height: 80,
+                constraints: BoxConstraints(
+                  maxHeight: 50,
+                ),
                 decoration: BoxDecoration(
                   color: FlutterFlowTheme.of(context).secondaryBackground,
                   boxShadow: [
@@ -138,9 +178,49 @@ class _NearMeCopyWidgetState extends State<NearMeCopyWidget> {
                         children: [
                           Text(
                             FFLocalizations.of(context).getText(
-                              'cjsyjctx' /* Stores are around you. */,
+                              'knux1xz3' /* You are not in Thailand. Plase... */,
                             ),
                             style: FlutterFlowTheme.of(context).bodyText2,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          FlutterFlowPlacePicker(
+                            iOSGoogleMapsApiKey:
+                                'AIzaSyAyi9vTMAzDhvapNGbPoYG-o-_l6_417cA',
+                            androidGoogleMapsApiKey:
+                                'AIzaSyACjG8xyKwxSkOSGVsLktiBWCOowgLV0dM',
+                            webGoogleMapsApiKey:
+                                'AIzaSyCOFKowwyzwRRT5bEroybOq9kkEnbr5tl4',
+                            onSelect: (place) async {
+                              setState(() => placePickerValue = place);
+                            },
+                            defaultText: FFLocalizations.of(context).getText(
+                              'atounh3v' /* Select Location */,
+                            ),
+                            icon: Icon(
+                              Icons.place,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            buttonOptions: FFButtonOptions(
+                              width: 200,
+                              height: 40,
+                              color: FlutterFlowTheme.of(context).primaryColor,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .subtitle2
+                                  .override(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                  ),
+                              borderSide: BorderSide(
+                                color: Colors.transparent,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                         ],
                       ),

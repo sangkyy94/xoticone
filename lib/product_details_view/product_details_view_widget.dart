@@ -403,7 +403,7 @@ class _ProductDetailsViewWidgetState extends State<ProductDetailsViewWidget>
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (widget.productRef!.price3g != null)
+                          if (widget.productRef!.price3g! > 0)
                             Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
@@ -421,8 +421,8 @@ class _ProductDetailsViewWidgetState extends State<ProductDetailsViewWidget>
                                     ),
                               ),
                             ),
-                          if (productDetailsViewProductsRecord!.pricce3halfg !=
-                              null)
+                          if (productDetailsViewProductsRecord!.pricce3halfg! >
+                              0)
                             Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
@@ -440,7 +440,7 @@ class _ProductDetailsViewWidgetState extends State<ProductDetailsViewWidget>
                                     ),
                               ),
                             ),
-                          if (productDetailsViewProductsRecord!.price7g != null)
+                          if (productDetailsViewProductsRecord!.price7g! > 0)
                             Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
@@ -458,8 +458,7 @@ class _ProductDetailsViewWidgetState extends State<ProductDetailsViewWidget>
                                     ),
                               ),
                             ),
-                          if (productDetailsViewProductsRecord!.price14g !=
-                              null)
+                          if (productDetailsViewProductsRecord!.price14g! > 0)
                             Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
@@ -477,8 +476,7 @@ class _ProductDetailsViewWidgetState extends State<ProductDetailsViewWidget>
                                     ),
                               ),
                             ),
-                          if (productDetailsViewProductsRecord!.pricce28g !=
-                              null)
+                          if (productDetailsViewProductsRecord!.pricce28g! > 0)
                             Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
@@ -502,7 +500,7 @@ class _ProductDetailsViewWidgetState extends State<ProductDetailsViewWidget>
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (widget.productRef!.price3g != null)
+                          if (widget.productRef!.price3g! > 0)
                             Text(
                               '${widget.productRef!.price3g?.toString()} THB',
                               style: FlutterFlowTheme.of(context)
@@ -513,7 +511,7 @@ class _ProductDetailsViewWidgetState extends State<ProductDetailsViewWidget>
                                         .darkSeaGreen,
                                   ),
                             ),
-                          if (widget.productRef!.pricce3halfg != null)
+                          if (widget.productRef!.pricce3halfg! > 0)
                             Text(
                               '${widget.productRef!.pricce3halfg?.toString()} THB',
                               style: FlutterFlowTheme.of(context)
@@ -524,7 +522,7 @@ class _ProductDetailsViewWidgetState extends State<ProductDetailsViewWidget>
                                         .darkSeaGreen,
                                   ),
                             ),
-                          if (widget.productRef!.price7g != null)
+                          if (widget.productRef!.price7g! > 0)
                             Text(
                               '${widget.productRef!.price7g?.toString()} THB',
                               style: FlutterFlowTheme.of(context)
@@ -535,7 +533,7 @@ class _ProductDetailsViewWidgetState extends State<ProductDetailsViewWidget>
                                         .darkSeaGreen,
                                   ),
                             ),
-                          if (widget.productRef!.price14g != null)
+                          if (widget.productRef!.price14g! > 0)
                             Text(
                               '${widget.productRef!.price14g?.toString()} THB',
                               style: FlutterFlowTheme.of(context)
@@ -546,7 +544,7 @@ class _ProductDetailsViewWidgetState extends State<ProductDetailsViewWidget>
                                         .darkSeaGreen,
                                   ),
                             ),
-                          if (widget.productRef!.pricce28g != null)
+                          if (widget.productRef!.pricce28g! > 0)
                             Text(
                               '${widget.productRef!.pricce28g?.toString()} THB',
                               style: FlutterFlowTheme.of(context)
@@ -664,8 +662,7 @@ class _ProductDetailsViewWidgetState extends State<ProductDetailsViewWidget>
                                               'ProductReviewPost',
                                               queryParams: {
                                                 'productref': serializeParam(
-                                                  productDetailsViewProductsRecord!
-                                                      .reference,
+                                                  widget.productRef!.reference,
                                                   ParamType.DocumentReference,
                                                 ),
                                               }.withoutNulls,
@@ -682,11 +679,13 @@ class _ProductDetailsViewWidgetState extends State<ProductDetailsViewWidget>
                                         stream: queryReviewForProductRecord(
                                           queryBuilder:
                                               (reviewForProductRecord) =>
-                                                  reviewForProductRecord.where(
-                                                      'product',
-                                                      isEqualTo: widget
-                                                          .productRef!
-                                                          .reference),
+                                                  reviewForProductRecord
+                                                      .where('product',
+                                                          isEqualTo:
+                                                              widget.productRef!
+                                                                  .reference)
+                                                      .orderBy('created_at',
+                                                          descending: true),
                                         ),
                                         builder: (context, snapshot) {
                                           // Customize what your widget looks like when it's loading.
