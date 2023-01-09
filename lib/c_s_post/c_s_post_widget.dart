@@ -68,7 +68,7 @@ class _CSPostWidgetState extends State<CSPostWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -187,7 +187,8 @@ How ... */
                                   snapshot.data!;
                               return FlutterFlowDropDown<String>(
                                 options: dropDownCSTypeCSTypesRecordList
-                                    .map((e) => e.nameType!)
+                                    .map((e) => e.nameType)
+                                    .withoutNulls
                                     .toList()
                                     .toList(),
                                 onChanged: (val) =>
@@ -414,7 +415,7 @@ How ... */
                               await CsDbRecord.collection
                                   .doc()
                                   .set(csDbCreateData);
-                              context.pop();
+                              Navigator.pop(context);
                             },
                             text: FFLocalizations.of(context).getText(
                               'sraoab2t' /* POST  */,

@@ -3,6 +3,7 @@ import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../store_customerlist/store_customerlist_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -54,7 +55,7 @@ class _StoreStoreListCouponWidgetState
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -90,7 +91,7 @@ class _StoreStoreListCouponWidgetState
                       padding: EdgeInsetsDirectional.fromSTEB(15, 15, 15, 0),
                       child: Text(
                         FFLocalizations.of(context).getText(
-                          'mowni98q' /* Select Your Shop */,
+                          'mowni98q' /* Select Your Shop to check user... */,
                         ),
                         style: FlutterFlowTheme.of(context).title1.override(
                               fontFamily: 'Montserrat',
@@ -114,7 +115,7 @@ class _StoreStoreListCouponWidgetState
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(15, 15, 0, 0),
                             child: AuthUserStreamWidget(
-                              child: Text(
+                              builder: (context) => Text(
                                 '${currentUserDisplayName}(${currentUserEmail})',
                                 style: FlutterFlowTheme.of(context).bodyText1,
                               ),
@@ -215,17 +216,14 @@ class _StoreStoreListCouponWidgetState
                                   10, 10, 10, 10),
                               child: InkWell(
                                 onTap: () async {
-                                  context.pushNamed(
-                                    'Store_Productlist',
-                                    queryParams: {
-                                      'storeRef': serializeParam(
-                                        listViewStoresRecord,
-                                        ParamType.Document,
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          StoreCustomerlistWidget(
+                                        storeRef: listViewStoresRecord,
                                       ),
-                                    }.withoutNulls,
-                                    extra: <String, dynamic>{
-                                      'storeRef': listViewStoresRecord,
-                                    },
+                                    ),
                                   );
                                 },
                                 child: Container(
@@ -252,7 +250,7 @@ class _StoreStoreListCouponWidgetState
                                         ),
                                       ),
                                       Container(
-                                        width: 230,
+                                        width: 220,
                                         height: 80,
                                         decoration: BoxDecoration(
                                           color: FlutterFlowTheme.of(context)

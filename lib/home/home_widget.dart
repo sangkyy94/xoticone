@@ -1,13 +1,35 @@
+import '../admin_main/admin_main_widget.dart';
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../c_s_center_for_customer/c_s_center_for_customer_widget.dart';
 import '../components/modal_logout_widget.dart';
+import '../event_list_host/event_list_host_widget.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../my_coupon/my_coupon_widget.dart';
+import '../my_favorites/my_favorites_widget.dart';
+import '../my_peers/my_peers_widget.dart';
+import '../my_profile/my_profile_widget.dart';
+import '../my_referee_list/my_referee_list_widget.dart';
+import '../notice/notice_widget.dart';
+import '../notification_center/notification_center_widget.dart';
+import '../owner_main/owner_main_widget.dart';
+import '../q_rscanfor_shop/q_rscanfor_shop_widget.dart';
+import '../reward_center/reward_center_widget.dart';
+import '../search_store/search_store_widget.dart';
+import '../setting/setting_widget.dart';
+import '../store_detail_view/store_detail_view_widget.dart';
+import '../store_store_list_coupon/store_store_list_coupon_widget.dart';
+import '../store_store_list_decorate/store_store_list_decorate_widget.dart';
+import '../store_store_list_info/store_store_list_info_widget.dart';
+import '../store_store_list_product/store_store_list_product_widget.dart';
+import '../suburb_list/suburb_list_widget.dart';
 import '../flutter_flow/permissions_util.dart';
 import 'package:badges/badges.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -15,9 +37,15 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class HomeWidget extends StatefulWidget {
-  const HomeWidget({Key? key}) : super(key: key);
+  const HomeWidget({
+    Key? key,
+    this.userRef,
+  }) : super(key: key);
+
+  final DocumentReference? userRef;
 
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
@@ -83,9 +111,14 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                       Align(
                         alignment: AlignmentDirectional(-0.84, 0.82),
                         child: AuthUserStreamWidget(
-                          child: FFButtonWidget(
+                          builder: (context) => FFButtonWidget(
                             onPressed: () async {
-                              context.pushNamed('Admin_Main');
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AdminMainWidget(),
+                                ),
+                              );
                             },
                             text: FFLocalizations.of(context).getText(
                               '2644l82p' /* Admin */,
@@ -112,7 +145,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                     Align(
                       alignment: AlignmentDirectional(-0.85, -0.33),
                       child: AuthUserStreamWidget(
-                        child: ClipRRect(
+                        builder: (context) => ClipRRect(
                           borderRadius: BorderRadius.circular(15),
                           child: Image.network(
                             currentUserPhoto,
@@ -143,7 +176,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                 Align(
                                   alignment: AlignmentDirectional(-1, -0.58),
                                   child: AuthUserStreamWidget(
-                                    child: Text(
+                                    builder: (context) => Text(
                                       currentUserDisplayName,
                                       textAlign: TextAlign.start,
                                       style: FlutterFlowTheme.of(context)
@@ -173,7 +206,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                 Align(
                                   alignment: AlignmentDirectional(-1, -0.02),
                                   child: AuthUserStreamWidget(
-                                    child: Text(
+                                    builder: (context) => Text(
                                       valueOrDefault(
                                               currentUserDocument?.point, 0)
                                           .toString(),
@@ -191,7 +224,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                 Align(
                                   alignment: AlignmentDirectional(-1, 0.3),
                                   child: AuthUserStreamWidget(
-                                    child: Text(
+                                    builder: (context) => Text(
                                       valueOrDefault(
                                           currentUserDocument?.myReferralCode,
                                           ''),
@@ -231,14 +264,13 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
               ),
               InkWell(
                 onTap: () async {
-                  context.pushNamed(
-                    'MyCoupon',
-                    queryParams: {
-                      'userRef': serializeParam(
-                        currentUserReference,
-                        ParamType.DocumentReference,
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyCouponWidget(
+                        userRef: currentUserReference,
                       ),
-                    }.withoutNulls,
+                    ),
                   );
                 },
                 child: ListTile(
@@ -262,14 +294,13 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
               ),
               InkWell(
                 onTap: () async {
-                  context.pushNamed(
-                    'My_Referee_List',
-                    queryParams: {
-                      'userRef': serializeParam(
-                        currentUserReference,
-                        ParamType.DocumentReference,
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyRefereeListWidget(
+                        userRef: currentUserReference,
                       ),
-                    }.withoutNulls,
+                    ),
                   );
                 },
                 child: ListTile(
@@ -325,14 +356,13 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
               ),
               InkWell(
                 onTap: () async {
-                  context.pushNamed(
-                    'My_Peers',
-                    queryParams: {
-                      'userRef': serializeParam(
-                        currentUserReference,
-                        ParamType.DocumentReference,
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyPeersWidget(
+                        userRef: currentUserReference,
                       ),
-                    }.withoutNulls,
+                    ),
                   );
                 },
                 child: ListTile(
@@ -356,14 +386,13 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
               ),
               InkWell(
                 onTap: () async {
-                  context.pushNamed(
-                    'MyProfile',
-                    queryParams: {
-                      'userRef': serializeParam(
-                        currentUserReference,
-                        ParamType.DocumentReference,
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyProfileWidget(
+                        userRef: currentUserReference,
                       ),
-                    }.withoutNulls,
+                    ),
                   );
                 },
                 child: ListTile(
@@ -405,7 +434,12 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                       snapshot.data!;
                   return InkWell(
                     onTap: () async {
-                      context.pushNamed('My_Favorites');
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyFavoritesWidget(),
+                        ),
+                      );
                     },
                     child: ListTile(
                       leading: Icon(
@@ -431,14 +465,13 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
               ),
               InkWell(
                 onTap: () async {
-                  context.pushNamed(
-                    'RewardCenter',
-                    queryParams: {
-                      'userRef': serializeParam(
-                        currentUserReference,
-                        ParamType.DocumentReference,
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RewardCenterWidget(
+                        userRef: currentUserReference,
                       ),
-                    }.withoutNulls,
+                    ),
                   );
                 },
                 child: ListTile(
@@ -449,6 +482,34 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                   title: Text(
                     FFLocalizations.of(context).getText(
                       'ulamhxxo' /* Reward Center */,
+                    ),
+                    style: FlutterFlowTheme.of(context).subtitle2.override(
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                        ),
+                  ),
+                  tileColor: Color(0xFFDBEBE7),
+                  dense: false,
+                ),
+              ),
+              InkWell(
+                onTap: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EventListHostWidget(),
+                    ),
+                  );
+                },
+                child: ListTile(
+                  leading: Icon(
+                    Icons.event_note_outlined,
+                    color: Color(0xFF618682),
+                  ),
+                  title: Text(
+                    FFLocalizations.of(context).getText(
+                      'u0n5cmbu' /* Event List */,
                     ),
                     style: FlutterFlowTheme.of(context).subtitle2.override(
                           fontFamily: 'Poppins',
@@ -476,7 +537,12 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
               ),
               InkWell(
                 onTap: () async {
-                  context.pushNamed('Notice');
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NoticeWidget(),
+                    ),
+                  );
                 },
                 child: ListTile(
                   leading: Icon(
@@ -499,14 +565,13 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
               ),
               InkWell(
                 onTap: () async {
-                  context.pushNamed(
-                    'CS_Center_ForCustomer',
-                    queryParams: {
-                      'userRef': serializeParam(
-                        currentUserReference,
-                        ParamType.DocumentReference,
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CSCenterForCustomerWidget(
+                        userRef: currentUserReference,
                       ),
-                    }.withoutNulls,
+                    ),
                   );
                 },
                 child: ListTile(
@@ -530,7 +595,12 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
               ),
               InkWell(
                 onTap: () async {
-                  context.pushNamed('Setting');
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SettingWidget(),
+                    ),
+                  );
                 },
                 child: ListTile(
                   leading: Icon(
@@ -589,7 +659,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                       currentUserDocument?.storeOwner, false) ==
                   true)
                 AuthUserStreamWidget(
-                  child: ListTile(
+                  builder: (context) => ListTile(
                     title: Text(
                       FFLocalizations.of(context).getText(
                         'e8j3dda0' /* Your Dispensary */,
@@ -608,9 +678,14 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                       currentUserDocument?.storeOwner, false) ==
                   true)
                 AuthUserStreamWidget(
-                  child: InkWell(
+                  builder: (context) => InkWell(
                     onTap: () async {
-                      context.pushNamed('Store_StoreList_Product');
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StoreStoreListProductWidget(),
+                        ),
+                      );
                     },
                     child: ListTile(
                       leading: Icon(
@@ -636,85 +711,120 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                       currentUserDocument?.storeOwner, false) ==
                   true)
                 AuthUserStreamWidget(
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.ballot_sharp,
-                      color: FlutterFlowTheme.of(context).gray600,
-                    ),
-                    title: Text(
-                      FFLocalizations.of(context).getText(
-                        'u5yij6d1' /* Concierge */,
-                      ),
-                      style: FlutterFlowTheme.of(context).subtitle2.override(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w300,
-                          ),
-                    ),
-                    tileColor: Color(0xFFDBEBE7),
-                    dense: false,
-                  ),
-                ),
-              if (valueOrDefault<bool>(
-                      currentUserDocument?.storeOwner, false) ==
-                  true)
-                AuthUserStreamWidget(
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.devices,
-                      color: FlutterFlowTheme.of(context).gray600,
-                    ),
-                    title: Text(
-                      FFLocalizations.of(context).getText(
-                        'f0f5w48m' /* Store Design */,
-                      ),
-                      style: FlutterFlowTheme.of(context).subtitle2.override(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w300,
-                          ),
-                    ),
-                    tileColor: Color(0xFFDBEBE7),
-                    dense: false,
-                  ),
-                ),
-              if (valueOrDefault<bool>(
-                      currentUserDocument?.storeOwner, false) ==
-                  true)
-                AuthUserStreamWidget(
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.info_outline_rounded,
-                      color: FlutterFlowTheme.of(context).gray600,
-                    ),
-                    title: Text(
-                      FFLocalizations.of(context).getText(
-                        'j1vzl13r' /* Store info */,
-                      ),
-                      style: FlutterFlowTheme.of(context).subtitle2.override(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w300,
-                          ),
-                    ),
-                    tileColor: Color(0xFFDBEBE7),
-                    dense: false,
-                  ),
-                ),
-              if (valueOrDefault<bool>(
-                      currentUserDocument?.storeOwner, false) ==
-                  true)
-                AuthUserStreamWidget(
-                  child: InkWell(
+                  builder: (context) => InkWell(
                     onTap: () async {
-                      context.pushNamed(
-                        'Store_StoreList_Product',
-                        queryParams: {
-                          'ownerRef': serializeParam(
-                            currentUserReference,
-                            ParamType.DocumentReference,
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OwnerMainWidget(
+                            ownerRef: currentUserReference,
                           ),
-                        }.withoutNulls,
+                        ),
+                      );
+                    },
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.ballot_sharp,
+                        color: FlutterFlowTheme.of(context).gray600,
+                      ),
+                      title: Text(
+                        FFLocalizations.of(context).getText(
+                          'u5yij6d1' /* Concierge */,
+                        ),
+                        style: FlutterFlowTheme.of(context).subtitle2.override(
+                              fontFamily: 'Poppins',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                            ),
+                      ),
+                      tileColor: Color(0xFFDBEBE7),
+                      dense: false,
+                    ),
+                  ),
+                ),
+              if (valueOrDefault<bool>(
+                      currentUserDocument?.storeOwner, false) ==
+                  true)
+                AuthUserStreamWidget(
+                  builder: (context) => InkWell(
+                    onTap: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StoreStoreListDecorateWidget(
+                            ownerRef: currentUserReference,
+                          ),
+                        ),
+                      );
+                    },
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.devices,
+                        color: FlutterFlowTheme.of(context).gray600,
+                      ),
+                      title: Text(
+                        FFLocalizations.of(context).getText(
+                          'f0f5w48m' /* Store Design */,
+                        ),
+                        style: FlutterFlowTheme.of(context).subtitle2.override(
+                              fontFamily: 'Poppins',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                            ),
+                      ),
+                      tileColor: Color(0xFFDBEBE7),
+                      dense: false,
+                    ),
+                  ),
+                ),
+              if (valueOrDefault<bool>(
+                      currentUserDocument?.storeOwner, false) ==
+                  true)
+                AuthUserStreamWidget(
+                  builder: (context) => InkWell(
+                    onTap: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StoreStoreListInfoWidget(
+                            ownerRef: currentUserReference,
+                          ),
+                        ),
+                      );
+                    },
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.info_outline_rounded,
+                        color: FlutterFlowTheme.of(context).gray600,
+                      ),
+                      title: Text(
+                        FFLocalizations.of(context).getText(
+                          'j1vzl13r' /* Store info */,
+                        ),
+                        style: FlutterFlowTheme.of(context).subtitle2.override(
+                              fontFamily: 'Poppins',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                            ),
+                      ),
+                      tileColor: Color(0xFFDBEBE7),
+                      dense: false,
+                    ),
+                  ),
+                ),
+              if (valueOrDefault<bool>(
+                      currentUserDocument?.storeOwner, false) ==
+                  true)
+                AuthUserStreamWidget(
+                  builder: (context) => InkWell(
+                    onTap: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StoreStoreListProductWidget(
+                            ownerRef: currentUserReference,
+                          ),
+                        ),
                       );
                     },
                     child: ListTile(
@@ -741,16 +851,15 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                       currentUserDocument?.storeOwner, false) ==
                   true)
                 AuthUserStreamWidget(
-                  child: InkWell(
+                  builder: (context) => InkWell(
                     onTap: () async {
-                      context.pushNamed(
-                        'Store_StoreList_Coupon',
-                        queryParams: {
-                          'ownerRef': serializeParam(
-                            currentUserReference,
-                            ParamType.DocumentReference,
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StoreStoreListCouponWidget(
+                            ownerRef: currentUserReference,
                           ),
-                        }.withoutNulls,
+                        ),
                       );
                     },
                     child: ListTile(
@@ -777,7 +886,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                       currentUserDocument?.storeOwner, false) ==
                   true)
                 AuthUserStreamWidget(
-                  child: ListTile(
+                  builder: (context) => ListTile(
                     leading: Icon(
                       Icons.message_rounded,
                       color: FlutterFlowTheme.of(context).gray600,
@@ -800,7 +909,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                       currentUserDocument?.storeOwner, false) ==
                   true)
                 AuthUserStreamWidget(
-                  child: ListTile(
+                  builder: (context) => ListTile(
                     leading: Icon(
                       Icons.insert_chart_outlined,
                       color: FlutterFlowTheme.of(context).gray600,
@@ -835,9 +944,9 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                   alignment: AlignmentDirectional(0, -1),
                   children: [
                     Align(
-                      alignment: AlignmentDirectional(0.05, -1),
+                      alignment: AlignmentDirectional(0, -2.1),
                       child: Image.asset(
-                        'assets/images/tan-kaninthanond-RFumqN-7zI0-unsplash.png',
+                        'assets/images/image_66.png',
                         width: double.infinity,
                         height: 500,
                         fit: BoxFit.cover,
@@ -920,16 +1029,16 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                             false) ==
                                         true)
                                       AuthUserStreamWidget(
-                                        child: FFButtonWidget(
+                                        builder: (context) => FFButtonWidget(
                                           onPressed: () async {
-                                            context.pushNamed(
-                                              'QRscanforShop',
-                                              queryParams: {
-                                                'userRef': serializeParam(
-                                                  currentUserReference,
-                                                  ParamType.DocumentReference,
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    QRscanforShopWidget(
+                                                  userRef: currentUserReference,
                                                 ),
-                                              }.withoutNulls,
+                                              ),
                                             );
                                           },
                                           text: FFLocalizations.of(context)
@@ -1013,7 +1122,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                             borderColor: Colors.transparent,
                                             borderRadius: 30,
                                             borderWidth: 1,
-                                            buttonSize: 60,
+                                            buttonSize: 50,
                                             icon: Icon(
                                               Icons.notifications,
                                               color:
@@ -1022,14 +1131,15 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                               size: 30,
                                             ),
                                             onPressed: () async {
-                                              context.pushNamed(
-                                                'NotificationCenter',
-                                                queryParams: {
-                                                  'userRef': serializeParam(
-                                                    currentUserReference,
-                                                    ParamType.DocumentReference,
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      NotificationCenterWidget(
+                                                    userRef:
+                                                        currentUserReference,
                                                   ),
-                                                }.withoutNulls,
+                                                ),
                                               );
                                             },
                                           ),
@@ -1114,14 +1224,15 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                     children: [
                                       FFButtonWidget(
                                         onPressed: () async {
-                                          context.pushNamed(
-                                            'SearchStore',
-                                            queryParams: {
-                                              'searchKeyword': serializeParam(
-                                                textController!.text,
-                                                ParamType.String,
+                                          await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SearchStoreWidget(
+                                                searchKeyword:
+                                                    textController!.text,
                                               ),
-                                            }.withoutNulls,
+                                            ),
                                           );
                                         },
                                         text:
@@ -1159,7 +1270,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   15, 15, 15, 15),
                               child: AuthUserStreamWidget(
-                                child: Text(
+                                builder: (context) => GradientText(
                                   'Hello. ${currentUserDisplayName}',
                                   style: FlutterFlowTheme.of(context)
                                       .subtitle1
@@ -1168,15 +1279,21 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                         color: FlutterFlowTheme.of(context)
                                             .primaryColor,
                                       ),
+                                  colors: [
+                                    Color(0xFF23146C),
+                                    FlutterFlowTheme.of(context).secondaryColor
+                                  ],
+                                  gradientDirection: GradientDirection.ltr,
+                                  gradientType: GradientType.linear,
                                 ),
                               ),
                             ),
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   16, 64, 16, 24),
-                              child: Text(
+                              child: GradientText(
                                 FFLocalizations.of(context).getText(
-                                  'gsug8byb' /* Explore the best dispensaries ... */,
+                                  'gsug8byb' /* Explore XOTIC places  */,
                                 ),
                                 style: FlutterFlowTheme.of(context)
                                     .title1
@@ -1185,6 +1302,12 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                       color:
                                           FlutterFlowTheme.of(context).grayIcon,
                                     ),
+                                colors: [
+                                  FlutterFlowTheme.of(context).tertiary400,
+                                  Color(0xFF38B1E5)
+                                ],
+                                gradientDirection: GradientDirection.ltr,
+                                gradientType: GradientType.linear,
                               ),
                             ),
                             Padding(
@@ -1226,7 +1349,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                   16, 16, 16, 0),
                                           child: Text(
                                             FFLocalizations.of(context).getText(
-                                              'a4ctqfuf' /* Experience top destinations */,
+                                              'a4ctqfuf' /* Stores */,
                                             ),
                                             style: FlutterFlowTheme.of(context)
                                                 .title2,
@@ -1236,12 +1359,40 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
                                                   16, 4, 16, 0),
-                                          child: Text(
-                                            FFLocalizations.of(context).getText(
-                                              'wgtsl3ph' /* 9 cities nationi wide */,
+                                          child:
+                                              StreamBuilder<List<CitiesRecord>>(
+                                            stream: queryCitiesRecord(
+                                              queryBuilder: (citiesRecord) =>
+                                                  citiesRecord.where('exposure',
+                                                      isEqualTo: true),
                                             ),
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyText2,
+                                            builder: (context, snapshot) {
+                                              // Customize what your widget looks like when it's loading.
+                                              if (!snapshot.hasData) {
+                                                return Center(
+                                                  child: SizedBox(
+                                                    width: 50,
+                                                    height: 50,
+                                                    child: SpinKitRipple(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryColor,
+                                                      size: 50,
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              List<CitiesRecord>
+                                                  textCitiesRecordList =
+                                                  snapshot.data!;
+                                              return Text(
+                                                '${textCitiesRecordList.length.toString()} cities nationi wide',
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText2,
+                                              );
+                                            },
                                           ),
                                         ),
                                         Padding(
@@ -1304,17 +1455,16 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                   16, 8, 0, 8),
                                                       child: InkWell(
                                                         onTap: () async {
-                                                          context.pushNamed(
-                                                            'SuburbList',
-                                                            queryParams: {
-                                                              'cityRef':
-                                                                  serializeParam(
-                                                                horizontalListCitiesRecord
-                                                                    .reference,
-                                                                ParamType
-                                                                    .DocumentReference,
+                                                          await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  SuburbListWidget(
+                                                                cityRef:
+                                                                    horizontalListCitiesRecord
+                                                                        .reference,
                                                               ),
-                                                            }.withoutNulls,
+                                                            ),
                                                           );
                                                         },
                                                         child: Container(
@@ -1427,12 +1577,18 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                   16, 16, 16, 0),
                                           child: InkWell(
                                             onTap: () async {
-                                              context.pushNamed('SearchStore');
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SearchStoreWidget(),
+                                                ),
+                                              );
                                             },
                                             child: Text(
                                               FFLocalizations.of(context)
                                                   .getText(
-                                                'nt6c7wmv' /* Suburbs */,
+                                                'nt6c7wmv' /* Rooftop Bars */,
                                               ),
                                               style:
                                                   FlutterFlowTheme.of(context)
@@ -1444,21 +1600,14 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
                                                   16, 4, 16, 0),
-                                          child: Text(
-                                            FFLocalizations.of(context).getText(
-                                              'hvdcqxa2' /* 10 most popular dispensaries */,
+                                          child:
+                                              StreamBuilder<List<StoresRecord>>(
+                                            stream: queryStoresRecord(
+                                              queryBuilder: (storesRecord) =>
+                                                  storesRecord.where(
+                                                      'service_Category',
+                                                      isEqualTo: 'Rooftop'),
                                             ),
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyText2,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 0, 2),
-                                          child: StreamBuilder<
-                                              List<SuburbsRecord>>(
-                                            stream: querySuburbsRecord(),
                                             builder: (context, snapshot) {
                                               // Customize what your widget looks like when it's loading.
                                               if (!snapshot.hasData) {
@@ -1476,210 +1625,1182 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                   ),
                                                 );
                                               }
-                                              List<SuburbsRecord>
-                                                  verticalListSuburbsRecordList =
+                                              List<StoresRecord>
+                                                  textStoresRecordList =
                                                   snapshot.data!;
-                                              return ListView.builder(
-                                                padding: EdgeInsets.zero,
-                                                primary: false,
-                                                shrinkWrap: true,
-                                                scrollDirection: Axis.vertical,
-                                                itemCount:
-                                                    verticalListSuburbsRecordList
-                                                        .length,
-                                                itemBuilder: (context,
-                                                    verticalListIndex) {
-                                                  final verticalListSuburbsRecord =
-                                                      verticalListSuburbsRecordList[
-                                                          verticalListIndex];
-                                                  return Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                16, 8, 16, 8),
-                                                    child: InkWell(
-                                                      onTap: () async {
-                                                        context.pushNamed(
-                                                          'StoreListView',
-                                                          queryParams: {
-                                                            'suburbRef':
-                                                                serializeParam(
-                                                              verticalListSuburbsRecord
-                                                                  .reference,
-                                                              ParamType
-                                                                  .DocumentReference,
-                                                            ),
-                                                          }.withoutNulls,
-                                                        );
-                                                      },
-                                                      child: Container(
-                                                        width: 270,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondaryBackground,
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                              blurRadius: 8,
-                                                              color: Color(
-                                                                  0x230F1113),
-                                                              offset:
-                                                                  Offset(0, 4),
-                                                            )
-                                                          ],
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(12),
-                                                        ),
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            Hero(
-                                                              tag:
-                                                                  verticalListSuburbsRecord
-                                                                      .photo1!,
-                                                              transitionOnUserGestures:
-                                                                  true,
-                                                              child: ClipRRect(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .only(
-                                                                  bottomLeft: Radius
-                                                                      .circular(
-                                                                          0),
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                          0),
-                                                                  topLeft: Radius
-                                                                      .circular(
-                                                                          12),
-                                                                  topRight: Radius
-                                                                      .circular(
-                                                                          12),
-                                                                ),
-                                                                child: Image
-                                                                    .network(
-                                                                  verticalListSuburbsRecord
-                                                                      .photo1!,
-                                                                  width: double
-                                                                      .infinity,
-                                                                  height: 200,
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                ),
+                                              return Text(
+                                                '${textStoresRecordList.length.toString()}  most popular rooftop bars',
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText2,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 12, 0, 0),
+                                          child: Container(
+                                            width: double.infinity,
+                                            height: 220,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryBackground,
+                                            ),
+                                            child: StreamBuilder<
+                                                List<StoresRecord>>(
+                                              stream: queryStoresRecord(
+                                                queryBuilder: (storesRecord) =>
+                                                    storesRecord.where(
+                                                        'service_Category',
+                                                        isEqualTo: 'Rooftop'),
+                                              ),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Center(
+                                                    child: SizedBox(
+                                                      width: 50,
+                                                      height: 50,
+                                                      child: SpinKitRipple(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryColor,
+                                                        size: 50,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                                List<StoresRecord>
+                                                    horizontalListStoresRecordList =
+                                                    snapshot.data!;
+                                                return ListView.builder(
+                                                  padding: EdgeInsets.zero,
+                                                  primary: false,
+                                                  shrinkWrap: true,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemCount:
+                                                      horizontalListStoresRecordList
+                                                          .length,
+                                                  itemBuilder: (context,
+                                                      horizontalListIndex) {
+                                                    final horizontalListStoresRecord =
+                                                        horizontalListStoresRecordList[
+                                                            horizontalListIndex];
+                                                    return Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  16, 8, 0, 8),
+                                                      child: InkWell(
+                                                        onTap: () async {
+                                                          await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  StoreDetailViewWidget(
+                                                                storeRef:
+                                                                    horizontalListStoresRecord,
                                                               ),
                                                             ),
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          16,
-                                                                          12,
-                                                                          16,
-                                                                          12),
-                                                              child: Row(
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          width: 240,
+                                                          height: 100,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                blurRadius: 8,
+                                                                color: Color(
+                                                                    0x230F1113),
+                                                                offset: Offset(
+                                                                    0, 4),
+                                                              )
+                                                            ],
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        12),
+                                                          ),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            children: [
+                                                              Column(
                                                                 mainAxisSize:
                                                                     MainAxisSize
                                                                         .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
                                                                 children: [
-                                                                  Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      Row(
-                                                                        mainAxisSize:
-                                                                            MainAxisSize.max,
-                                                                        children: [
-                                                                          Text(
-                                                                            '${verticalListSuburbsRecord.suburrbName}  :   ',
-                                                                            style:
-                                                                                FlutterFlowTheme.of(context).subtitle1,
-                                                                          ),
-                                                                          StreamBuilder<
-                                                                              List<StoresRecord>>(
-                                                                            stream:
-                                                                                queryStoresRecord(
-                                                                              queryBuilder: (storesRecord) => storesRecord.where('suburb', isEqualTo: verticalListSuburbsRecord.suburrbName),
-                                                                            ),
-                                                                            builder:
-                                                                                (context, snapshot) {
-                                                                              // Customize what your widget looks like when it's loading.
-                                                                              if (!snapshot.hasData) {
-                                                                                return Center(
-                                                                                  child: SizedBox(
-                                                                                    width: 50,
-                                                                                    height: 50,
-                                                                                    child: SpinKitRipple(
-                                                                                      color: FlutterFlowTheme.of(context).primaryColor,
-                                                                                      size: 50,
-                                                                                    ),
-                                                                                  ),
-                                                                                );
-                                                                              }
-                                                                              List<StoresRecord> textStoresRecordList = snapshot.data!;
-                                                                              return Text(
-                                                                                '${textStoresRecordList.length.toString()} Stores',
-                                                                                style: FlutterFlowTheme.of(context).subtitle1,
-                                                                              );
-                                                                            },
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  Container(
-                                                                    width: 100,
-                                                                    height: 32,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primaryBackground,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              12),
+                                                                  ClipRRect(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .only(
+                                                                      bottomLeft:
+                                                                          Radius.circular(
+                                                                              0),
+                                                                      bottomRight:
+                                                                          Radius.circular(
+                                                                              0),
+                                                                      topLeft: Radius
+                                                                          .circular(
+                                                                              15),
+                                                                      topRight:
+                                                                          Radius.circular(
+                                                                              15),
                                                                     ),
-                                                                    alignment:
-                                                                        AlignmentDirectional(
-                                                                            0,
-                                                                            0),
-                                                                    child: Text(
-                                                                      FFLocalizations.of(
-                                                                              context)
-                                                                          .getText(
-                                                                        'rkvghk51' /* Check */,
-                                                                      ),
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyText1
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Poppins',
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).primaryText,
-                                                                          ),
+                                                                    child: Image
+                                                                        .network(
+                                                                      horizontalListStoresRecord
+                                                                          .mainPhoto!,
+                                                                      width:
+                                                                          240,
+                                                                      height:
+                                                                          120,
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            4,
+                                                                            12,
+                                                                            4,
+                                                                            12),
+                                                                    child: Row(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: [
+                                                                        Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              '${horizontalListStoresRecord.nameCity} | ${horizontalListStoresRecord.suburb}',
+                                                                              style: FlutterFlowTheme.of(context).subtitle2,
+                                                                            ),
+                                                                            Text(
+                                                                              horizontalListStoresRecord.nameStore!.maybeHandleOverflow(maxChars: 18),
+                                                                              maxLines: 2,
+                                                                              style: FlutterFlowTheme.of(context).subtitle1,
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                   ),
                                                                 ],
                                                               ),
-                                                            ),
-                                                          ],
+                                                            ],
+                                                          ),
                                                         ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16, 16, 16, 0),
+                                          child: InkWell(
+                                            onTap: () async {
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SearchStoreWidget(),
+                                                ),
+                                              );
+                                            },
+                                            child: Text(
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '8oaitfdz' /* Spa & Massages */,
+                                              ),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .title2,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16, 4, 16, 0),
+                                          child:
+                                              StreamBuilder<List<StoresRecord>>(
+                                            stream: queryStoresRecord(
+                                              queryBuilder: (storesRecord) =>
+                                                  storesRecord.where(
+                                                      'service_Category',
+                                                      isEqualTo: 'Massage'),
+                                            ),
+                                            builder: (context, snapshot) {
+                                              // Customize what your widget looks like when it's loading.
+                                              if (!snapshot.hasData) {
+                                                return Center(
+                                                  child: SizedBox(
+                                                    width: 50,
+                                                    height: 50,
+                                                    child: SpinKitRipple(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryColor,
+                                                      size: 50,
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              List<StoresRecord>
+                                                  textStoresRecordList =
+                                                  snapshot.data!;
+                                              return Text(
+                                                '${textStoresRecordList.length.toString()} most popular spa & massage ',
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText2,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 12, 0, 0),
+                                          child: Container(
+                                            width: double.infinity,
+                                            height: 220,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryBackground,
+                                            ),
+                                            child: StreamBuilder<
+                                                List<StoresRecord>>(
+                                              stream: queryStoresRecord(
+                                                queryBuilder: (storesRecord) =>
+                                                    storesRecord.where(
+                                                        'service_Category',
+                                                        isEqualTo: 'Massage'),
+                                              ),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Center(
+                                                    child: SizedBox(
+                                                      width: 50,
+                                                      height: 50,
+                                                      child: SpinKitRipple(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryColor,
+                                                        size: 50,
                                                       ),
                                                     ),
                                                   );
-                                                },
+                                                }
+                                                List<StoresRecord>
+                                                    horizontalListStoresRecordList =
+                                                    snapshot.data!;
+                                                return ListView.builder(
+                                                  padding: EdgeInsets.zero,
+                                                  primary: false,
+                                                  shrinkWrap: true,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemCount:
+                                                      horizontalListStoresRecordList
+                                                          .length,
+                                                  itemBuilder: (context,
+                                                      horizontalListIndex) {
+                                                    final horizontalListStoresRecord =
+                                                        horizontalListStoresRecordList[
+                                                            horizontalListIndex];
+                                                    return Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  16, 8, 0, 8),
+                                                      child: InkWell(
+                                                        onTap: () async {
+                                                          await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  StoreDetailViewWidget(
+                                                                storeRef:
+                                                                    horizontalListStoresRecord,
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          width: 240,
+                                                          height: 100,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                blurRadius: 8,
+                                                                color: Color(
+                                                                    0x230F1113),
+                                                                offset: Offset(
+                                                                    0, 4),
+                                                              )
+                                                            ],
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        12),
+                                                          ),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            children: [
+                                                              Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                children: [
+                                                                  ClipRRect(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .only(
+                                                                      bottomLeft:
+                                                                          Radius.circular(
+                                                                              0),
+                                                                      bottomRight:
+                                                                          Radius.circular(
+                                                                              0),
+                                                                      topLeft: Radius
+                                                                          .circular(
+                                                                              15),
+                                                                      topRight:
+                                                                          Radius.circular(
+                                                                              15),
+                                                                    ),
+                                                                    child: Image
+                                                                        .network(
+                                                                      horizontalListStoresRecord
+                                                                          .mainPhoto!,
+                                                                      width:
+                                                                          240,
+                                                                      height:
+                                                                          120,
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            4,
+                                                                            12,
+                                                                            4,
+                                                                            12),
+                                                                    child: Row(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: [
+                                                                        Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              '${horizontalListStoresRecord.nameCity} | ${horizontalListStoresRecord.suburb}',
+                                                                              style: FlutterFlowTheme.of(context).subtitle2,
+                                                                            ),
+                                                                            Text(
+                                                                              horizontalListStoresRecord.nameStore!,
+                                                                              style: FlutterFlowTheme.of(context).subtitle1,
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16, 16, 16, 0),
+                                          child: InkWell(
+                                            onTap: () async {
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SearchStoreWidget(),
+                                                ),
                                               );
                                             },
+                                            child: Text(
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'r5w5glek' /* Clubs */,
+                                              ),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .title2,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16, 4, 16, 0),
+                                          child:
+                                              StreamBuilder<List<StoresRecord>>(
+                                            stream: queryStoresRecord(
+                                              queryBuilder: (storesRecord) =>
+                                                  storesRecord.where(
+                                                      'service_Category',
+                                                      isEqualTo: 'Club'),
+                                            ),
+                                            builder: (context, snapshot) {
+                                              // Customize what your widget looks like when it's loading.
+                                              if (!snapshot.hasData) {
+                                                return Center(
+                                                  child: SizedBox(
+                                                    width: 50,
+                                                    height: 50,
+                                                    child: SpinKitRipple(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryColor,
+                                                      size: 50,
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              List<StoresRecord>
+                                                  textStoresRecordList =
+                                                  snapshot.data!;
+                                              return Text(
+                                                '${textStoresRecordList.length.toString()} most popular clubs',
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText2,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 12, 0, 0),
+                                          child: Container(
+                                            width: double.infinity,
+                                            height: 220,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryBackground,
+                                            ),
+                                            child: StreamBuilder<
+                                                List<StoresRecord>>(
+                                              stream: queryStoresRecord(
+                                                queryBuilder: (storesRecord) =>
+                                                    storesRecord.where(
+                                                        'service_Category',
+                                                        isEqualTo: 'Club'),
+                                              ),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Center(
+                                                    child: SizedBox(
+                                                      width: 50,
+                                                      height: 50,
+                                                      child: SpinKitRipple(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryColor,
+                                                        size: 50,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                                List<StoresRecord>
+                                                    horizontalListStoresRecordList =
+                                                    snapshot.data!;
+                                                return ListView.builder(
+                                                  padding: EdgeInsets.zero,
+                                                  primary: false,
+                                                  shrinkWrap: true,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemCount:
+                                                      horizontalListStoresRecordList
+                                                          .length,
+                                                  itemBuilder: (context,
+                                                      horizontalListIndex) {
+                                                    final horizontalListStoresRecord =
+                                                        horizontalListStoresRecordList[
+                                                            horizontalListIndex];
+                                                    return Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  16, 8, 0, 8),
+                                                      child: InkWell(
+                                                        onTap: () async {
+                                                          await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  StoreDetailViewWidget(
+                                                                storeRef:
+                                                                    horizontalListStoresRecord,
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          width: 240,
+                                                          height: 100,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                blurRadius: 8,
+                                                                color: Color(
+                                                                    0x230F1113),
+                                                                offset: Offset(
+                                                                    0, 4),
+                                                              )
+                                                            ],
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        12),
+                                                          ),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            children: [
+                                                              Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                children: [
+                                                                  ClipRRect(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .only(
+                                                                      bottomLeft:
+                                                                          Radius.circular(
+                                                                              0),
+                                                                      bottomRight:
+                                                                          Radius.circular(
+                                                                              0),
+                                                                      topLeft: Radius
+                                                                          .circular(
+                                                                              15),
+                                                                      topRight:
+                                                                          Radius.circular(
+                                                                              15),
+                                                                    ),
+                                                                    child: Image
+                                                                        .network(
+                                                                      horizontalListStoresRecord
+                                                                          .mainPhoto!,
+                                                                      width:
+                                                                          240,
+                                                                      height:
+                                                                          120,
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            4,
+                                                                            12,
+                                                                            4,
+                                                                            12),
+                                                                    child: Row(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: [
+                                                                        Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              '${horizontalListStoresRecord.nameCity} | ${horizontalListStoresRecord.suburb}',
+                                                                              style: FlutterFlowTheme.of(context).subtitle2,
+                                                                            ),
+                                                                            Text(
+                                                                              horizontalListStoresRecord.nameStore!,
+                                                                              style: FlutterFlowTheme.of(context).subtitle1,
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16, 16, 16, 0),
+                                          child: InkWell(
+                                            onTap: () async {
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SearchStoreWidget(),
+                                                ),
+                                              );
+                                            },
+                                            child: Text(
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'jg60ibpj' /* Fine Dining */,
+                                              ),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .title2,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16, 4, 16, 0),
+                                          child:
+                                              StreamBuilder<List<StoresRecord>>(
+                                            stream: queryStoresRecord(
+                                              queryBuilder: (storesRecord) =>
+                                                  storesRecord.where(
+                                                      'service_Category',
+                                                      isEqualTo: 'Restaurant'),
+                                            ),
+                                            builder: (context, snapshot) {
+                                              // Customize what your widget looks like when it's loading.
+                                              if (!snapshot.hasData) {
+                                                return Center(
+                                                  child: SizedBox(
+                                                    width: 50,
+                                                    height: 50,
+                                                    child: SpinKitRipple(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryColor,
+                                                      size: 50,
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              List<StoresRecord>
+                                                  textStoresRecordList =
+                                                  snapshot.data!;
+                                              return Text(
+                                                '${textStoresRecordList.length.toString()} most popular fine dining restaurants',
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText2,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 12, 0, 0),
+                                          child: Container(
+                                            width: double.infinity,
+                                            height: 220,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryBackground,
+                                            ),
+                                            child: StreamBuilder<
+                                                List<StoresRecord>>(
+                                              stream: queryStoresRecord(
+                                                queryBuilder: (storesRecord) =>
+                                                    storesRecord.where(
+                                                        'service_Category',
+                                                        isEqualTo:
+                                                            'Restaurant'),
+                                              ),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Center(
+                                                    child: SizedBox(
+                                                      width: 50,
+                                                      height: 50,
+                                                      child: SpinKitRipple(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryColor,
+                                                        size: 50,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                                List<StoresRecord>
+                                                    horizontalListStoresRecordList =
+                                                    snapshot.data!;
+                                                return ListView.builder(
+                                                  padding: EdgeInsets.zero,
+                                                  primary: false,
+                                                  shrinkWrap: true,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemCount:
+                                                      horizontalListStoresRecordList
+                                                          .length,
+                                                  itemBuilder: (context,
+                                                      horizontalListIndex) {
+                                                    final horizontalListStoresRecord =
+                                                        horizontalListStoresRecordList[
+                                                            horizontalListIndex];
+                                                    return Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  16, 8, 0, 8),
+                                                      child: InkWell(
+                                                        onTap: () async {
+                                                          await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  StoreDetailViewWidget(
+                                                                storeRef:
+                                                                    horizontalListStoresRecord,
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          width: 200,
+                                                          height: 100,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                blurRadius: 8,
+                                                                color: Color(
+                                                                    0x230F1113),
+                                                                offset: Offset(
+                                                                    0, 4),
+                                                              )
+                                                            ],
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        12),
+                                                          ),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            children: [
+                                                              Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                children: [
+                                                                  ClipRRect(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .only(
+                                                                      bottomLeft:
+                                                                          Radius.circular(
+                                                                              0),
+                                                                      bottomRight:
+                                                                          Radius.circular(
+                                                                              0),
+                                                                      topLeft: Radius
+                                                                          .circular(
+                                                                              15),
+                                                                      topRight:
+                                                                          Radius.circular(
+                                                                              15),
+                                                                    ),
+                                                                    child: Image
+                                                                        .network(
+                                                                      horizontalListStoresRecord
+                                                                          .mainPhoto!,
+                                                                      width:
+                                                                          200,
+                                                                      height:
+                                                                          120,
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            4,
+                                                                            12,
+                                                                            4,
+                                                                            12),
+                                                                    child: Row(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: [
+                                                                        Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              '${horizontalListStoresRecord.nameCity} | ${horizontalListStoresRecord.suburb}',
+                                                                              style: FlutterFlowTheme.of(context).subtitle2,
+                                                                            ),
+                                                                            Text(
+                                                                              horizontalListStoresRecord.nameStore!,
+                                                                              style: FlutterFlowTheme.of(context).subtitle1,
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16, 16, 16, 0),
+                                          child: InkWell(
+                                            onTap: () async {
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SearchStoreWidget(),
+                                                ),
+                                              );
+                                            },
+                                            child: Text(
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'srt59b7f' /* Clinics */,
+                                              ),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .title2,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16, 4, 16, 0),
+                                          child:
+                                              StreamBuilder<List<StoresRecord>>(
+                                            stream: queryStoresRecord(
+                                              queryBuilder: (storesRecord) =>
+                                                  storesRecord.where(
+                                                      'service_Category',
+                                                      isEqualTo: 'cafe'),
+                                            ),
+                                            builder: (context, snapshot) {
+                                              // Customize what your widget looks like when it's loading.
+                                              if (!snapshot.hasData) {
+                                                return Center(
+                                                  child: SizedBox(
+                                                    width: 50,
+                                                    height: 50,
+                                                    child: SpinKitRipple(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryColor,
+                                                      size: 50,
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              List<StoresRecord>
+                                                  textStoresRecordList =
+                                                  snapshot.data!;
+                                              return Text(
+                                                '${textStoresRecordList.length.toString()} most popular cafes',
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText2,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 12, 0, 0),
+                                          child: Container(
+                                            width: double.infinity,
+                                            height: 220,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryBackground,
+                                            ),
+                                            child: StreamBuilder<
+                                                List<StoresRecord>>(
+                                              stream: queryStoresRecord(
+                                                queryBuilder: (storesRecord) =>
+                                                    storesRecord.where(
+                                                        'service_Category',
+                                                        isEqualTo: 'Cafe'),
+                                              ),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Center(
+                                                    child: SizedBox(
+                                                      width: 50,
+                                                      height: 50,
+                                                      child: SpinKitRipple(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryColor,
+                                                        size: 50,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                                List<StoresRecord>
+                                                    horizontalListStoresRecordList =
+                                                    snapshot.data!;
+                                                return ListView.builder(
+                                                  padding: EdgeInsets.zero,
+                                                  primary: false,
+                                                  shrinkWrap: true,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemCount:
+                                                      horizontalListStoresRecordList
+                                                          .length,
+                                                  itemBuilder: (context,
+                                                      horizontalListIndex) {
+                                                    final horizontalListStoresRecord =
+                                                        horizontalListStoresRecordList[
+                                                            horizontalListIndex];
+                                                    return Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  16, 8, 0, 8),
+                                                      child: InkWell(
+                                                        onTap: () async {
+                                                          await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  StoreDetailViewWidget(
+                                                                storeRef:
+                                                                    horizontalListStoresRecord,
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          width: 200,
+                                                          height: 100,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                blurRadius: 8,
+                                                                color: Color(
+                                                                    0x230F1113),
+                                                                offset: Offset(
+                                                                    0, 4),
+                                                              )
+                                                            ],
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        12),
+                                                          ),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            children: [
+                                                              Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                children: [
+                                                                  ClipRRect(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .only(
+                                                                      bottomLeft:
+                                                                          Radius.circular(
+                                                                              0),
+                                                                      bottomRight:
+                                                                          Radius.circular(
+                                                                              0),
+                                                                      topLeft: Radius
+                                                                          .circular(
+                                                                              15),
+                                                                      topRight:
+                                                                          Radius.circular(
+                                                                              15),
+                                                                    ),
+                                                                    child: Image
+                                                                        .network(
+                                                                      horizontalListStoresRecord
+                                                                          .mainPhoto!,
+                                                                      width:
+                                                                          200,
+                                                                      height:
+                                                                          120,
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            4,
+                                                                            12,
+                                                                            4,
+                                                                            12),
+                                                                    child: Row(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: [
+                                                                        Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              '${horizontalListStoresRecord.nameCity} | ${horizontalListStoresRecord.suburb}',
+                                                                              style: FlutterFlowTheme.of(context).subtitle2,
+                                                                            ),
+                                                                            Text(
+                                                                              horizontalListStoresRecord.nameStore!,
+                                                                              style: FlutterFlowTheme.of(context).subtitle1,
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
                                           ),
                                         ),
                                       ],

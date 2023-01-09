@@ -3,6 +3,8 @@ import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../store_detail_view/store_detail_view_widget.dart';
+import '../storebystrain/storebystrain_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,7 +48,7 @@ class _MyFavoritesWidgetState extends State<MyFavoritesWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -110,8 +112,9 @@ class _MyFavoritesWidgetState extends State<MyFavoritesWidget> {
                                 StreamBuilder<List<StoresRecord>>(
                                   stream: queryStoresRecord(
                                     queryBuilder: (storesRecord) =>
-                                        storesRecord.where('favorited_By',
-                                            isEqualTo: currentUserReference),
+                                        storesRecord.where('favorited_By2',
+                                            arrayContains:
+                                                currentUserReference),
                                   ),
                                   builder: (context, snapshot) {
                                     // Customize what your widget looks like when it's loading.
@@ -145,18 +148,15 @@ class _MyFavoritesWidgetState extends State<MyFavoritesWidget> {
                                                     16, 8, 16, 0),
                                             child: InkWell(
                                               onTap: () async {
-                                                context.pushNamed(
-                                                  'StoreDetailView',
-                                                  queryParams: {
-                                                    'storeRef': serializeParam(
-                                                      columnStoresRecord,
-                                                      ParamType.Document,
+                                                await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        StoreDetailViewWidget(
+                                                      storeRef:
+                                                          columnStoresRecord,
                                                     ),
-                                                  }.withoutNulls,
-                                                  extra: <String, dynamic>{
-                                                    'storeRef':
-                                                        columnStoresRecord,
-                                                  },
+                                                  ),
                                                 );
                                               },
                                               child: Container(
@@ -309,16 +309,16 @@ class _MyFavoritesWidgetState extends State<MyFavoritesWidget> {
                                                     16, 8, 16, 0),
                                             child: InkWell(
                                               onTap: () async {
-                                                context.pushNamed(
-                                                  'storebystrain',
-                                                  queryParams: {
-                                                    'strainRef': serializeParam(
-                                                      columnStrainsRecord
-                                                          .reference,
-                                                      ParamType
-                                                          .DocumentReference,
+                                                await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        StorebystrainWidget(
+                                                      strainRef:
+                                                          columnStrainsRecord
+                                                              .reference,
                                                     ),
-                                                  }.withoutNulls,
+                                                  ),
                                                 );
                                               },
                                               child: Container(

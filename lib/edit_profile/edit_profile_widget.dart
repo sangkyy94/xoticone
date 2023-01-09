@@ -102,7 +102,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                 size: 30,
               ),
               onPressed: () async {
-                context.pop();
+                Navigator.pop(context);
               },
             ),
             title: Text(
@@ -377,7 +377,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     15, 15, 15, 15),
                                 child: AuthUserStreamWidget(
-                                  child: TextFormField(
+                                  builder: (context) => TextFormField(
                                     controller: textFieldNameController,
                                     autofocus: true,
                                     obscureText: false,
@@ -438,7 +438,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     15, 0, 15, 15),
                                 child: AuthUserStreamWidget(
-                                  child: TextFormField(
+                                  builder: (context) => TextFormField(
                                     controller: textFieldSelfintroController,
                                     autofocus: true,
                                     obscureText: false,
@@ -512,7 +512,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                                     );
                                     await currentUserReference!
                                         .update(usersUpdateData);
-                                    context.pop();
+                                    Navigator.pop(context);
                                   },
                                   text: FFLocalizations.of(context).getText(
                                     'idk5qv3f' /* EDIT PROFILE */,

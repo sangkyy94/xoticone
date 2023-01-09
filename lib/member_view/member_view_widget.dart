@@ -5,6 +5,8 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../puff_story_details/puff_story_details_widget.dart';
+import '../store_detail_view/store_detail_view_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -122,7 +124,7 @@ class _MemberViewWidgetState extends State<MemberViewWidget> {
                                 size: 20,
                               ),
                               onPressed: () async {
-                                context.pop();
+                                Navigator.pop(context);
                               },
                             ),
                           ),
@@ -317,7 +319,8 @@ class _MemberViewWidgetState extends State<MemberViewWidget> {
                                                             .reference) ==
                                                     false)
                                                   AuthUserStreamWidget(
-                                                    child: FFButtonWidget(
+                                                    builder: (context) =>
+                                                        FFButtonWidget(
                                                       onPressed: () async {
                                                         final usersUpdateData =
                                                             {
@@ -371,7 +374,8 @@ class _MemberViewWidgetState extends State<MemberViewWidget> {
                                                             .reference) ==
                                                     true)
                                                   AuthUserStreamWidget(
-                                                    child: FFButtonWidget(
+                                                    builder: (context) =>
+                                                        FFButtonWidget(
                                                       onPressed: () async {
                                                         final usersUpdateData =
                                                             {
@@ -650,23 +654,16 @@ class _MemberViewWidgetState extends State<MemberViewWidget> {
                                                                       InkWell(
                                                                     onTap:
                                                                         () async {
-                                                                      context
-                                                                          .pushNamed(
-                                                                        'StoreDetailView',
-                                                                        queryParams:
-                                                                            {
-                                                                          'storeRef':
-                                                                              serializeParam(
-                                                                            listViewStoresRecord,
-                                                                            ParamType.Document,
+                                                                      await Navigator
+                                                                          .push(
+                                                                        context,
+                                                                        MaterialPageRoute(
+                                                                          builder: (context) =>
+                                                                              StoreDetailViewWidget(
+                                                                            storeRef:
+                                                                                listViewStoresRecord,
                                                                           ),
-                                                                        }.withoutNulls,
-                                                                        extra: <
-                                                                            String,
-                                                                            dynamic>{
-                                                                          'storeRef':
-                                                                              listViewStoresRecord,
-                                                                        },
+                                                                        ),
                                                                       );
                                                                     },
                                                                     child: Row(
@@ -813,20 +810,14 @@ class _MemberViewWidgetState extends State<MemberViewWidget> {
                                                                       InkWell(
                                                                         onTap:
                                                                             () async {
-                                                                          context
-                                                                              .pushNamed(
-                                                                            'Puff_Story_Details',
-                                                                            queryParams:
-                                                                                {
-                                                                              'puffstoryRef': serializeParam(
-                                                                                gridViewMyPuffStoryRecord,
-                                                                                ParamType.Document,
+                                                                          await Navigator
+                                                                              .push(
+                                                                            context,
+                                                                            MaterialPageRoute(
+                                                                              builder: (context) => PuffStoryDetailsWidget(
+                                                                                puffstoryRef: gridViewMyPuffStoryRecord,
                                                                               ),
-                                                                            }.withoutNulls,
-                                                                            extra: <String,
-                                                                                dynamic>{
-                                                                              'puffstoryRef': gridViewMyPuffStoryRecord,
-                                                                            },
+                                                                            ),
                                                                           );
                                                                         },
                                                                         child:

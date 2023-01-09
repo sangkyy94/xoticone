@@ -57,3 +57,20 @@ DateTimeRange? timeGapCalculation(
     );
   }
 }
+
+double ratioFromTwoVariables(
+  int variable1,
+  int variable2,
+) {
+  // Get ratio from two variables
+  double aDouble;
+  if (double.parse(variable1 != null ? '$variable1' : '0') != 0.00 &&
+      double.parse(variable2 != null ? '$variable2' : '0') != 0.00) {
+    aDouble = double.parse(variable1 != null ? '$variable1' : '0') /
+        double.parse(variable2 != null ? '$variable2' : '0');
+    return double.parse(aDouble.toStringAsFixed(2));
+  } else {
+    aDouble = 1.0;
+  }
+  return aDouble;
+}

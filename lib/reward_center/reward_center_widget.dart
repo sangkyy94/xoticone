@@ -46,7 +46,7 @@ class _RewardCenterWidgetState extends State<RewardCenterWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -94,7 +94,7 @@ class _RewardCenterWidgetState extends State<RewardCenterWidget> {
                                 padding:
                                     EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
                                 child: AuthUserStreamWidget(
-                                  child: Text(
+                                  builder: (context) => Text(
                                     currentUserDisplayName,
                                     style: FlutterFlowTheme.of(context)
                                         .title3

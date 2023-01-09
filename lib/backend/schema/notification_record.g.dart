@@ -68,6 +68,13 @@ class _$NotificationRecordSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(DateTime)));
     }
+    value = object.read;
+    if (value != null) {
+      result
+        ..add('Read')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -120,6 +127,10 @@ class _$NotificationRecordSerializer
           result.createdAt = serializers.deserialize(value,
               specifiedType: const FullType(DateTime)) as DateTime?;
           break;
+        case 'Read':
+          result.read = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -147,6 +158,8 @@ class _$NotificationRecord extends NotificationRecord {
   @override
   final DateTime? createdAt;
   @override
+  final bool? read;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$NotificationRecord(
@@ -160,6 +173,7 @@ class _$NotificationRecord extends NotificationRecord {
       this.recipient,
       this.category,
       this.createdAt,
+      this.read,
       this.ffRef})
       : super._();
 
@@ -182,6 +196,7 @@ class _$NotificationRecord extends NotificationRecord {
         recipient == other.recipient &&
         category == other.category &&
         createdAt == other.createdAt &&
+        read == other.read &&
         ffRef == other.ffRef;
   }
 
@@ -191,11 +206,13 @@ class _$NotificationRecord extends NotificationRecord {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, title.hashCode), content.hashCode),
-                        sender.hashCode),
-                    recipient.hashCode),
-                category.hashCode),
-            createdAt.hashCode),
+                    $jc(
+                        $jc($jc($jc(0, title.hashCode), content.hashCode),
+                            sender.hashCode),
+                        recipient.hashCode),
+                    category.hashCode),
+                createdAt.hashCode),
+            read.hashCode),
         ffRef.hashCode));
   }
 
@@ -208,6 +225,7 @@ class _$NotificationRecord extends NotificationRecord {
           ..add('recipient', recipient)
           ..add('category', category)
           ..add('createdAt', createdAt)
+          ..add('read', read)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -243,6 +261,10 @@ class NotificationRecordBuilder
   DateTime? get createdAt => _$this._createdAt;
   set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
 
+  bool? _read;
+  bool? get read => _$this._read;
+  set read(bool? read) => _$this._read = read;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -260,6 +282,7 @@ class NotificationRecordBuilder
       _recipient = $v.recipient?.toBuilder();
       _category = $v.category;
       _createdAt = $v.createdAt;
+      _read = $v.read;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -291,6 +314,7 @@ class NotificationRecordBuilder
               recipient: _recipient?.build(),
               category: category,
               createdAt: createdAt,
+              read: read,
               ffRef: ffRef);
     } catch (_) {
       late String _$failedField;

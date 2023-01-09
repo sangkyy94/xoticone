@@ -42,9 +42,9 @@ class _LoggedinWidgetState extends State<LoggedinWidget>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/ff_logo_white.png',
-              width: 140,
-              height: 140,
+              'assets/images/Logo_Black.png',
+              width: 260,
+              height: 80,
               fit: BoxFit.fitHeight,
             ),
             Padding(

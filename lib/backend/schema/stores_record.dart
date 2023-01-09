@@ -76,6 +76,21 @@ abstract class StoresRecord
   @BuiltValueField(wireName: 'favorited_By')
   DocumentReference? get favoritedBy;
 
+  @BuiltValueField(wireName: 'strain_Product_List')
+  BuiltList<DocumentReference>? get strainProductList;
+
+  @BuiltValueField(wireName: 'name_City')
+  String? get nameCity;
+
+  @BuiltValueField(wireName: 'service_Category_List')
+  BuiltList<DocumentReference>? get serviceCategoryList;
+
+  @BuiltValueField(wireName: 'service_Category')
+  String? get serviceCategory;
+
+  @BuiltValueField(wireName: 'favorited_By2')
+  BuiltList<DocumentReference>? get favoritedBy2;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -97,7 +112,12 @@ abstract class StoresRecord
     ..mainPhoto = ''
     ..topBannerPhoto = ''
     ..bgPhoto = ''
-    ..numberRating = 0.0;
+    ..numberRating = 0.0
+    ..strainProductList = ListBuilder()
+    ..nameCity = ''
+    ..serviceCategoryList = ListBuilder()
+    ..serviceCategory = ''
+    ..favoritedBy2 = ListBuilder();
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('Stores');
@@ -142,6 +162,14 @@ abstract class StoresRecord
           ..bgPhoto = snapshot.data['bg_photo']
           ..numberRating = snapshot.data['Number_Rating']?.toDouble()
           ..favoritedBy = safeGet(() => toRef(snapshot.data['favorited_By']))
+          ..strainProductList = safeGet(() => ListBuilder(
+              snapshot.data['strain_Product_List'].map((s) => toRef(s))))
+          ..nameCity = snapshot.data['name_City']
+          ..serviceCategoryList = safeGet(() => ListBuilder(
+              snapshot.data['service_Category_List'].map((s) => toRef(s))))
+          ..serviceCategory = snapshot.data['service_Category']
+          ..favoritedBy2 = safeGet(() =>
+              ListBuilder(snapshot.data['favorited_By2'].map((s) => toRef(s))))
           ..ffRef = StoresRecord.collection.doc(snapshot.objectID),
       );
 
@@ -195,6 +223,8 @@ Map<String, dynamic> createStoresRecordData({
   String? bgPhoto,
   double? numberRating,
   DocumentReference? favoritedBy,
+  String? nameCity,
+  String? serviceCategory,
 }) {
   final firestoreData = serializers.toFirestore(
     StoresRecord.serializer,
@@ -223,7 +253,12 @@ Map<String, dynamic> createStoresRecordData({
         ..topBannerPhoto = topBannerPhoto
         ..bgPhoto = bgPhoto
         ..numberRating = numberRating
-        ..favoritedBy = favoritedBy,
+        ..favoritedBy = favoritedBy
+        ..strainProductList = null
+        ..nameCity = nameCity
+        ..serviceCategoryList = null
+        ..serviceCategory = serviceCategory
+        ..favoritedBy2 = null,
     ),
   );
 

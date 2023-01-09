@@ -189,6 +189,50 @@ class _$StoresRecordSerializer implements StructuredSerializer<StoresRecord> {
             specifiedType: const FullType(
                 DocumentReference, const [const FullType.nullable(Object)])));
     }
+    value = object.strainProductList;
+    if (value != null) {
+      result
+        ..add('strain_Product_List')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(BuiltList, const [
+              const FullType(
+                  DocumentReference, const [const FullType.nullable(Object)])
+            ])));
+    }
+    value = object.nameCity;
+    if (value != null) {
+      result
+        ..add('name_City')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.serviceCategoryList;
+    if (value != null) {
+      result
+        ..add('service_Category_List')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(BuiltList, const [
+              const FullType(
+                  DocumentReference, const [const FullType.nullable(Object)])
+            ])));
+    }
+    value = object.serviceCategory;
+    if (value != null) {
+      result
+        ..add('service_Category')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.favoritedBy2;
+    if (value != null) {
+      result
+        ..add('favorited_By2')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(BuiltList, const [
+              const FullType(
+                  DocumentReference, const [const FullType.nullable(Object)])
+            ])));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -316,6 +360,35 @@ class _$StoresRecordSerializer implements StructuredSerializer<StoresRecord> {
                 const FullType.nullable(Object)
               ])) as DocumentReference<Object?>?;
           break;
+        case 'strain_Product_List':
+          result.strainProductList.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltList, const [
+                const FullType(
+                    DocumentReference, const [const FullType.nullable(Object)])
+              ]))! as BuiltList<Object?>);
+          break;
+        case 'name_City':
+          result.nameCity = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'service_Category_List':
+          result.serviceCategoryList.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltList, const [
+                const FullType(
+                    DocumentReference, const [const FullType.nullable(Object)])
+              ]))! as BuiltList<Object?>);
+          break;
+        case 'service_Category':
+          result.serviceCategory = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'favorited_By2':
+          result.favoritedBy2.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltList, const [
+                const FullType(
+                    DocumentReference, const [const FullType.nullable(Object)])
+              ]))! as BuiltList<Object?>);
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -379,6 +452,16 @@ class _$StoresRecord extends StoresRecord {
   @override
   final DocumentReference<Object?>? favoritedBy;
   @override
+  final BuiltList<DocumentReference<Object?>>? strainProductList;
+  @override
+  final String? nameCity;
+  @override
+  final BuiltList<DocumentReference<Object?>>? serviceCategoryList;
+  @override
+  final String? serviceCategory;
+  @override
+  final BuiltList<DocumentReference<Object?>>? favoritedBy2;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$StoresRecord([void Function(StoresRecordBuilder)? updates]) =>
@@ -409,6 +492,11 @@ class _$StoresRecord extends StoresRecord {
       this.bgPhoto,
       this.numberRating,
       this.favoritedBy,
+      this.strainProductList,
+      this.nameCity,
+      this.serviceCategoryList,
+      this.serviceCategory,
+      this.favoritedBy2,
       this.ffRef})
       : super._();
 
@@ -447,6 +535,11 @@ class _$StoresRecord extends StoresRecord {
         bgPhoto == other.bgPhoto &&
         numberRating == other.numberRating &&
         favoritedBy == other.favoritedBy &&
+        strainProductList == other.strainProductList &&
+        nameCity == other.nameCity &&
+        serviceCategoryList == other.serviceCategoryList &&
+        serviceCategory == other.serviceCategory &&
+        favoritedBy2 == other.favoritedBy2 &&
         ffRef == other.ffRef;
   }
 
@@ -470,25 +563,25 @@ class _$StoresRecord extends StoresRecord {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc(0, suburb.hashCode), metadata.hashCode), address.hashCode), geolocation.hashCode), numLikes.hashCode), cityRef.hashCode),
-                                                                                createdAt.hashCode),
-                                                                            updatedAt.hashCode),
-                                                                        description.hashCode),
-                                                                    ownerRef.hashCode),
-                                                                ownerID.hashCode),
-                                                            numCoupon.hashCode),
-                                                        numStamp.hashCode),
-                                                    storeUUID.hashCode),
-                                                nameStore.hashCode),
-                                            businessHour.hashCode),
-                                        suburbRef.hashCode),
-                                    phoneNumber.hashCode),
-                                thumbnail.hashCode),
-                            mainPhoto.hashCode),
-                        topBannerPhoto.hashCode),
-                    bgPhoto.hashCode),
-                numberRating.hashCode),
-            favoritedBy.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, suburb.hashCode), metadata.hashCode), address.hashCode), geolocation.hashCode), numLikes.hashCode), cityRef.hashCode), createdAt.hashCode), updatedAt.hashCode), description.hashCode), ownerRef.hashCode), ownerID.hashCode),
+                                                                                numCoupon.hashCode),
+                                                                            numStamp.hashCode),
+                                                                        storeUUID.hashCode),
+                                                                    nameStore.hashCode),
+                                                                businessHour.hashCode),
+                                                            suburbRef.hashCode),
+                                                        phoneNumber.hashCode),
+                                                    thumbnail.hashCode),
+                                                mainPhoto.hashCode),
+                                            topBannerPhoto.hashCode),
+                                        bgPhoto.hashCode),
+                                    numberRating.hashCode),
+                                favoritedBy.hashCode),
+                            strainProductList.hashCode),
+                        nameCity.hashCode),
+                    serviceCategoryList.hashCode),
+                serviceCategory.hashCode),
+            favoritedBy2.hashCode),
         ffRef.hashCode));
   }
 
@@ -519,6 +612,11 @@ class _$StoresRecord extends StoresRecord {
           ..add('bgPhoto', bgPhoto)
           ..add('numberRating', numberRating)
           ..add('favoritedBy', favoritedBy)
+          ..add('strainProductList', strainProductList)
+          ..add('nameCity', nameCity)
+          ..add('serviceCategoryList', serviceCategoryList)
+          ..add('serviceCategory', serviceCategory)
+          ..add('favoritedBy2', favoritedBy2)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -628,6 +726,37 @@ class StoresRecordBuilder
   set favoritedBy(DocumentReference<Object?>? favoritedBy) =>
       _$this._favoritedBy = favoritedBy;
 
+  ListBuilder<DocumentReference<Object?>>? _strainProductList;
+  ListBuilder<DocumentReference<Object?>> get strainProductList =>
+      _$this._strainProductList ??=
+          new ListBuilder<DocumentReference<Object?>>();
+  set strainProductList(
+          ListBuilder<DocumentReference<Object?>>? strainProductList) =>
+      _$this._strainProductList = strainProductList;
+
+  String? _nameCity;
+  String? get nameCity => _$this._nameCity;
+  set nameCity(String? nameCity) => _$this._nameCity = nameCity;
+
+  ListBuilder<DocumentReference<Object?>>? _serviceCategoryList;
+  ListBuilder<DocumentReference<Object?>> get serviceCategoryList =>
+      _$this._serviceCategoryList ??=
+          new ListBuilder<DocumentReference<Object?>>();
+  set serviceCategoryList(
+          ListBuilder<DocumentReference<Object?>>? serviceCategoryList) =>
+      _$this._serviceCategoryList = serviceCategoryList;
+
+  String? _serviceCategory;
+  String? get serviceCategory => _$this._serviceCategory;
+  set serviceCategory(String? serviceCategory) =>
+      _$this._serviceCategory = serviceCategory;
+
+  ListBuilder<DocumentReference<Object?>>? _favoritedBy2;
+  ListBuilder<DocumentReference<Object?>> get favoritedBy2 =>
+      _$this._favoritedBy2 ??= new ListBuilder<DocumentReference<Object?>>();
+  set favoritedBy2(ListBuilder<DocumentReference<Object?>>? favoritedBy2) =>
+      _$this._favoritedBy2 = favoritedBy2;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -663,6 +792,11 @@ class StoresRecordBuilder
       _bgPhoto = $v.bgPhoto;
       _numberRating = $v.numberRating;
       _favoritedBy = $v.favoritedBy;
+      _strainProductList = $v.strainProductList?.toBuilder();
+      _nameCity = $v.nameCity;
+      _serviceCategoryList = $v.serviceCategoryList?.toBuilder();
+      _serviceCategory = $v.serviceCategory;
+      _favoritedBy2 = $v.favoritedBy2?.toBuilder();
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -684,33 +818,57 @@ class StoresRecordBuilder
   StoresRecord build() => _build();
 
   _$StoresRecord _build() {
-    final _$result = _$v ??
-        new _$StoresRecord._(
-            suburb: suburb,
-            metadata: metadata,
-            address: address,
-            geolocation: geolocation,
-            numLikes: numLikes,
-            cityRef: cityRef,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            description: description,
-            ownerRef: ownerRef,
-            ownerID: ownerID,
-            numCoupon: numCoupon,
-            numStamp: numStamp,
-            storeUUID: storeUUID,
-            nameStore: nameStore,
-            businessHour: businessHour,
-            suburbRef: suburbRef,
-            phoneNumber: phoneNumber,
-            thumbnail: thumbnail,
-            mainPhoto: mainPhoto,
-            topBannerPhoto: topBannerPhoto,
-            bgPhoto: bgPhoto,
-            numberRating: numberRating,
-            favoritedBy: favoritedBy,
-            ffRef: ffRef);
+    _$StoresRecord _$result;
+    try {
+      _$result = _$v ??
+          new _$StoresRecord._(
+              suburb: suburb,
+              metadata: metadata,
+              address: address,
+              geolocation: geolocation,
+              numLikes: numLikes,
+              cityRef: cityRef,
+              createdAt: createdAt,
+              updatedAt: updatedAt,
+              description: description,
+              ownerRef: ownerRef,
+              ownerID: ownerID,
+              numCoupon: numCoupon,
+              numStamp: numStamp,
+              storeUUID: storeUUID,
+              nameStore: nameStore,
+              businessHour: businessHour,
+              suburbRef: suburbRef,
+              phoneNumber: phoneNumber,
+              thumbnail: thumbnail,
+              mainPhoto: mainPhoto,
+              topBannerPhoto: topBannerPhoto,
+              bgPhoto: bgPhoto,
+              numberRating: numberRating,
+              favoritedBy: favoritedBy,
+              strainProductList: _strainProductList?.build(),
+              nameCity: nameCity,
+              serviceCategoryList: _serviceCategoryList?.build(),
+              serviceCategory: serviceCategory,
+              favoritedBy2: _favoritedBy2?.build(),
+              ffRef: ffRef);
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'strainProductList';
+        _strainProductList?.build();
+
+        _$failedField = 'serviceCategoryList';
+        _serviceCategoryList?.build();
+
+        _$failedField = 'favoritedBy2';
+        _favoritedBy2?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'StoresRecord', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

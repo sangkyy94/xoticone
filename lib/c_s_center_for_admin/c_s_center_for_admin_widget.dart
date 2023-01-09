@@ -1,5 +1,7 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../c_s_details_for_customer/c_s_details_for_customer_widget.dart';
+import '../c_s_post/c_s_post_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_toggle_icon.dart';
@@ -54,7 +56,7 @@ class _CSCenterForAdminWidgetState extends State<CSCenterForAdminWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -156,19 +158,16 @@ class _CSCenterForAdminWidgetState extends State<CSCenterForAdminWidget> {
                                                   16, 8, 16, 0),
                                           child: InkWell(
                                             onTap: () async {
-                                              context.pushNamed(
-                                                'CS_Details_ForCustomer',
-                                                queryParams: {
-                                                  'userRef': serializeParam(
-                                                    widget.userRef,
-                                                    ParamType.DocumentReference,
-                                                  ),
-                                                  'csRef': serializeParam(
-                                                    listViewCsDbRecord
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CSDetailsForCustomerWidget(
+                                                    userRef: widget.userRef,
+                                                    csRef: listViewCsDbRecord
                                                         .reference,
-                                                    ParamType.DocumentReference,
                                                   ),
-                                                }.withoutNulls,
+                                                ),
                                               );
                                             },
                                             child: Container(
@@ -319,14 +318,13 @@ class _CSCenterForAdminWidgetState extends State<CSCenterForAdminWidget> {
                                         0, 20, 0, 0),
                                     child: FFButtonWidget(
                                       onPressed: () async {
-                                        context.pushNamed(
-                                          'CS_Post',
-                                          queryParams: {
-                                            'userRef': serializeParam(
-                                              currentUserReference,
-                                              ParamType.DocumentReference,
+                                        await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => CSPostWidget(
+                                              userRef: currentUserReference,
                                             ),
-                                          }.withoutNulls,
+                                          ),
                                         );
                                       },
                                       text: FFLocalizations.of(context).getText(

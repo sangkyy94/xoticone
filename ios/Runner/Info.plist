@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>XOTICONEv2</string>
+	<string>XOTIC</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>XOTICONEv2</string>
+	<string>XOTIC</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleLocalizations</key>
@@ -51,19 +51,7 @@
             </array>
         </dict>
 
-        <dict>
-        <key>CFBundleTypeRole</key>
-        <string>Editor</string>
-        <key>CFBundleURLName</key>
-        <string>xoticonev2.com</string>
-        <key>CFBundleURLSchemes</key>
-        <array>
-        <string>xoticonev2</string>
-        </array>
-        </dict>
     </array>
-    <key>FlutterDeepLinkingEnabled</key>
-    <true/>
 
 
 	<key>CFBundleVersion</key>
@@ -72,13 +60,13 @@
 	<true/>
 
 	<key>NSLocationWhenInUseUsageDescription</key>
-      <string>In order to search nearby, this app requires access to your current location.</string>
+    <string>In order to search nearby, this app requires access to your current location.</string>
 	<key>NSCameraUsageDescription</key>
-      <string>In order to scan for barcodes and QR codes, this app requires permission to access the camera.</string>
+    <string>In order to scan for barcodes and QR codes, this app requires permission to access the camera.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-      <string>In order to upload media, this app requires permission to access the photo library.</string>
+    <string>In order to upload media, this app requires permission to access the photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-      <string>In order to get access Photo Library. This app requires permission to access Photo Library.</string>
+    <string>In order to get access Photo Library. This app requires permission to access Photo Library.</string>
     <key>UIBackgroundModes</key>
     <array>
         <string>fetch</string>

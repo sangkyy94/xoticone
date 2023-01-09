@@ -119,7 +119,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -1463,7 +1463,7 @@ Upload pro... */
                                   await ProductsRecord.collection
                                       .doc()
                                       .set(productsCreateData);
-                                  context.pop();
+                                  Navigator.pop(context);
                                 },
                                 text: FFLocalizations.of(context).getText(
                                   'qda70pjl' /* Product Edit */,

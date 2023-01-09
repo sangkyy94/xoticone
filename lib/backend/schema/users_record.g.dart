@@ -374,6 +374,16 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
         ..add(
             serializers.serialize(value, specifiedType: const FullType(bool)));
     }
+    value = object.eventParticipationList;
+    if (value != null) {
+      result
+        ..add('event_Participation_List')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(BuiltList, const [
+              const FullType(
+                  DocumentReference, const [const FullType.nullable(Object)])
+            ])));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -611,6 +621,13 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
           result.admin = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool?;
           break;
+        case 'event_Participation_List':
+          result.eventParticipationList.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltList, const [
+                const FullType(
+                    DocumentReference, const [const FullType.nullable(Object)])
+              ]))! as BuiltList<Object?>);
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -726,6 +743,8 @@ class _$UsersRecord extends UsersRecord {
   @override
   final bool? admin;
   @override
+  final BuiltList<DocumentReference<Object?>>? eventParticipationList;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$UsersRecord([void Function(UsersRecordBuilder)? updates]) =>
@@ -782,6 +801,7 @@ class _$UsersRecord extends UsersRecord {
       this.exposureOnMap,
       this.stmpCpnSTOREList,
       this.admin,
+      this.eventParticipationList,
       this.ffRef})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
@@ -849,6 +869,7 @@ class _$UsersRecord extends UsersRecord {
         exposureOnMap == other.exposureOnMap &&
         stmpCpnSTOREList == other.stmpCpnSTOREList &&
         admin == other.admin &&
+        eventParticipationList == other.eventParticipationList &&
         ffRef == other.ffRef;
   }
 
@@ -872,25 +893,25 @@ class _$UsersRecord extends UsersRecord {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, email.hashCode), displayName.hashCode), photoUrl.hashCode), uid.hashCode), createdTime.hashCode), phoneNumber.hashCode), nickname.hashCode), selfIntroduction.hashCode), nonActiveBizAccount.hashCode), manager.hashCode), passportAndFacePhoto.hashCode), passportPhoto.hashCode), hostApproved.hashCode), linkedAccount.hashCode), facebookAccount.hashCode), twitterAccount.hashCode), instagramAccount.hashCode), storeRegiInProgess.hashCode), ownerVerifiInProgress.hashCode), st1storeRegiRequested.hashCode), st2storeRegiApproved.hashCode), st3ownVeriRequested.hashCode), st4ownVerified.hashCode), storeOwner.hashCode), st1storeRegiRequestedDate.hashCode), st2storeRegiApprvdDate.hashCode), st3ownVeriRqstdDate.hashCode), st4ownVerifdDate.hashCode), userStatus.hashCode), emailOTP.hashCode), myReferralCode.hashCode), loginCount.hashCode),
-                                                                                unreadNotiCount.hashCode),
-                                                                            over20.hashCode),
-                                                                        point.hashCode),
-                                                                    distanceVariable.hashCode),
-                                                                createdAt.hashCode),
-                                                            updatedAt.hashCode),
-                                                        languageType.hashCode),
-                                                    favoriteStores.hashCode),
-                                                favoriteUsers.hashCode),
-                                            bgImage.hashCode),
-                                        favoritedBy.hashCode),
-                                    managerAt.hashCode),
-                                tempLocation.hashCode),
-                            tempImage.hashCode),
-                        tempVideo.hashCode),
-                    exposureOnMap.hashCode),
-                stmpCpnSTOREList.hashCode),
-            admin.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, email.hashCode), displayName.hashCode), photoUrl.hashCode), uid.hashCode), createdTime.hashCode), phoneNumber.hashCode), nickname.hashCode), selfIntroduction.hashCode), nonActiveBizAccount.hashCode), manager.hashCode), passportAndFacePhoto.hashCode), passportPhoto.hashCode), hostApproved.hashCode), linkedAccount.hashCode), facebookAccount.hashCode), twitterAccount.hashCode), instagramAccount.hashCode), storeRegiInProgess.hashCode), ownerVerifiInProgress.hashCode), st1storeRegiRequested.hashCode), st2storeRegiApproved.hashCode), st3ownVeriRequested.hashCode), st4ownVerified.hashCode), storeOwner.hashCode), st1storeRegiRequestedDate.hashCode), st2storeRegiApprvdDate.hashCode), st3ownVeriRqstdDate.hashCode), st4ownVerifdDate.hashCode), userStatus.hashCode), emailOTP.hashCode), myReferralCode.hashCode), loginCount.hashCode), unreadNotiCount.hashCode),
+                                                                                over20.hashCode),
+                                                                            point.hashCode),
+                                                                        distanceVariable.hashCode),
+                                                                    createdAt.hashCode),
+                                                                updatedAt.hashCode),
+                                                            languageType.hashCode),
+                                                        favoriteStores.hashCode),
+                                                    favoriteUsers.hashCode),
+                                                bgImage.hashCode),
+                                            favoritedBy.hashCode),
+                                        managerAt.hashCode),
+                                    tempLocation.hashCode),
+                                tempImage.hashCode),
+                            tempVideo.hashCode),
+                        exposureOnMap.hashCode),
+                    stmpCpnSTOREList.hashCode),
+                admin.hashCode),
+            eventParticipationList.hashCode),
         ffRef.hashCode));
   }
 
@@ -947,6 +968,7 @@ class _$UsersRecord extends UsersRecord {
           ..add('exposureOnMap', exposureOnMap)
           ..add('stmpCpnSTOREList', stmpCpnSTOREList)
           ..add('admin', admin)
+          ..add('eventParticipationList', eventParticipationList)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -1190,6 +1212,14 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
   bool? get admin => _$this._admin;
   set admin(bool? admin) => _$this._admin = admin;
 
+  ListBuilder<DocumentReference<Object?>>? _eventParticipationList;
+  ListBuilder<DocumentReference<Object?>> get eventParticipationList =>
+      _$this._eventParticipationList ??=
+          new ListBuilder<DocumentReference<Object?>>();
+  set eventParticipationList(
+          ListBuilder<DocumentReference<Object?>>? eventParticipationList) =>
+      _$this._eventParticipationList = eventParticipationList;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -1251,6 +1281,7 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
       _exposureOnMap = $v.exposureOnMap;
       _stmpCpnSTOREList = $v.stmpCpnSTOREList?.toBuilder();
       _admin = $v.admin;
+      _eventParticipationList = $v.eventParticipationList?.toBuilder();
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -1326,6 +1357,7 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
               exposureOnMap: exposureOnMap,
               stmpCpnSTOREList: _stmpCpnSTOREList?.build(),
               admin: admin,
+              eventParticipationList: _eventParticipationList?.build(),
               ffRef: ffRef);
     } catch (_) {
       late String _$failedField;
@@ -1342,6 +1374,9 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
 
         _$failedField = 'stmpCpnSTOREList';
         _stmpCpnSTOREList?.build();
+
+        _$failedField = 'eventParticipationList';
+        _eventParticipationList?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'UsersRecord', _$failedField, e.toString());

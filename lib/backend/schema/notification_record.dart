@@ -28,6 +28,9 @@ abstract class NotificationRecord
   @BuiltValueField(wireName: 'Created_At')
   DateTime? get createdAt;
 
+  @BuiltValueField(wireName: 'Read')
+  bool? get read;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -36,7 +39,8 @@ abstract class NotificationRecord
     ..title = ''
     ..content = ''
     ..recipient = ListBuilder()
-    ..category = '';
+    ..category = ''
+    ..read = false;
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('Notification');
@@ -66,6 +70,7 @@ Map<String, dynamic> createNotificationRecordData({
   DocumentReference? sender,
   String? category,
   DateTime? createdAt,
+  bool? read,
 }) {
   final firestoreData = serializers.toFirestore(
     NotificationRecord.serializer,
@@ -76,7 +81,8 @@ Map<String, dynamic> createNotificationRecordData({
         ..sender = sender
         ..recipient = null
         ..category = category
-        ..createdAt = createdAt,
+        ..createdAt = createdAt
+        ..read = read,
     ),
   );
 

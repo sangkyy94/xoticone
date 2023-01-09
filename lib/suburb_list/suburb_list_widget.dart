@@ -3,6 +3,7 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../store_list_view/store_list_view_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,7 @@ class _SuburbListWidgetState extends State<SuburbListWidget> {
                 size: 30,
               ),
               onPressed: () async {
-                context.pop();
+                Navigator.pop(context);
               },
             ),
             title: StreamBuilder<CitiesRecord>(
@@ -265,7 +266,8 @@ class _SuburbListWidgetState extends State<SuburbListWidget> {
                             .whereIn(
                                 'suburrbName',
                                 simpleSearchResults
-                                    .map((e) => e.suburrbName!)
+                                    .map((e) => e.suburrbName)
+                                    .withoutNulls
                                     .toList()),
                       ),
                       builder: (context, snapshot) {
@@ -300,14 +302,13 @@ class _SuburbListWidgetState extends State<SuburbListWidget> {
                                 wrapSuburbsRecordList[wrapIndex];
                             return InkWell(
                               onTap: () async {
-                                context.pushNamed(
-                                  'StoreListView',
-                                  queryParams: {
-                                    'suburbRef': serializeParam(
-                                      wrapSuburbsRecord.reference,
-                                      ParamType.DocumentReference,
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => StoreListViewWidget(
+                                      suburbRef: wrapSuburbsRecord.reference,
                                     ),
-                                  }.withoutNulls,
+                                  ),
                                 );
                               },
                               child: Container(
@@ -354,6 +355,45 @@ class _SuburbListWidgetState extends State<SuburbListWidget> {
                                           wrapSuburbsRecord.suburrbName!,
                                           style: FlutterFlowTheme.of(context)
                                               .subtitle1,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            8, 4, 0, 0),
+                                        child:
+                                            StreamBuilder<List<StoresRecord>>(
+                                          stream: queryStoresRecord(
+                                            queryBuilder: (storesRecord) =>
+                                                storesRecord.where('suburb',
+                                                    isEqualTo: wrapSuburbsRecord
+                                                        .suburrbName),
+                                          ),
+                                          builder: (context, snapshot) {
+                                            // Customize what your widget looks like when it's loading.
+                                            if (!snapshot.hasData) {
+                                              return Center(
+                                                child: SizedBox(
+                                                  width: 50,
+                                                  height: 50,
+                                                  child: SpinKitRipple(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primaryColor,
+                                                    size: 50,
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                            List<StoresRecord>
+                                                textStoresRecordList =
+                                                snapshot.data!;
+                                            return Text(
+                                              '${textStoresRecordList.length.toString()} Stores',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1,
+                                            );
+                                          },
                                         ),
                                       ),
                                       Padding(

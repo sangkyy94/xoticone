@@ -89,7 +89,7 @@ class _NearMeWidgetState extends State<NearMeWidget> {
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
                             child: AuthUserStreamWidget(
-                              child: Text(
+                              builder: (context) => Text(
                                 currentUserDisplayName,
                                 style: FlutterFlowTheme.of(context)
                                     .title1

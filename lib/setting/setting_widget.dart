@@ -41,7 +41,7 @@ class _SettingWidgetState extends State<SettingWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -161,7 +161,7 @@ class _SettingWidgetState extends State<SettingWidget> {
             padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
             child: FFButtonWidget(
               onPressed: () async {
-                context.pop();
+                Navigator.pop(context);
               },
               text: FFLocalizations.of(context).getText(
                 'dmhx5cqc' /* Change Changes */,

@@ -1,9 +1,11 @@
 import '../backend/backend.dart';
+import '../components/user_detail_map_widget.dart';
 import '../flutter_flow/flutter_flow_google_map.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +27,22 @@ class _SmokersAroundMeWidgetState extends State<SmokersAroundMeWidget> {
   @override
   void initState() {
     super.initState();
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      await showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        enableDrag: false,
+        context: context,
+        builder: (context) {
+          return Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: UserDetailMapWidget(),
+          );
+        },
+      ).then((value) => setState(() {}));
+    });
+
     getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
         .then((loc) => setState(() => currentUserLocationValue = loc));
   }
@@ -72,7 +90,7 @@ class _SmokersAroundMeWidgetState extends State<SmokersAroundMeWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -118,9 +136,7 @@ class _SmokersAroundMeWidgetState extends State<SmokersAroundMeWidget> {
                   color: FlutterFlowTheme.of(context).secondaryBackground,
                 ),
                 child: StreamBuilder<List<UsersRecord>>(
-                  stream: queryUsersRecord(
-                    limit: 50,
-                  ),
+                  stream: queryUsersRecord(),
                   builder: (context, snapshot) {
                     // Customize what your widget looks like when it's loading.
                     if (!snapshot.hasData) {
@@ -146,6 +162,23 @@ class _SmokersAroundMeWidgetState extends State<SmokersAroundMeWidget> {
                             (googleMapUsersRecord) => FlutterFlowMarker(
                               googleMapUsersRecord.reference.path,
                               googleMapUsersRecord.tempLocation!,
+                              () async {
+                                await showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  enableDrag: false,
+                                  context: context,
+                                  builder: (context) {
+                                    return Padding(
+                                      padding:
+                                          MediaQuery.of(context).viewInsets,
+                                      child: UserDetailMapWidget(
+                                        userRef: googleMapUsersRecord,
+                                      ),
+                                    );
+                                  },
+                                ).then((value) => setState(() {}));
+                              },
                             ),
                           )
                           .toList(),

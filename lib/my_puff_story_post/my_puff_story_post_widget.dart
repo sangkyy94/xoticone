@@ -7,6 +7,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../flutter_flow/upload_media.dart';
+import '../main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -75,7 +76,7 @@ class _MyPuffStoryPostWidgetState extends State<MyPuffStoryPostWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -193,7 +194,8 @@ class _MyPuffStoryPostWidgetState extends State<MyPuffStoryPostWidget> {
                                     snapshot.data!;
                                 return FlutterFlowDropDown<String>(
                                   options: dropDownMoodMoodsRecordList
-                                      .map((e) => e.moodName!)
+                                      .map((e) => e.moodName)
+                                      .withoutNulls
                                       .toList()
                                       .toList(),
                                   onChanged: (val) =>
@@ -244,7 +246,13 @@ class _MyPuffStoryPostWidgetState extends State<MyPuffStoryPostWidget> {
                                     EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
                                 child: InkWell(
                                   onTap: () async {
-                                    context.pushNamed('SearchStrain');
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => NavBarPage(
+                                            initialPage: 'SearchStrain'),
+                                      ),
+                                    );
                                   },
                                   child: Text(
                                     FFLocalizations.of(context).getText(
@@ -494,15 +502,27 @@ class _MyPuffStoryPostWidgetState extends State<MyPuffStoryPostWidget> {
                                 await MyPuffStoryRecord.collection
                                     .doc()
                                     .set(myPuffStoryCreateData);
-                                // Action 2 - Update Temp Location
 
                                 final usersUpdateData = createUsersRecordData(
                                   tempLocation: currentUserLocationValue,
-                                  exposureOnMap: true,
                                 );
                                 await currentUserReference!
                                     .update(usersUpdateData);
-                                context.pop();
+
+                                final puffStoryLocationCreateData =
+                                    createPuffStoryLocationRecordData(
+                                  userID: currentUserEmail,
+                                  userName: currentUserDisplayName,
+                                  userPhoto: currentUserPhoto,
+                                  location: currentUserLocationValue,
+                                  userRef: currentUserReference,
+                                  createAt: getCurrentTimestamp,
+                                  exposureOnMap: true,
+                                );
+                                await PuffStoryLocationRecord.collection
+                                    .doc()
+                                    .set(puffStoryLocationCreateData);
+                                Navigator.pop(context);
                               },
                               text: FFLocalizations.of(context).getText(
                                 'dgy4s1zg' /* POST  */,

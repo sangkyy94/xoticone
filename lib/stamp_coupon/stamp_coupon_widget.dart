@@ -1,3 +1,4 @@
+import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -55,7 +56,7 @@ class _StampCouponWidgetState extends State<StampCouponWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -235,32 +236,6 @@ class _StampCouponWidgetState extends State<StampCouponWidget> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                        child: FFButtonWidget(
-                          onPressed: () async {
-                            await widget.couponRef!.reference.delete();
-                          },
-                          text: FFLocalizations.of(context).getText(
-                            '99yy8hzs' /* DELETE */,
-                          ),
-                          options: FFButtonOptions(
-                            width: 130,
-                            height: 40,
-                            color: FlutterFlowTheme.of(context).primaryColor,
-                            textStyle:
-                                FlutterFlowTheme.of(context).subtitle2.override(
-                                      fontFamily: 'Poppins',
-                                      color: Colors.white,
-                                    ),
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -288,12 +263,12 @@ class _StampCouponWidgetState extends State<StampCouponWidget> {
                                         AlignmentDirectional(-0.95, 0.01),
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          40, 0, 40, 0),
+                                          20, 0, 20, 0),
                                       child: Image.asset(
                                         'assets/images/Coupon_0.png',
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        height: 180,
+                                        height: 200,
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -304,12 +279,12 @@ class _StampCouponWidgetState extends State<StampCouponWidget> {
                                         AlignmentDirectional(-0.95, 0.01),
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          40, 0, 40, 0),
+                                          20, 0, 20, 0),
                                       child: Image.asset(
                                         'assets/images/Coupon_1.png',
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        height: 180,
+                                        height: 200,
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -320,12 +295,12 @@ class _StampCouponWidgetState extends State<StampCouponWidget> {
                                         AlignmentDirectional(-0.95, 0.01),
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          40, 0, 40, 0),
+                                          20, 0, 20, 0),
                                       child: Image.asset(
                                         'assets/images/Coupon_2.png',
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        height: 180,
+                                        height: 200,
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -336,12 +311,12 @@ class _StampCouponWidgetState extends State<StampCouponWidget> {
                                         AlignmentDirectional(-0.95, 0.01),
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          40, 0, 40, 0),
+                                          20, 0, 20, 0),
                                       child: Image.asset(
                                         'assets/images/Coupon_3.png',
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        height: 180,
+                                        height: 200,
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -352,12 +327,12 @@ class _StampCouponWidgetState extends State<StampCouponWidget> {
                                         AlignmentDirectional(-0.95, 0.01),
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          40, 0, 40, 0),
+                                          20, 0, 20, 0),
                                       child: Image.asset(
                                         'assets/images/Coupon_4.png',
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        height: 180,
+                                        height: 200,
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -368,12 +343,12 @@ class _StampCouponWidgetState extends State<StampCouponWidget> {
                                         AlignmentDirectional(-0.95, 0.01),
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          40, 0, 40, 0),
+                                          20, 0, 20, 0),
                                       child: Image.asset(
                                         'assets/images/Coupon_5.png',
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        height: 180,
+                                        height: 200,
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -384,12 +359,12 @@ class _StampCouponWidgetState extends State<StampCouponWidget> {
                                         AlignmentDirectional(-0.95, 0.01),
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          40, 0, 40, 0),
+                                          20, 0, 20, 0),
                                       child: Image.asset(
                                         'assets/images/Coupon_6.png',
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        height: 180,
+                                        height: 200,
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -400,12 +375,12 @@ class _StampCouponWidgetState extends State<StampCouponWidget> {
                                         AlignmentDirectional(-0.95, 0.01),
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          40, 0, 40, 0),
+                                          20, 0, 20, 0),
                                       child: Image.asset(
                                         'assets/images/Coupon_7.png',
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        height: 180,
+                                        height: 200,
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -416,12 +391,12 @@ class _StampCouponWidgetState extends State<StampCouponWidget> {
                                         AlignmentDirectional(-0.95, 0.01),
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          40, 0, 40, 0),
+                                          20, 0, 20, 0),
                                       child: Image.asset(
                                         'assets/images/Coupon_8.png',
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        height: 180,
+                                        height: 200,
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -432,12 +407,12 @@ class _StampCouponWidgetState extends State<StampCouponWidget> {
                                         AlignmentDirectional(-0.95, 0.01),
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          40, 0, 40, 0),
+                                          20, 0, 20, 0),
                                       child: Image.asset(
                                         'assets/images/Coupon_9.png',
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        height: 180,
+                                        height: 200,
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -448,19 +423,59 @@ class _StampCouponWidgetState extends State<StampCouponWidget> {
                                         AlignmentDirectional(-0.95, 0.01),
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          40, 0, 40, 0),
+                                          20, 0, 20, 0),
                                       child: Image.asset(
                                         'assets/images/Coupon_10.png',
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        height: 180,
+                                        height: 200,
                                         fit: BoxFit.contain,
                                       ),
                                     ),
                                   ),
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
-                                  children: [],
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 4, 0, 0),
+                                      child: FFButtonWidget(
+                                        onPressed: () async {
+                                          final stampCouponsUpdateData =
+                                              createStampCouponsRecordData(
+                                            discarded: true,
+                                            stampCount: 0,
+                                          );
+                                          await widget.couponRef!.reference
+                                              .update(stampCouponsUpdateData);
+                                        },
+                                        text:
+                                            FFLocalizations.of(context).getText(
+                                          '99yy8hzs' /* DISCARD */,
+                                        ),
+                                        options: FFButtonOptions(
+                                          width: 130,
+                                          height: 40,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryColor,
+                                          textStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .subtitle2
+                                                  .override(
+                                                    fontFamily: 'Poppins',
+                                                    color: Colors.white,
+                                                  ),
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),

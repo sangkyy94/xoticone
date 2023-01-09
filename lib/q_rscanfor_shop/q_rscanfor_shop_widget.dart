@@ -58,7 +58,7 @@ class _QRscanforShopWidgetState extends State<QRscanforShopWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -93,7 +93,7 @@ class _QRscanforShopWidgetState extends State<QRscanforShopWidget> {
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
                       child: AuthUserStreamWidget(
-                        child: Text(
+                        builder: (context) => Text(
                           currentUserDisplayName,
                           style: FlutterFlowTheme.of(context).bodyText1,
                         ),
@@ -129,107 +129,118 @@ class _QRscanforShopWidgetState extends State<QRscanforShopWidget> {
                 decoration: BoxDecoration(
                   color: FlutterFlowTheme.of(context).secondaryBackground,
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Container(
-                      width: 120,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(
-                          color: Color(0xFF38B1E5),
-                          width: 2,
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(4, 10, 4, 4),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Container(
+                        width: 120,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: Color(0xFF38B1E5),
+                            width: 2,
+                          ),
                         ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(10, 5, 10, 5),
-                        child: Text(
-                          couponID!,
-                          textAlign: TextAlign.center,
-                          style: FlutterFlowTheme.of(context).bodyText1,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                      child: StreamBuilder<List<StampCouponsRecord>>(
-                        stream: queryStampCouponsRecord(
-                          queryBuilder: (stampCouponsRecord) =>
-                              stampCouponsRecord.where('Store_Owner_Ref',
-                                  isEqualTo: currentUserReference),
-                        ),
-                        builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: SizedBox(
-                                width: 50,
-                                height: 50,
-                                child: SpinKitRipple(
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryColor,
-                                  size: 50,
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(4, 4, 4, 4),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    10, 5, 10, 5),
+                                child: Text(
+                                  couponID!,
+                                  textAlign: TextAlign.center,
+                                  style: FlutterFlowTheme.of(context).bodyText1,
                                 ),
                               ),
-                            );
-                          }
-                          List<StampCouponsRecord>
-                              buttonStampCouponsRecordList = snapshot.data!;
-                          return FFButtonWidget(
-                            onPressed: () async {
-                              couponID =
-                                  await FlutterBarcodeScanner.scanBarcode(
-                                '#C62828', // scanning line color
-                                FFLocalizations.of(context).getText(
-                                  'wfcp9fsm' /* Cancel */,
-                                ), // cancel button text
-                                true, // whether to show the flash icon
-                                ScanMode.QR,
-                              );
-
-                              await showModalBottomSheet(
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                enableDrag: false,
-                                context: context,
-                                builder: (context) {
-                                  return Padding(
-                                    padding: MediaQuery.of(context).viewInsets,
-                                    child: QRScanResultWidget(
-                                      couponID: couponID,
-                                    ),
-                                  );
-                                },
-                              ).then((value) => setState(() {}));
-
-                              setState(() {});
-                            },
-                            text: FFLocalizations.of(context).getText(
-                              'j99pq7i2' /* SCAN */,
-                            ),
-                            options: FFButtonOptions(
-                              width: 130,
-                              height: 40,
-                              color: FlutterFlowTheme.of(context).primaryColor,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .subtitle2
-                                  .override(
-                                    fontFamily: 'Poppins',
-                                    color: Colors.white,
-                                  ),
-                              borderSide: BorderSide(
-                                color: Colors.transparent,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          );
-                        },
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                        child: StreamBuilder<List<StampCouponsRecord>>(
+                          stream: queryStampCouponsRecord(),
+                          builder: (context, snapshot) {
+                            // Customize what your widget looks like when it's loading.
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: SizedBox(
+                                  width: 50,
+                                  height: 50,
+                                  child: SpinKitRipple(
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryColor,
+                                    size: 50,
+                                  ),
+                                ),
+                              );
+                            }
+                            List<StampCouponsRecord>
+                                buttonStampCouponsRecordList = snapshot.data!;
+                            return FFButtonWidget(
+                              onPressed: () async {
+                                couponID =
+                                    await FlutterBarcodeScanner.scanBarcode(
+                                  '#C62828', // scanning line color
+                                  FFLocalizations.of(context).getText(
+                                    'n66djvph' /* Cancel */,
+                                  ), // cancel button text
+                                  true, // whether to show the flash icon
+                                  ScanMode.QR,
+                                );
+
+                                await showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  enableDrag: false,
+                                  context: context,
+                                  builder: (context) {
+                                    return Padding(
+                                      padding:
+                                          MediaQuery.of(context).viewInsets,
+                                      child: QRScanResultWidget(
+                                        couponID: couponID,
+                                      ),
+                                    );
+                                  },
+                                ).then((value) => setState(() {}));
+
+                                setState(() {});
+                              },
+                              text: FFLocalizations.of(context).getText(
+                                'pao4uwqt' /* SCAN */,
+                              ),
+                              options: FFButtonOptions(
+                                width: 130,
+                                height: 40,
+                                color:
+                                    FlutterFlowTheme.of(context).primaryColor,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .subtitle2
+                                    .override(
+                                      fontFamily: 'Poppins',
+                                      color: Colors.white,
+                                    ),
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

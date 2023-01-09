@@ -66,7 +66,7 @@ class _ProductReviewPostWidgetState extends State<ProductReviewPostWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -119,7 +119,7 @@ class _ProductReviewPostWidgetState extends State<ProductReviewPostWidget> {
                         padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
                         child: Text(
                           FFLocalizations.of(context).getText(
-                            'koszxkwt' /* Your review  may be hhelpful f... */,
+                            'koszxkwt' /* Your review  may be helpful fo... */,
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyText1.override(
@@ -290,7 +290,7 @@ class _ProductReviewPostWidgetState extends State<ProductReviewPostWidget> {
                             await ReviewForProductRecord.collection
                                 .doc()
                                 .set(reviewForProductCreateData);
-                            context.pop();
+                            Navigator.pop(context);
                           },
                           text: FFLocalizations.of(context).getText(
                             'ckbvjdc4' /* POST REVIEW */,

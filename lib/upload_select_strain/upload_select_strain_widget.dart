@@ -1,9 +1,11 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../c_s_post/c_s_post_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../product_upload/product_upload_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -65,7 +67,7 @@ class _UploadSelectStrainWidgetState extends State<UploadSelectStrainWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -167,7 +169,9 @@ class _UploadSelectStrainWidgetState extends State<UploadSelectStrainWidget> {
                           .onError((_, __) => algoliaSearchResults = [])
                           .whenComplete(() => setState(() {}));
 
-                      FFAppState().showListView = true;
+                      FFAppState().update(() {
+                        FFAppState().showListView = true;
+                      });
                     },
                   ),
                 ),
@@ -284,23 +288,16 @@ class _UploadSelectStrainWidgetState extends State<UploadSelectStrainWidget> {
                                                     16, 8, 16, 0),
                                             child: InkWell(
                                               onTap: () async {
-                                                context.pushNamed(
-                                                  'Product_Upload',
-                                                  queryParams: {
-                                                    'strainRef': serializeParam(
-                                                      listViewStrainsRecord,
-                                                      ParamType.Document,
+                                                await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ProductUploadWidget(
+                                                      strainRef:
+                                                          listViewStrainsRecord,
+                                                      storeRef: widget.storeRef,
                                                     ),
-                                                    'storeRef': serializeParam(
-                                                      widget.storeRef,
-                                                      ParamType.Document,
-                                                    ),
-                                                  }.withoutNulls,
-                                                  extra: <String, dynamic>{
-                                                    'strainRef':
-                                                        listViewStrainsRecord,
-                                                    'storeRef': widget.storeRef,
-                                                  },
+                                                  ),
                                                 );
                                               },
                                               child: Container(
@@ -426,14 +423,14 @@ class _UploadSelectStrainWidgetState extends State<UploadSelectStrainWidget> {
                                     children: [
                                       FFButtonWidget(
                                         onPressed: () async {
-                                          context.pushNamed(
-                                            'CS_Post',
-                                            queryParams: {
-                                              'userRef': serializeParam(
-                                                currentUserReference,
-                                                ParamType.DocumentReference,
+                                          await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CSPostWidget(
+                                                userRef: currentUserReference,
                                               ),
-                                            }.withoutNulls,
+                                            ),
                                           );
                                         },
                                         text:

@@ -81,7 +81,7 @@ class _CSDetailsForAdminWidgetState extends State<CSDetailsForAdminWidget> {
                 size: 30,
               ),
               onPressed: () async {
-                context.pop();
+                Navigator.pop(context);
               },
             ),
             actions: [],
@@ -106,7 +106,7 @@ class _CSDetailsForAdminWidgetState extends State<CSDetailsForAdminWidget> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               AuthUserStreamWidget(
-                                child: ClipRRect(
+                                builder: (context) => ClipRRect(
                                   borderRadius: BorderRadius.circular(40),
                                   child: Image.network(
                                     currentUserPhoto,
@@ -126,7 +126,7 @@ class _CSDetailsForAdminWidgetState extends State<CSDetailsForAdminWidget> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       AuthUserStreamWidget(
-                                        child: Text(
+                                        builder: (context) => Text(
                                           currentUserDisplayName,
                                           style: FlutterFlowTheme.of(context)
                                               .bodyText1,

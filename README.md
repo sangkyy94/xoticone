@@ -1,4 +1,4 @@
-# XOTICONEv2
+# XOTIC
 
 A new Flutter project.
 

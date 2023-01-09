@@ -2,6 +2,7 @@ import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../store_detail_view/store_detail_view_widget.dart';
 import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -317,17 +318,13 @@ class _StoreDetailMapWidgetState extends State<StoreDetailMapWidget> {
                                 : null;
                         return FFButtonWidget(
                           onPressed: () async {
-                            context.pushNamed(
-                              'StoreDetailView',
-                              queryParams: {
-                                'storeRef': serializeParam(
-                                  widget.storeRef,
-                                  ParamType.Document,
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => StoreDetailViewWidget(
+                                  storeRef: widget.storeRef,
                                 ),
-                              }.withoutNulls,
-                              extra: <String, dynamic>{
-                                'storeRef': widget.storeRef,
-                              },
+                              ),
                             );
                           },
                           text: FFLocalizations.of(context).getText(

@@ -3,6 +3,7 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../store_detail_view/store_detail_view_widget.dart';
 import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +83,7 @@ class _SearchStoreWidgetState extends State<SearchStoreWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -282,8 +283,10 @@ class _SearchStoreWidgetState extends State<SearchStoreWidget> {
                                                     .whenComplete(
                                                         () => setState(() {}));
 
-                                                FFAppState().showListView =
-                                                    true;
+                                                FFAppState().update(() {
+                                                  FFAppState().showListView =
+                                                      true;
+                                                });
                                               },
                                               text: FFLocalizations.of(context)
                                                   .getText(
@@ -321,8 +324,10 @@ class _SearchStoreWidgetState extends State<SearchStoreWidget> {
                                                     40, 0, 0, 0),
                                             child: InkWell(
                                               onTap: () async {
-                                                FFAppState().showListView =
-                                                    false;
+                                                FFAppState().update(() {
+                                                  FFAppState().showListView =
+                                                      false;
+                                                });
                                                 setState(() {
                                                   textController?.clear();
                                                 });
@@ -417,17 +422,14 @@ class _SearchStoreWidgetState extends State<SearchStoreWidget> {
                                     EdgeInsetsDirectional.fromSTEB(0, 0, 0, 1),
                                 child: InkWell(
                                   onTap: () async {
-                                    context.pushNamed(
-                                      'StoreDetailView',
-                                      queryParams: {
-                                        'storeRef': serializeParam(
-                                          columnViewallStoresRecord,
-                                          ParamType.Document,
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            StoreDetailViewWidget(
+                                          storeRef: columnViewallStoresRecord,
                                         ),
-                                      }.withoutNulls,
-                                      extra: <String, dynamic>{
-                                        'storeRef': columnViewallStoresRecord,
-                                      },
+                                      ),
                                     );
                                   },
                                   child: Container(
@@ -575,7 +577,7 @@ class _SearchStoreWidgetState extends State<SearchStoreWidget> {
                                                       FFLocalizations.of(
                                                               context)
                                                           .getText(
-                                                        'hpkktkj0' /* Km */,
+                                                        'paqhhab7' /* Km */,
                                                       ),
                                                       style:
                                                           FlutterFlowTheme.of(
@@ -635,17 +637,14 @@ class _SearchStoreWidgetState extends State<SearchStoreWidget> {
                                     EdgeInsetsDirectional.fromSTEB(0, 0, 0, 1),
                                 child: InkWell(
                                   onTap: () async {
-                                    context.pushNamed(
-                                      'StoreDetailView',
-                                      queryParams: {
-                                        'storeRef': serializeParam(
-                                          searchResultItem,
-                                          ParamType.Document,
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            StoreDetailViewWidget(
+                                          storeRef: searchResultItem,
                                         ),
-                                      }.withoutNulls,
-                                      extra: <String, dynamic>{
-                                        'storeRef': searchResultItem,
-                                      },
+                                      ),
                                     );
                                   },
                                   child: Container(

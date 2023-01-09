@@ -2,6 +2,7 @@ import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../my_puff_story_edit/my_puff_story_edit_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -51,19 +52,14 @@ class _PostModalApprovalWidgetState extends State<PostModalApprovalWidget> {
           children: [
             FFButtonWidget(
               onPressed: () async {
-                context.pushNamed(
-                  'MyPuffStorEdit',
-                  queryParams: {
-                    'puffSttoryRef': serializeParam(
-                      widget.puffStoryRef,
-                      ParamType.Document,
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyPuffStoryEditWidget(
+                      puffSttoryRef: widget.puffStoryRef,
                     ),
-                  }.withoutNulls,
-                  extra: <String, dynamic>{
-                    'puffSttoryRef': widget.puffStoryRef,
-                  },
+                  ),
                 );
-
                 Navigator.pop(context);
               },
               text: FFLocalizations.of(context).getText(

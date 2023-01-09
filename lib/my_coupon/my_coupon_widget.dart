@@ -3,6 +3,7 @@ import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../stamp_coupon/stamp_coupon_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -52,7 +53,7 @@ class _MyCouponWidgetState extends State<MyCouponWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -195,18 +196,15 @@ class _MyCouponWidgetState extends State<MyCouponWidget> {
                                                   16, 8, 16, 0),
                                           child: InkWell(
                                             onTap: () async {
-                                              context.pushNamed(
-                                                'StampCoupon',
-                                                queryParams: {
-                                                  'couponRef': serializeParam(
-                                                    listViewStampCouponsRecord,
-                                                    ParamType.Document,
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      StampCouponWidget(
+                                                    couponRef:
+                                                        listViewStampCouponsRecord,
                                                   ),
-                                                }.withoutNulls,
-                                                extra: <String, dynamic>{
-                                                  'couponRef':
-                                                      listViewStampCouponsRecord,
-                                                },
+                                                ),
                                               );
                                             },
                                             child: Container(
@@ -353,7 +351,7 @@ class _MyCouponWidgetState extends State<MyCouponWidget> {
                                             .where('Customer_Id',
                                                 isEqualTo: currentUserEmail)
                                             .where('Stamp_Count',
-                                                isNotEqualTo: 0),
+                                                isGreaterThanOrEqualTo: 1),
                                   ),
                                   builder: (context, snapshot) {
                                     // Customize what your widget looks like when it's loading.
@@ -383,119 +381,97 @@ class _MyCouponWidgetState extends State<MyCouponWidget> {
                                         final listViewStampCouponsRecord =
                                             listViewStampCouponsRecordList[
                                                 listViewIndex];
-                                        return Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(16, 8, 16, 0),
-                                              child: InkWell(
-                                                onTap: () async {
-                                                  context.pushNamed(
-                                                    'StampCoupon',
-                                                    queryParams: {
-                                                      'couponRef':
-                                                          serializeParam(
+                                        return Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16, 8, 16, 0),
+                                          child: InkWell(
+                                            onTap: () async {
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      StampCouponWidget(
+                                                    couponRef:
                                                         listViewStampCouponsRecord,
-                                                        ParamType.Document,
-                                                      ),
-                                                    }.withoutNulls,
-                                                    extra: <String, dynamic>{
-                                                      'couponRef':
-                                                          listViewStampCouponsRecord,
-                                                    },
-                                                  );
-                                                },
-                                                child: Container(
-                                                  width: double.infinity,
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12),
                                                   ),
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                8, 8, 12, 8),
-                                                    child: Row(
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryBackground,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(8, 8, 12, 8),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
-                                                              .center,
+                                                              .start,
                                                       children: [
-                                                        Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          16,
-                                                                          0,
-                                                                          0,
-                                                                          0),
-                                                              child: Text(
-                                                                listViewStampCouponsRecord
-                                                                    .couponName!
-                                                                    .maybeHandleOverflow(
-                                                                  maxChars: 35,
-                                                                  replacement:
-                                                                      '…',
-                                                                ),
-                                                                maxLines: 1,
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .subtitle1,
-                                                              ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(16,
+                                                                      0, 0, 0),
+                                                          child: Text(
+                                                            listViewStampCouponsRecord
+                                                                .couponName!
+                                                                .maybeHandleOverflow(
+                                                              maxChars: 35,
+                                                              replacement: '…',
                                                             ),
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          16,
-                                                                          0,
-                                                                          0,
-                                                                          0),
-                                                              child: Text(
-                                                                'Number of Stamps : ${listViewStampCouponsRecord.stampCount?.toString()}',
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .subtitle2,
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          16,
-                                                                          0,
-                                                                          0,
-                                                                          0),
-                                                              child: Text(
-                                                                'Expire Date : ${listViewStampCouponsRecord.expireDate?.toString()}',
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyText1,
-                                                              ),
-                                                            ),
-                                                          ],
+                                                            maxLines: 1,
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .subtitle1,
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(16,
+                                                                      0, 0, 0),
+                                                          child: Text(
+                                                            'Number of Stamps :   ${listViewStampCouponsRecord.stampCount?.toString()}',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .subtitle2,
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(16,
+                                                                      0, 0, 0),
+                                                          child: Text(
+                                                            'Expire Date : ${listViewStampCouponsRecord.expireDate?.toString()}',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyText1,
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
                                               ),
                                             ),
-                                          ],
+                                          ),
                                         );
                                       },
                                     );

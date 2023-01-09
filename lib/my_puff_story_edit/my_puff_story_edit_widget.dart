@@ -7,14 +7,15 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../flutter_flow/upload_media.dart';
+import '../main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class MyPuffStorEditWidget extends StatefulWidget {
-  const MyPuffStorEditWidget({
+class MyPuffStoryEditWidget extends StatefulWidget {
+  const MyPuffStoryEditWidget({
     Key? key,
     this.storeRef,
     this.userRef,
@@ -26,10 +27,10 @@ class MyPuffStorEditWidget extends StatefulWidget {
   final MyPuffStoryRecord? puffSttoryRef;
 
   @override
-  _MyPuffStorEditWidgetState createState() => _MyPuffStorEditWidgetState();
+  _MyPuffStoryEditWidgetState createState() => _MyPuffStoryEditWidgetState();
 }
 
-class _MyPuffStorEditWidgetState extends State<MyPuffStorEditWidget> {
+class _MyPuffStoryEditWidgetState extends State<MyPuffStoryEditWidget> {
   bool isMediaUploading = false;
   String uploadedFileUrl = '';
 
@@ -79,7 +80,7 @@ class _MyPuffStorEditWidgetState extends State<MyPuffStorEditWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -197,7 +198,8 @@ class _MyPuffStorEditWidgetState extends State<MyPuffStorEditWidget> {
                                 initialOption: dropDownMoodValue ??=
                                     widget.puffSttoryRef!.mood,
                                 options: dropDownMoodMoodsRecordList
-                                    .map((e) => e.moodName!)
+                                    .map((e) => e.moodName)
+                                    .withoutNulls
                                     .toList()
                                     .toList(),
                                 onChanged: (val) =>
@@ -247,7 +249,13 @@ class _MyPuffStorEditWidgetState extends State<MyPuffStorEditWidget> {
                                   EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
                               child: InkWell(
                                 onTap: () async {
-                                  context.pushNamed('SearchStrain');
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => NavBarPage(
+                                          initialPage: 'SearchStrain'),
+                                    ),
+                                  );
                                 },
                                 child: Text(
                                   FFLocalizations.of(context).getText(
@@ -486,7 +494,7 @@ class _MyPuffStorEditWidgetState extends State<MyPuffStorEditWidget> {
                                 tempLocation: currentUserLocationValue,
                               );
                               await widget.userRef!.update(usersUpdateData);
-                              context.pop();
+                              Navigator.pop(context);
                             },
                             text: FFLocalizations.of(context).getText(
                               '2ucj9oi3' /* POST  */,

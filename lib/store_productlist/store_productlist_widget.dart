@@ -3,6 +3,8 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../product_details_view/product_details_view_widget.dart';
+import '../upload_select_strain/upload_select_strain_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -51,7 +53,7 @@ class _StoreProductlistWidgetState extends State<StoreProductlistWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -209,23 +211,16 @@ class _StoreProductlistWidgetState extends State<StoreProductlistWidget> {
                                         10, 5, 10, 5),
                                     child: InkWell(
                                       onTap: () async {
-                                        context.pushNamed(
-                                          'ProductDetailsView',
-                                          queryParams: {
-                                            'productRef': serializeParam(
-                                              listViewProductsRecord,
-                                              ParamType.Document,
+                                        await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ProductDetailsViewWidget(
+                                              productRef:
+                                                  listViewProductsRecord,
+                                              storeRef: widget.storeRef,
                                             ),
-                                            'storeRef': serializeParam(
-                                              widget.storeRef,
-                                              ParamType.Document,
-                                            ),
-                                          }.withoutNulls,
-                                          extra: <String, dynamic>{
-                                            'productRef':
-                                                listViewProductsRecord,
-                                            'storeRef': widget.storeRef,
-                                          },
+                                          ),
                                         );
                                       },
                                       child: Container(
@@ -320,17 +315,14 @@ class _StoreProductlistWidgetState extends State<StoreProductlistWidget> {
                             children: [
                               FFButtonWidget(
                                 onPressed: () async {
-                                  context.pushNamed(
-                                    'Upload_SelectStrain',
-                                    queryParams: {
-                                      'storeRef': serializeParam(
-                                        widget.storeRef,
-                                        ParamType.Document,
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          UploadSelectStrainWidget(
+                                        storeRef: widget.storeRef,
                                       ),
-                                    }.withoutNulls,
-                                    extra: <String, dynamic>{
-                                      'storeRef': widget.storeRef,
-                                    },
+                                    ),
                                   );
                                 },
                                 text: FFLocalizations.of(context).getText(

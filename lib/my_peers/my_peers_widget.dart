@@ -3,6 +3,7 @@ import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../member_view/member_view_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -69,7 +70,7 @@ class _MyPeersWidgetState extends State<MyPeersWidget> {
                 size: 30,
               ),
               onPressed: () async {
-                context.pop();
+                Navigator.pop(context);
               },
             ),
             title: Text(
@@ -203,18 +204,15 @@ class _MyPeersWidgetState extends State<MyPeersWidget> {
                                                   .fromSTEB(16, 8, 16, 0),
                                               child: InkWell(
                                                 onTap: () async {
-                                                  context.pushNamed(
-                                                    'MemberView',
-                                                    queryParams: {
-                                                      'userRef': serializeParam(
-                                                        columnUsersRecord,
-                                                        ParamType.Document,
+                                                  await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          MemberViewWidget(
+                                                        userRef:
+                                                            columnUsersRecord,
                                                       ),
-                                                    }.withoutNulls,
-                                                    extra: <String, dynamic>{
-                                                      'userRef':
-                                                          columnUsersRecord,
-                                                    },
+                                                    ),
                                                   );
                                                 },
                                                 child: Container(
@@ -392,18 +390,15 @@ class _MyPeersWidgetState extends State<MyPeersWidget> {
                                                   .fromSTEB(16, 8, 16, 0),
                                               child: InkWell(
                                                 onTap: () async {
-                                                  context.pushNamed(
-                                                    'MemberView',
-                                                    queryParams: {
-                                                      'userRef': serializeParam(
-                                                        columnUsersRecord,
-                                                        ParamType.Document,
+                                                  await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          MemberViewWidget(
+                                                        userRef:
+                                                            columnUsersRecord,
                                                       ),
-                                                    }.withoutNulls,
-                                                    extra: <String, dynamic>{
-                                                      'userRef':
-                                                          columnUsersRecord,
-                                                    },
+                                                    ),
                                                   );
                                                 },
                                                 child: Container(

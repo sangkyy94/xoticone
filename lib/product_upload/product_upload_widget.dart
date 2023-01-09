@@ -1,5 +1,6 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../components/strain_list_approval_widget.dart';
 import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -107,7 +108,7 @@ class _ProductUploadWidgetState extends State<ProductUploadWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -1448,7 +1449,30 @@ Upload pro... */
                                   await ProductsRecord.collection
                                       .doc()
                                       .set(productsCreateData);
-                                  context.pop();
+
+                                  final storesUpdateData = {
+                                    'strain_Product_List':
+                                        FieldValue.arrayUnion(
+                                            [widget.strainRef!.reference]),
+                                  };
+                                  await widget.storeRef!.reference
+                                      .update(storesUpdateData);
+                                  await showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    backgroundColor: Colors.transparent,
+                                    enableDrag: false,
+                                    context: context,
+                                    builder: (context) {
+                                      return Padding(
+                                        padding:
+                                            MediaQuery.of(context).viewInsets,
+                                        child: StrainListApprovalWidget(
+                                          storeRef: widget.storeRef,
+                                          strainRef: widget.strainRef,
+                                        ),
+                                      );
+                                    },
+                                  ).then((value) => setState(() {}));
                                 },
                                 text: FFLocalizations.of(context).getText(
                                   '3xzpgohh' /* Product Upload */,

@@ -3,6 +3,7 @@ import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../puff_story_review_post/puff_story_review_post_widget.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -70,7 +71,7 @@ class _PuffStoryDetailsWidgetState extends State<PuffStoryDetailsWidget>
                           size: 24,
                         ),
                         onPressed: () async {
-                          context.pop();
+                          Navigator.pop(context);
                         },
                       ),
                     ),
@@ -411,18 +412,15 @@ class _PuffStoryDetailsWidgetState extends State<PuffStoryDetailsWidget>
                                             size: 20,
                                           ),
                                           onPressed: () async {
-                                            context.pushNamed(
-                                              'PuffStoryReviewPost',
-                                              queryParams: {
-                                                'puffstoryRef': serializeParam(
-                                                  widget.puffstoryRef,
-                                                  ParamType.Document,
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PuffStoryReviewPostWidget(
+                                                  puffstoryRef:
+                                                      widget.puffstoryRef,
                                                 ),
-                                              }.withoutNulls,
-                                              extra: <String, dynamic>{
-                                                'puffstoryRef':
-                                                    widget.puffstoryRef,
-                                              },
+                                              ),
                                             );
                                           },
                                         ),

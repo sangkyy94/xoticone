@@ -24,6 +24,16 @@ import 'cs_db_record.dart';
 import 'c_s_types_record.dart';
 import 'puff_story_review_record.dart';
 import 'notification_record.dart';
+import 'host_d_b_record.dart';
+import 'participant_d_b_record.dart';
+import 'event_review_record.dart';
+import 'service_categories_record.dart';
+import 'events_record.dart';
+import 'new_store_owner_register_record.dart';
+import 'store_rooftop_record.dart';
+import 'chats_record.dart';
+import 'chat_messages_record.dart';
+import 'puff_story_location_record.dart';
 
 import 'index.dart';
 
@@ -58,6 +68,16 @@ const kDocumentReferenceField = 'Document__Reference__Field';
   CSTypesRecord,
   PuffStoryReviewRecord,
   NotificationRecord,
+  HostDBRecord,
+  ParticipantDBRecord,
+  EventReviewRecord,
+  ServiceCategoriesRecord,
+  EventsRecord,
+  NewStoreOwnerRegisterRecord,
+  StoreRooftopRecord,
+  ChatsRecord,
+  ChatMessagesRecord,
+  PuffStoryLocationRecord,
   LanguageTypesStruct,
   PaymentTypesStruct,
   AmenityTypesStruct,

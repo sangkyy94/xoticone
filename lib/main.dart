@@ -13,7 +13,6 @@ import 'flutter_flow/internationalization.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
-import 'flutter_flow/nav/nav.dart';
 import 'index.dart';
 
 void main() async {
@@ -43,10 +42,9 @@ class _MyAppState extends State<MyApp> {
   Locale? _locale;
   ThemeMode _themeMode = FlutterFlowTheme.themeMode;
 
-  late Stream<XOTICONEv2FirebaseUser> userStream;
-
-  late AppStateNotifier _appStateNotifier;
-  late GoRouter _router;
+  late Stream<XoticFirebaseUser> userStream;
+  XoticFirebaseUser? initialUser;
+  bool displaySplashImage = true;
 
   final authUserSub = authenticatedUserStream.listen((_) {});
   final fcmTokenSub = fcmTokenUserStream.listen((_) {});
@@ -54,14 +52,12 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _appStateNotifier = AppStateNotifier();
-    _router = createRouter(_appStateNotifier);
-    userStream = xOTICONEv2FirebaseUserStream()
-      ..listen((user) => _appStateNotifier.update(user));
+    userStream = xoticFirebaseUserStream()
+      ..listen((user) => initialUser ?? setState(() => initialUser = user));
     jwtTokenStream.listen((_) {});
     Future.delayed(
       Duration(seconds: 1),
-      () => _appStateNotifier.stopShowingSplashImage(),
+      () => setState(() => displaySplashImage = false),
     );
   }
 
@@ -83,8 +79,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'XOTICONEv2',
+    return MaterialApp(
+      title: 'XOTIC',
       localizationsDelegates: [
         FFLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,
@@ -112,8 +108,19 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(brightness: Brightness.light),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: _themeMode,
-      routeInformationParser: _router.routeInformationParser,
-      routerDelegate: _router.routerDelegate,
+      home: initialUser == null || displaySplashImage
+          ? Builder(
+              builder: (context) => Container(
+                color: Colors.transparent,
+                child: Image.asset(
+                  'assets/images/Loading_Page.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            )
+          : currentUser!.loggedIn
+              ? PushNotificationsHandler(child: NavBarPage())
+              : SignupWidget(),
     );
   }
 }
@@ -147,6 +154,7 @@ class _NavBarPageState extends State<NavBarPage> {
       'SearchStrain': SearchStrainWidget(),
       'NearMe': NearMeWidget(),
       'Mingle': MingleWidget(),
+      'ChatList': ChatListWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
     return Scaffold(
@@ -180,6 +188,18 @@ class _NavBarPageState extends State<NavBarPage> {
                       : FlutterFlowTheme.of(context).grayIcon,
                   size: 24,
                 ),
+                Text(
+                  FFLocalizations.of(context).getText(
+                    'if9o4c7o' /*   */,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: currentIndex == 0
+                        ? FlutterFlowTheme.of(context).primaryColor
+                        : FlutterFlowTheme.of(context).grayIcon,
+                    fontSize: 11.0,
+                  ),
+                ),
               ],
             ),
           ),
@@ -196,6 +216,18 @@ class _NavBarPageState extends State<NavBarPage> {
                       : FlutterFlowTheme.of(context).grayIcon,
                   size: 24,
                 ),
+                Text(
+                  FFLocalizations.of(context).getText(
+                    'svg0kkbc' /*   */,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: currentIndex == 1
+                        ? FlutterFlowTheme.of(context).primaryColor
+                        : FlutterFlowTheme.of(context).grayIcon,
+                    fontSize: 11.0,
+                  ),
+                ),
               ],
             ),
           ),
@@ -210,6 +242,18 @@ class _NavBarPageState extends State<NavBarPage> {
                       : FlutterFlowTheme.of(context).grayIcon,
                   size: 24,
                 ),
+                Text(
+                  FFLocalizations.of(context).getText(
+                    'tqze1po8' /*   */,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: currentIndex == 2
+                        ? FlutterFlowTheme.of(context).primaryColor
+                        : FlutterFlowTheme.of(context).grayIcon,
+                    fontSize: 11.0,
+                  ),
+                ),
               ],
             ),
           ),
@@ -223,6 +267,46 @@ class _NavBarPageState extends State<NavBarPage> {
                       ? FlutterFlowTheme.of(context).primaryColor
                       : FlutterFlowTheme.of(context).grayIcon,
                   size: 24,
+                ),
+                Text(
+                  FFLocalizations.of(context).getText(
+                    'xjlddby0' /*   */,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: currentIndex == 3
+                        ? FlutterFlowTheme.of(context).primaryColor
+                        : FlutterFlowTheme.of(context).grayIcon,
+                    fontSize: 11.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          FloatingNavbarItem(
+            customWidget: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  currentIndex == 4
+                      ? Icons.chat_bubble_rounded
+                      : Icons.chat_bubble_outline,
+                  color: currentIndex == 4
+                      ? FlutterFlowTheme.of(context).primaryColor
+                      : FlutterFlowTheme.of(context).grayIcon,
+                  size: 24,
+                ),
+                Text(
+                  FFLocalizations.of(context).getText(
+                    'oz4qsugx' /*   */,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: currentIndex == 4
+                        ? FlutterFlowTheme.of(context).primaryColor
+                        : FlutterFlowTheme.of(context).grayIcon,
+                    fontSize: 11.0,
+                  ),
                 ),
               ],
             ),

@@ -3,6 +3,7 @@ import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../member_view/member_view_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -52,7 +53,7 @@ class _MyRefereeListWidgetState extends State<MyRefereeListWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -102,7 +103,7 @@ class _MyRefereeListWidgetState extends State<MyRefereeListWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       16, 16, 0, 0),
                                   child: AuthUserStreamWidget(
-                                    child: Text(
+                                    builder: (context) => Text(
                                       'Thank you. ${currentUserDisplayName}',
                                       style:
                                           FlutterFlowTheme.of(context).title3,
@@ -181,17 +182,14 @@ class _MyRefereeListWidgetState extends State<MyRefereeListWidget> {
                                                   16, 8, 16, 0),
                                           child: InkWell(
                                             onTap: () async {
-                                              context.pushNamed(
-                                                'MemberView',
-                                                queryParams: {
-                                                  'userRef': serializeParam(
-                                                    columnUsersRecord,
-                                                    ParamType.Document,
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MemberViewWidget(
+                                                    userRef: columnUsersRecord,
                                                   ),
-                                                }.withoutNulls,
-                                                extra: <String, dynamic>{
-                                                  'userRef': columnUsersRecord,
-                                                },
+                                                ),
                                               );
                                             },
                                             child: Container(

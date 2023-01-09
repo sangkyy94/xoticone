@@ -2,6 +2,7 @@ import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../store_detail_view/store_detail_view_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,7 @@ class _StorebystrainWidgetState extends State<StorebystrainWidget> {
                 size: 30,
               ),
               onPressed: () async {
-                context.pop();
+                Navigator.pop(context);
               },
             ),
             title: Text(
@@ -395,7 +396,7 @@ class _StorebystrainWidgetState extends State<StorebystrainWidget> {
                                   FFLocalizations.of(context).getText(
                                     'fon6m3e9' /* PRICE */,
                                   ),
-                                  style: FlutterFlowTheme.of(context).bodyText1,
+                                  style: FlutterFlowTheme.of(context).subtitle1,
                                 ),
                               ],
                             ),
@@ -490,12 +491,17 @@ class _StorebystrainWidgetState extends State<StorebystrainWidget> {
                       'Stores with ${storebystrainStrainsRecord.strainName}',
                       style: FlutterFlowTheme.of(context).subtitle1.override(
                             fontFamily: 'Poppins',
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                            color: FlutterFlowTheme.of(context).primaryText,
                           ),
                     ),
                   ),
                   StreamBuilder<List<StoresRecord>>(
-                    stream: queryStoresRecord(),
+                    stream: queryStoresRecord(
+                      queryBuilder: (storesRecord) => storesRecord.where(
+                          'strain_Product_List',
+                          arrayContains: storebystrainStrainsRecord.reference),
+                      limit: 10,
+                    ),
                     builder: (context, snapshot) {
                       // Customize what your widget looks like when it's loading.
                       if (!snapshot.hasData) {
@@ -544,17 +550,14 @@ class _StorebystrainWidgetState extends State<StorebystrainWidget> {
                                     EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
                                 child: InkWell(
                                   onTap: () async {
-                                    context.pushNamed(
-                                      'StoreDetailView',
-                                      queryParams: {
-                                        'storeRef': serializeParam(
-                                          listViewStoresRecord,
-                                          ParamType.Document,
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            StoreDetailViewWidget(
+                                          storeRef: listViewStoresRecord,
                                         ),
-                                      }.withoutNulls,
-                                      extra: <String, dynamic>{
-                                        'storeRef': listViewStoresRecord,
-                                      },
+                                      ),
                                     );
                                   },
                                   child: Row(
@@ -598,10 +601,11 @@ class _StorebystrainWidgetState extends State<StorebystrainWidget> {
                                                 child: AutoSizeText(
                                                   listViewStoresRecord.address!
                                                       .maybeHandleOverflow(
-                                                    maxChars: 70,
+                                                    maxChars: 50,
                                                     replacement: '…',
                                                   ),
                                                   textAlign: TextAlign.start,
+                                                  maxLines: 2,
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyText2

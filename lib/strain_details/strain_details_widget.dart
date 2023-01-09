@@ -3,6 +3,7 @@ import '../flutter_flow/flutter_flow_choice_chips.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../store_detail_view/store_detail_view_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,7 @@ class _StrainDetailsWidgetState extends State<StrainDetailsWidget> {
                 size: 30,
               ),
               onPressed: () async {
-                context.pop();
+                Navigator.pop(context);
               },
             ),
             title: Text(
@@ -445,17 +446,14 @@ class _StrainDetailsWidgetState extends State<StrainDetailsWidget> {
                                     EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
                                 child: InkWell(
                                   onTap: () async {
-                                    context.pushNamed(
-                                      'StoreDetailView',
-                                      queryParams: {
-                                        'storeRef': serializeParam(
-                                          listViewStoresRecord,
-                                          ParamType.Document,
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            StoreDetailViewWidget(
+                                          storeRef: listViewStoresRecord,
                                         ),
-                                      }.withoutNulls,
-                                      extra: <String, dynamic>{
-                                        'storeRef': listViewStoresRecord,
-                                      },
+                                      ),
                                     );
                                   },
                                   child: Row(

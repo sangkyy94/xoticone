@@ -15,10 +15,12 @@ class StoreReviewPostWidget extends StatefulWidget {
     Key? key,
     this.storeRef,
     this.ownerUserRef,
+    this.storeRooftopRef,
   }) : super(key: key);
 
   final DocumentReference? storeRef;
   final DocumentReference? ownerUserRef;
+  final StoreRooftopRecord? storeRooftopRef;
 
   @override
   _StoreReviewPostWidgetState createState() => _StoreReviewPostWidgetState();
@@ -67,7 +69,7 @@ class _StoreReviewPostWidgetState extends State<StoreReviewPostWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -120,7 +122,7 @@ class _StoreReviewPostWidgetState extends State<StoreReviewPostWidget> {
                         padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
                         child: Text(
                           FFLocalizations.of(context).getText(
-                            'gznno2ne' /* Your review  may be hhelpful f... */,
+                            'gznno2ne' /* Your review  may be helpful fo... */,
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyText1.override(
@@ -294,7 +296,7 @@ class _StoreReviewPostWidgetState extends State<StoreReviewPostWidget> {
                             await ReviewForStoreRecord.collection
                                 .doc()
                                 .set(reviewForStoreCreateData);
-                            context.pop();
+                            Navigator.pop(context);
                           },
                           text: FFLocalizations.of(context).getText(
                             'yf3wrhig' /* POST REVIEW */,

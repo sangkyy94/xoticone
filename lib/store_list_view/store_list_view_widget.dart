@@ -5,6 +5,7 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../store_detail_view/store_detail_view_widget.dart';
 import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +102,7 @@ class _StoreListViewWidgetState extends State<StoreListViewWidget> {
                 size: 30,
               ),
               onPressed: () async {
-                context.pop();
+                Navigator.pop(context);
               },
             ),
             title: StreamBuilder<List<SuburbsRecord>>(
@@ -343,8 +344,11 @@ class _StoreListViewWidgetState extends State<StoreListViewWidget> {
                                                           .whenComplete(() =>
                                                               setState(() {}));
 
-                                                      FFAppState()
-                                                          .showListView = true;
+                                                      FFAppState().update(() {
+                                                        FFAppState()
+                                                                .showListView =
+                                                            true;
+                                                      });
                                                     },
                                                     text: FFLocalizations.of(
                                                             context)
@@ -388,8 +392,11 @@ class _StoreListViewWidgetState extends State<StoreListViewWidget> {
                                                       .fromSTEB(40, 0, 0, 0),
                                                   child: InkWell(
                                                     onTap: () async {
-                                                      FFAppState()
-                                                          .showListView = false;
+                                                      FFAppState().update(() {
+                                                        FFAppState()
+                                                                .showListView =
+                                                            false;
+                                                      });
                                                     },
                                                     child: Icon(
                                                       Icons.replay,
@@ -539,17 +546,14 @@ class _StoreListViewWidgetState extends State<StoreListViewWidget> {
                                       0, 0, 0, 1),
                                   child: InkWell(
                                     onTap: () async {
-                                      context.pushNamed(
-                                        'StoreDetailView',
-                                        queryParams: {
-                                          'storeRef': serializeParam(
-                                            columnStoresRecord,
-                                            ParamType.Document,
+                                      await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              StoreDetailViewWidget(
+                                            storeRef: columnStoresRecord,
                                           ),
-                                        }.withoutNulls,
-                                        extra: <String, dynamic>{
-                                          'storeRef': columnStoresRecord,
-                                        },
+                                        ),
                                       );
                                     },
                                     child: Container(
@@ -628,18 +632,55 @@ class _StoreListViewWidgetState extends State<StoreListViewWidget> {
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     children: [
-                                                      Text(
-                                                        '${formatNumber(
-                                                          functions.distanceGeo(
-                                                              columnStoresRecord
-                                                                  .geolocation!,
-                                                              currentUserLocationValue!),
-                                                          formatType: FormatType
-                                                              .compact,
-                                                        )}Km',
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
+                                                      StreamBuilder<
+                                                          List<StoresRecord>>(
+                                                        stream:
+                                                            queryStoresRecord(
+                                                          queryBuilder: (storesRecord) =>
+                                                              storesRecord.where(
+                                                                  'Store_UUID',
+                                                                  isEqualTo:
+                                                                      columnStoresRecord
+                                                                          .storeUUID),
+                                                          singleRecord: true,
+                                                        ),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          // Customize what your widget looks like when it's loading.
+                                                          if (!snapshot
+                                                              .hasData) {
+                                                            return Center(
+                                                              child: SizedBox(
+                                                                width: 50,
+                                                                height: 50,
+                                                                child:
+                                                                    SpinKitRipple(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryColor,
+                                                                  size: 50,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
+                                                          List<StoresRecord>
+                                                              textStoresRecordList =
+                                                              snapshot.data!;
+                                                          // Return an empty Container when the item does not exist.
+                                                          if (snapshot
+                                                              .data!.isEmpty) {
+                                                            return Container();
+                                                          }
+                                                          final textStoresRecord =
+                                                              textStoresRecordList
+                                                                      .isNotEmpty
+                                                                  ? textStoresRecordList
+                                                                      .first
+                                                                  : null;
+                                                          return Text(
+                                                            '${functions.distanceGeo(columnStoresRecord.geolocation!, currentUserLocationValue!).toString()} Km away from you.',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
                                                                 .bodyText1
                                                                 .override(
                                                                   fontFamily:
@@ -651,6 +692,8 @@ class _StoreListViewWidgetState extends State<StoreListViewWidget> {
                                                                       FontWeight
                                                                           .w500,
                                                                 ),
+                                                          );
+                                                        },
                                                       ),
                                                     ],
                                                   ),

@@ -73,7 +73,7 @@ class _StrainUploadWidgetState extends State<StrainUploadWidget> {
                           padding:
                               EdgeInsetsDirectional.fromSTEB(15, 15, 15, 15),
                           child: AuthUserStreamWidget(
-                            child: SelectionArea(
+                            builder: (context) => SelectionArea(
                                 child: Text(
                               'Dear ${currentUserDisplayName}',
                               style: FlutterFlowTheme.of(context).bodyText1,

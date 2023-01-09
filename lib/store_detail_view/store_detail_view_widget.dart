@@ -5,6 +5,10 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../member_view/member_view_widget.dart';
+import '../product_details_view/product_details_view_widget.dart';
+import '../stamp_coupon/stamp_coupon_widget.dart';
+import '../store_review_post/store_review_post_widget.dart';
 import '../flutter_flow/custom_functions.dart' as functions;
 import '../flutter_flow/random_data_util.dart' as random_data;
 import 'package:auto_size_text/auto_size_text.dart';
@@ -73,7 +77,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                 size: 30,
               ),
               onPressed: () async {
-                context.pop();
+                Navigator.pop(context);
               },
             ),
             title: Text(
@@ -103,6 +107,124 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                         width: double.infinity,
                         height: 250,
                         fit: BoxFit.cover,
+                      ),
+                      Align(
+                        alignment: AlignmentDirectional(0.96, 0.89),
+                        child: Container(
+                          width: 150,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: Color(0x00101213),
+                          ),
+                          child: Align(
+                            alignment: AlignmentDirectional(0.66, 0.82),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                if (FFAppState().favoriteStoreList.contains(
+                                        storeDetailViewStoresRecord
+                                            .storeUUID) ==
+                                    false)
+                                  FFButtonWidget(
+                                    onPressed: () async {
+                                      FFAppState().update(() {
+                                        FFAppState().addToFavoriteStoreList(
+                                            storeDetailViewStoresRecord
+                                                .storeUUID!);
+                                      });
+
+                                      final storesUpdateData = {
+                                        'favorited_By2': FieldValue.arrayUnion(
+                                            [currentUserReference]),
+                                      };
+                                      await storeDetailViewStoresRecord
+                                          .reference
+                                          .update(storesUpdateData);
+
+                                      final usersUpdateData = {
+                                        'favorite_Stores':
+                                            FieldValue.arrayUnion(
+                                                [widget.storeRef!.reference]),
+                                      };
+                                      await currentUserReference!
+                                          .update(usersUpdateData);
+                                    },
+                                    text: FFLocalizations.of(context).getText(
+                                      'a9kcx03z' /* Favorite */,
+                                    ),
+                                    options: FFButtonOptions(
+                                      width: 100,
+                                      height: 40,
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryColor,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .subtitle2
+                                          .override(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                          ),
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                if (FFAppState().favoriteStoreList.contains(
+                                        storeDetailViewStoresRecord
+                                            .storeUUID) ==
+                                    true)
+                                  FFButtonWidget(
+                                    onPressed: () async {
+                                      FFAppState().update(() {
+                                        FFAppState()
+                                            .removeFromFavoriteStoreList(
+                                                storeDetailViewStoresRecord
+                                                    .storeUUID!);
+                                      });
+
+                                      final storesUpdateData = {
+                                        'favorited_By2': FieldValue.arrayRemove(
+                                            [currentUserReference]),
+                                      };
+                                      await storeDetailViewStoresRecord
+                                          .reference
+                                          .update(storesUpdateData);
+
+                                      final usersUpdateData = {
+                                        'favorite_Stores':
+                                            FieldValue.arrayRemove([
+                                          storeDetailViewStoresRecord.reference
+                                        ]),
+                                      };
+                                      await currentUserReference!
+                                          .update(usersUpdateData);
+                                    },
+                                    text: FFLocalizations.of(context).getText(
+                                      'afitcsm4' /* Favorited */,
+                                    ),
+                                    options: FFButtonOptions(
+                                      width: 100,
+                                      height: 40,
+                                      color: FlutterFlowTheme.of(context)
+                                          .darkSeaGreen,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .subtitle2
+                                          .override(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                          ),
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -139,7 +261,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                   child: Text(
                                     widget.storeRef!.nameStore!
                                         .maybeHandleOverflow(
-                                      maxChars: 22,
+                                      maxChars: 20,
                                       replacement: '…',
                                     ),
                                     maxLines: 1,
@@ -147,115 +269,6 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                   ),
                                 ),
                               ],
-                            ),
-                            Container(
-                              width: 150,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context)
-                                    .secondaryBackground,
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  if (FFAppState().favoriteStoreList.contains(
-                                          storeDetailViewStoresRecord
-                                              .storeUUID) ==
-                                      false)
-                                    FFButtonWidget(
-                                      onPressed: () async {
-                                        FFAppState().addToFavoriteStoreList(
-                                            storeDetailViewStoresRecord
-                                                .storeUUID!);
-
-                                        final storesUpdateData =
-                                            createStoresRecordData(
-                                          favoritedBy: currentUserReference,
-                                        );
-                                        await storeDetailViewStoresRecord
-                                            .reference
-                                            .update(storesUpdateData);
-
-                                        final usersUpdateData = {
-                                          'favorite_Stores':
-                                              FieldValue.arrayUnion(
-                                                  [widget.storeRef!.reference]),
-                                        };
-                                        await currentUserReference!
-                                            .update(usersUpdateData);
-                                      },
-                                      text: FFLocalizations.of(context).getText(
-                                        'zlmoov3g' /* Favorite */,
-                                      ),
-                                      options: FFButtonOptions(
-                                        width: 100,
-                                        height: 40,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryColor,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .subtitle2
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.white,
-                                            ),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                    ),
-                                  if (FFAppState().favoriteStoreList.contains(
-                                          storeDetailViewStoresRecord
-                                              .storeUUID) ==
-                                      true)
-                                    FFButtonWidget(
-                                      onPressed: () async {
-                                        FFAppState()
-                                            .removeFromFavoriteStoreList(
-                                                storeDetailViewStoresRecord
-                                                    .storeUUID!);
-
-                                        final storesUpdateData = {
-                                          'favorited_By': FieldValue.delete(),
-                                        };
-                                        await storeDetailViewStoresRecord
-                                            .reference
-                                            .update(storesUpdateData);
-
-                                        final usersUpdateData = {
-                                          'favorite_Stores':
-                                              FieldValue.arrayRemove([
-                                            storeDetailViewStoresRecord
-                                                .reference
-                                          ]),
-                                        };
-                                        await currentUserReference!
-                                            .update(usersUpdateData);
-                                      },
-                                      text: FFLocalizations.of(context).getText(
-                                        'lktz731s' /* Favorited */,
-                                      ),
-                                      options: FFButtonOptions(
-                                        width: 100,
-                                        height: 40,
-                                        color: FlutterFlowTheme.of(context)
-                                            .darkSeaGreen,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .subtitle2
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.white,
-                                            ),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                    ),
-                                ],
-                              ),
                             ),
                           ],
                         ),
@@ -614,22 +627,15 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                     listViewProductsRecordList[listViewIndex];
                                 return InkWell(
                                   onTap: () async {
-                                    context.pushNamed(
-                                      'ProductDetailsView',
-                                      queryParams: {
-                                        'productRef': serializeParam(
-                                          listViewProductsRecord,
-                                          ParamType.Document,
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ProductDetailsViewWidget(
+                                          productRef: listViewProductsRecord,
+                                          storeRef: storeDetailViewStoresRecord,
                                         ),
-                                        'storeRef': serializeParam(
-                                          storeDetailViewStoresRecord,
-                                          ParamType.Document,
-                                        ),
-                                      }.withoutNulls,
-                                      extra: <String, dynamic>{
-                                        'productRef': listViewProductsRecord,
-                                        'storeRef': storeDetailViewStoresRecord,
-                                      },
+                                      ),
                                     );
                                   },
                                   child: Container(
@@ -889,20 +895,19 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                             size: 20,
                                           ),
                                           onPressed: () async {
-                                            context.pushNamed(
-                                              'StoreReviewPost',
-                                              queryParams: {
-                                                'storeRef': serializeParam(
-                                                  storeDetailViewStoresRecord
-                                                      .reference,
-                                                  ParamType.DocumentReference,
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    StoreReviewPostWidget(
+                                                  storeRef:
+                                                      storeDetailViewStoresRecord
+                                                          .reference,
+                                                  ownerUserRef:
+                                                      storeDetailViewStoresRecord
+                                                          .ownerRef,
                                                 ),
-                                                'ownerUserRef': serializeParam(
-                                                  storeDetailViewStoresRecord
-                                                      .ownerRef,
-                                                  ParamType.DocumentReference,
-                                                ),
-                                              }.withoutNulls,
+                                              ),
                                             );
                                           },
                                         ),
@@ -966,8 +971,13 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                                   children: [
                                                     InkWell(
                                                       onTap: () async {
-                                                        context.pushNamed(
-                                                            'MemberView');
+                                                        await Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                MemberViewWidget(),
+                                                          ),
+                                                        );
                                                       },
                                                       child: ClipRRect(
                                                         borderRadius:
@@ -1156,7 +1166,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       40, 0, 15, 10),
                                   child: AuthUserStreamWidget(
-                                    child:
+                                    builder: (context) =>
                                         StreamBuilder<List<StampCouponsRecord>>(
                                       stream: queryStampCouponsRecord(
                                         queryBuilder: (stampCouponsRecord) =>
@@ -1223,18 +1233,14 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                             };
                                             await currentUserReference!
                                                 .update(usersUpdateData);
-
-                                            context.pushNamed(
-                                              'StoreDetailView',
-                                              queryParams: {
-                                                'storeRef': serializeParam(
-                                                  widget.storeRef,
-                                                  ParamType.Document,
+                                            await Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    StoreDetailViewWidget(
+                                                  storeRef: widget.storeRef,
                                                 ),
-                                              }.withoutNulls,
-                                              extra: <String, dynamic>{
-                                                'storeRef': widget.storeRef,
-                                              },
+                                              ),
                                             );
                                           },
                                           text: FFLocalizations.of(context)
@@ -1251,7 +1257,7 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                                     .override(
                                                       fontFamily: 'Outfit',
                                                       color: Colors.white,
-                                                      fontSize: 16,
+                                                      fontSize: 14,
                                                       fontWeight:
                                                           FontWeight.w500,
                                                     ),
@@ -1337,22 +1343,17 @@ class _StoreDetailViewWidgetState extends State<StoreDetailViewWidget>
                                             60, 0, 15, 0),
                                         child: FFButtonWidget(
                                           onPressed: () async {
-                                            context.pushNamed(
-                                              'StampCoupon',
-                                              queryParams: {
-                                                'storeRef': serializeParam(
-                                                  widget.storeRef!.reference,
-                                                  ParamType.DocumentReference,
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    StampCouponWidget(
+                                                  storeRef: widget
+                                                      .storeRef!.reference,
+                                                  couponRef:
+                                                      columnStampCouponsRecord,
                                                 ),
-                                                'couponRef': serializeParam(
-                                                  columnStampCouponsRecord,
-                                                  ParamType.Document,
-                                                ),
-                                              }.withoutNulls,
-                                              extra: <String, dynamic>{
-                                                'couponRef':
-                                                    columnStampCouponsRecord,
-                                              },
+                                              ),
                                             );
                                           },
                                           text: FFLocalizations.of(context)

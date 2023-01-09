@@ -3,6 +3,9 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../home/home_widget.dart';
+import '../main.dart';
+import '../signup/signup_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -81,23 +84,25 @@ class _LoginWidgetState extends State<LoginWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
                           child: Text(
                             FFLocalizations.of(context).getText(
-                              'bjktvqdt' /* Sign In */,
+                              'bjktvqdt' /* Log In */,
                             ),
-                            style: FlutterFlowTheme.of(context).title1,
+                            style: FlutterFlowTheme.of(context).title1.override(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 32,
+                                ),
                           ),
                         ),
                       ),
                       InkWell(
                         onTap: () async {
-                          context.pushNamed(
-                            'signup',
-                            extra: <String, dynamic>{
-                              kTransitionInfoKey: TransitionInfo(
-                                hasTransition: true,
-                                transitionType: PageTransitionType.fade,
-                                duration: Duration(milliseconds: 200),
-                              ),
-                            },
+                          await Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.fade,
+                              duration: Duration(milliseconds: 200),
+                              reverseDuration: Duration(milliseconds: 200),
+                              child: SignupWidget(),
+                            ),
                           );
                         },
                         child: Container(
@@ -119,7 +124,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         fontFamily: 'Montserrat',
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryText,
-                                        fontWeight: FontWeight.normal,
+                                        fontSize: 32,
+                                        fontWeight: FontWeight.w600,
                                       ),
                             ),
                           ),
@@ -300,7 +306,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           'tjqrhpk1' /* Forgot Password? */,
                         ),
                         options: FFButtonOptions(
-                          width: 150,
+                          width: 180,
                           height: 50,
                           color: FlutterFlowTheme.of(context).primaryBackground,
                           textStyle: FlutterFlowTheme.of(context)
@@ -320,8 +326,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ),
                       FFButtonWidget(
                         onPressed: () async {
-                          GoRouter.of(context).prepareAuthEvent();
-
                           final user = await signInWithEmail(
                             context,
                             emailTextController!.text,
@@ -331,7 +335,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                             return;
                           }
 
-                          context.pushNamedAuth('home', mounted);
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  NavBarPage(initialPage: 'home'),
+                            ),
+                          );
                         },
                         text: FFLocalizations.of(context).getText(
                           'nnrjxh0s' /* Login */,
@@ -380,13 +390,18 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 size: 24,
                               ),
                               onPressed: () async {
-                                GoRouter.of(context).prepareAuthEvent();
                                 final user = await signInWithGoogle(context);
                                 if (user == null) {
                                   return;
                                 }
-
-                                context.goNamedAuth('home', mounted);
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HomeWidget(
+                                      userRef: currentUserReference,
+                                    ),
+                                  ),
+                                );
                               },
                             ),
                           ),
@@ -405,13 +420,18 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 size: 24,
                               ),
                               onPressed: () async {
-                                GoRouter.of(context).prepareAuthEvent();
                                 final user = await signInWithApple(context);
                                 if (user == null) {
                                   return;
                                 }
-
-                                context.goNamedAuth('home', mounted);
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HomeWidget(
+                                      userRef: currentUserReference,
+                                    ),
+                                  ),
+                                );
                               },
                             ),
                           ),

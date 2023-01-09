@@ -96,7 +96,7 @@ class _RatingWidgetState extends State<RatingWidget> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     AuthUserStreamWidget(
-                      child: ClipRRect(
+                      builder: (context) => ClipRRect(
                         borderRadius: BorderRadius.circular(40),
                         child: Image.network(
                           currentUserPhoto,
@@ -109,7 +109,7 @@ class _RatingWidgetState extends State<RatingWidget> {
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
                       child: AuthUserStreamWidget(
-                        child: Text(
+                        builder: (context) => Text(
                           currentUserDisplayName,
                           style: FlutterFlowTheme.of(context).subtitle2,
                         ),

@@ -2,6 +2,7 @@ import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../member_view/member_view_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -201,17 +202,14 @@ class _StoreCouponlDlUserIstWidgetState
                                         10, 5, 10, 5),
                                     child: InkWell(
                                       onTap: () async {
-                                        context.pushNamed(
-                                          'MemberView',
-                                          queryParams: {
-                                            'userRef': serializeParam(
-                                              listViewUsersRecord,
-                                              ParamType.Document,
+                                        await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                MemberViewWidget(
+                                              userRef: listViewUsersRecord,
                                             ),
-                                          }.withoutNulls,
-                                          extra: <String, dynamic>{
-                                            'userRef': listViewUsersRecord,
-                                          },
+                                          ),
                                         );
                                       },
                                       child: Container(

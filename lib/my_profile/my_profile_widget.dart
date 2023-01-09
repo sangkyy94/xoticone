@@ -1,9 +1,12 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../components/post_modal_approval_widget.dart';
+import '../edit_profile/edit_profile_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../my_puff_story_post/my_puff_story_post_widget.dart';
+import '../store_detail_view/store_detail_view_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +84,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
                 size: 30,
               ),
               onPressed: () async {
-                context.pop();
+                Navigator.pop(context);
               },
             ),
             actions: [],
@@ -124,7 +127,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
                                 padding:
                                     EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
                                 child: AuthUserStreamWidget(
-                                  child: ClipRRect(
+                                  builder: (context) => ClipRRect(
                                     borderRadius: BorderRadius.circular(60),
                                     child: Image.network(
                                       currentUserPhoto,
@@ -145,7 +148,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   AuthUserStreamWidget(
-                                    child: Text(
+                                    builder: (context) => Text(
                                       currentUserDisplayName,
                                       style:
                                           FlutterFlowTheme.of(context).title3,
@@ -198,17 +201,13 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
                                   EdgeInsetsDirectional.fromSTEB(40, 0, 0, 0),
                               child: InkWell(
                                 onTap: () async {
-                                  context.pushNamed(
-                                    'Edit_Profile',
-                                    queryParams: {
-                                      'userRef': serializeParam(
-                                        myProfileUsersRecord,
-                                        ParamType.Document,
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => EditProfileWidget(
+                                        userRef: myProfileUsersRecord,
                                       ),
-                                    }.withoutNulls,
-                                    extra: <String, dynamic>{
-                                      'userRef': myProfileUsersRecord,
-                                    },
+                                    ),
                                   );
                                 },
                                 child: Container(
@@ -329,7 +328,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   10, 10, 10, 10),
                               child: AuthUserStreamWidget(
-                                child: AutoSizeText(
+                                builder: (context) => AutoSizeText(
                                   valueOrDefault(
                                       currentUserDocument?.selfIntroduction,
                                       ''),
@@ -395,17 +394,14 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
                                     16, 0, 16, 12),
                                 child: InkWell(
                                   onTap: () async {
-                                    context.pushNamed(
-                                      'StoreDetailView',
-                                      queryParams: {
-                                        'storeRef': serializeParam(
-                                          listViewStoresRecord,
-                                          ParamType.Document,
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            StoreDetailViewWidget(
+                                          storeRef: listViewStoresRecord,
                                         ),
-                                      }.withoutNulls,
-                                      extra: <String, dynamic>{
-                                        'storeRef': listViewStoresRecord,
-                                      },
+                                      ),
                                     );
                                   },
                                   child: Container(
@@ -530,7 +526,12 @@ class _MyProfileWidgetState extends State<MyProfileWidget> {
                           ),
                           InkWell(
                             onTap: () async {
-                              context.pushNamed('MyPuffStoryPost');
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MyPuffStoryPostWidget(),
+                                ),
+                              );
                             },
                             child: Text(
                               FFLocalizations.of(context).getText(

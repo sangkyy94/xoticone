@@ -3,6 +3,9 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../home/home_widget.dart';
+import '../login/login_widget.dart';
+import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -68,15 +71,14 @@ class _SignupWidgetState extends State<SignupWidget> {
                   children: [
                     InkWell(
                       onTap: () async {
-                        context.pushNamed(
-                          'Login',
-                          extra: <String, dynamic>{
-                            kTransitionInfoKey: TransitionInfo(
-                              hasTransition: true,
-                              transitionType: PageTransitionType.fade,
-                              duration: Duration(milliseconds: 200),
-                            ),
-                          },
+                        await Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            duration: Duration(milliseconds: 200),
+                            reverseDuration: Duration(milliseconds: 200),
+                            child: LoginWidget(),
+                          ),
                         );
                       },
                       child: Container(
@@ -89,7 +91,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
                           child: Text(
                             FFLocalizations.of(context).getText(
-                              'jv5urdis' /* Sign In */,
+                              'jv5urdis' /* Log In */,
                             ),
                             style: FlutterFlowTheme.of(context).title1.override(
                                   fontFamily: 'Outfit',
@@ -315,7 +317,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                       ),
                       style: FlutterFlowTheme.of(context).bodyText1.override(
                             fontFamily: 'Outfit',
-                            color: FlutterFlowTheme.of(context).background,
+                            color: FlutterFlowTheme.of(context).primaryText,
                             fontSize: 14,
                             fontWeight: FontWeight.normal,
                           ),
@@ -331,8 +333,6 @@ class _SignupWidgetState extends State<SignupWidget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        GoRouter.of(context).prepareAuthEvent();
-
                         final user = await createAccountWithEmail(
                           context,
                           emailTextController!.text,
@@ -342,7 +342,14 @@ class _SignupWidgetState extends State<SignupWidget> {
                           return;
                         }
 
-                        context.goNamedAuth('home', mounted);
+                        await Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                NavBarPage(initialPage: 'home'),
+                          ),
+                          (r) => false,
+                        );
                       },
                       text: FFLocalizations.of(context).getText(
                         'lixp4w2y' /* Sign up */,
@@ -388,13 +395,18 @@ class _SignupWidgetState extends State<SignupWidget> {
                           size: 24,
                         ),
                         onPressed: () async {
-                          GoRouter.of(context).prepareAuthEvent();
                           final user = await signInWithGoogle(context);
                           if (user == null) {
                             return;
                           }
-
-                          context.goNamedAuth('home', mounted);
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomeWidget(
+                                userRef: currentUserReference,
+                              ),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -412,13 +424,18 @@ class _SignupWidgetState extends State<SignupWidget> {
                           size: 24,
                         ),
                         onPressed: () async {
-                          GoRouter.of(context).prepareAuthEvent();
                           final user = await signInWithApple(context);
                           if (user == null) {
                             return;
                           }
-
-                          context.goNamedAuth('home', mounted);
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomeWidget(
+                                userRef: currentUserReference,
+                              ),
+                            ),
+                          );
                         },
                       ),
                     ),

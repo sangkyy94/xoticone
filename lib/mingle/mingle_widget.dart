@@ -1,7 +1,14 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../event_details/event_details_widget.dart';
+import '../event_list_host/event_list_host_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../member_view/member_view_widget.dart';
+import '../my_profile/my_profile_widget.dart';
+import '../my_puff_story_post/my_puff_story_post_widget.dart';
+import '../puff_story_details/puff_story_details_widget.dart';
+import '../smokers_around_me/smokers_around_me_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -73,9 +80,14 @@ class _MingleWidgetState extends State<MingleWidget> {
                               currentUserDocument?.admin, false) ==
                           true)
                         AuthUserStreamWidget(
-                          child: InkWell(
+                          builder: (context) => InkWell(
                             onTap: () async {
-                              context.pushNamed('Smokers_Around_Me');
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SmokersAroundMeWidget(),
+                                ),
+                              );
                             },
                             child: Text(
                               FFLocalizations.of(context).getText(
@@ -94,148 +106,154 @@ class _MingleWidgetState extends State<MingleWidget> {
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).primaryBackground,
                   ),
-                  child: StreamBuilder<List<UsersRecord>>(
-                    stream: queryUsersRecord(),
-                    builder: (context, snapshot) {
-                      // Customize what your widget looks like when it's loading.
-                      if (!snapshot.hasData) {
-                        return Center(
-                          child: SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: SpinKitRipple(
-                              color: FlutterFlowTheme.of(context).primaryColor,
-                              size: 50,
-                            ),
-                          ),
-                        );
-                      }
-                      List<UsersRecord> listViewUsersRecordList =
-                          snapshot.data!;
-                      return ListView.builder(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: listViewUsersRecordList.length,
-                        itemBuilder: (context, listViewIndex) {
-                          final listViewUsersRecord =
-                              listViewUsersRecordList[listViewIndex];
-                          return Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
-                            child: InkWell(
-                              onTap: () async {
-                                context.pushNamed(
-                                  'MemberView',
-                                  queryParams: {
-                                    'userRef': serializeParam(
-                                      listViewUsersRecord,
-                                      ParamType.Document,
-                                    ),
-                                  }.withoutNulls,
-                                  extra: <String, dynamic>{
-                                    'userRef': listViewUsersRecord,
-                                  },
-                                );
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.27,
-                                height: 27,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 5,
-                                      color: Color(0x44111417),
-                                      offset: Offset(0, 2),
-                                    )
-                                  ],
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      12, 12, 12, 12),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Expanded(
-                                        child: Align(
-                                          alignment: AlignmentDirectional(0, 0),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                width: 80,
-                                                height: 80,
-                                                decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .lineColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                ),
-                                                child: Container(
-                                                  width: 80,
-                                                  height: 80,
-                                                  clipBehavior: Clip.antiAlias,
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                  ),
-                                                  child: Image.network(
-                                                    listViewUsersRecord
-                                                        .photoUrl!,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(0, 8, 0, 4),
-                                                child: GradientText(
-                                                  listViewUsersRecord
-                                                      .displayName!,
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .subtitle2
-                                                      .override(
-                                                        fontFamily: 'Poppins',
-                                                        fontSize: 10,
-                                                      ),
-                                                  colors: [
-                                                    Color(0xFF6C3BA0),
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryColor
-                                                  ],
-                                                  gradientDirection:
-                                                      GradientDirection.ltr,
-                                                  gradientType:
-                                                      GradientType.linear,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
+                    child: StreamBuilder<List<UsersRecord>>(
+                      stream: queryUsersRecord(),
+                      builder: (context, snapshot) {
+                        // Customize what your widget looks like when it's loading.
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: SpinKitRipple(
+                                color:
+                                    FlutterFlowTheme.of(context).primaryColor,
+                                size: 50,
                               ),
                             ),
                           );
-                        },
-                      );
-                    },
+                        }
+                        List<UsersRecord> listViewUsersRecordList =
+                            snapshot.data!;
+                        return ListView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: listViewUsersRecordList.length,
+                          itemBuilder: (context, listViewIndex) {
+                            final listViewUsersRecord =
+                                listViewUsersRecordList[listViewIndex];
+                            return Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
+                              child: InkWell(
+                                onTap: () async {
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MemberViewWidget(
+                                        userRef: listViewUsersRecord,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.27,
+                                  height: 27,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 5,
+                                        color: Color(0x44111417),
+                                        offset: Offset(0, 2),
+                                      )
+                                    ],
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        12, 12, 12, 12),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Expanded(
+                                          child: Align(
+                                            alignment:
+                                                AlignmentDirectional(0, 0),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  width: 80,
+                                                  height: 80,
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .lineColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                  ),
+                                                  child: Container(
+                                                    width: 80,
+                                                    height: 80,
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: Image.network(
+                                                      listViewUsersRecord
+                                                          .photoUrl!,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0, 8, 0, 4),
+                                                  child: GradientText(
+                                                    listViewUsersRecord
+                                                        .displayName!,
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .subtitle2
+                                                        .override(
+                                                          fontFamily: 'Poppins',
+                                                          fontSize: 10,
+                                                        ),
+                                                    colors: [
+                                                      Color(0xFF6C3BA0),
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondaryColor
+                                                    ],
+                                                    gradientDirection:
+                                                        GradientDirection.ltr,
+                                                    gradientType:
+                                                        GradientType.linear,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(16, 4, 16, 12),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
@@ -246,115 +264,420 @@ class _MingleWidgetState extends State<MingleWidget> {
                           style: FlutterFlowTheme.of(context).title2,
                         ),
                       ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
+                        child: InkWell(
+                          onTap: () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EventListHostWidget(),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            FFLocalizations.of(context).getText(
+                              'xirjygsg' /* Unmatched Event */,
+                            ),
+                            style: FlutterFlowTheme.of(context).bodyText2,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 Container(
                   width: double.infinity,
-                  height: 420,
+                  height: 400,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).primaryBackground,
                   ),
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 8, 0, 8),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.7,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 5,
-                                color: Color(0x44111417),
-                                offset: Offset(0, 2),
-                              )
-                            ],
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        width: double.infinity,
-                                        height: 270,
-                                        decoration: BoxDecoration(
-                                          color: FlutterFlowTheme.of(context)
-                                              .lineColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  2, 2, 2, 2),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                            child: Image.network(
-                                              'https://images.unsplash.com/photo-1500468756762-a401b6f17b46?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1288&q=80',
-                                              width: 100,
-                                              height: 100,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
+                    child: StreamBuilder<List<EventsRecord>>(
+                      stream: queryEventsRecord(
+                        queryBuilder: (eventsRecord) =>
+                            eventsRecord.where('host_Matched', isEqualTo: true),
+                      ),
+                      builder: (context, snapshot) {
+                        // Customize what your widget looks like when it's loading.
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: SpinKitRipple(
+                                color:
+                                    FlutterFlowTheme.of(context).primaryColor,
+                                size: 50,
+                              ),
+                            ),
+                          );
+                        }
+                        List<EventsRecord> listViewEventsRecordList =
+                            snapshot.data!;
+                        return ListView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: listViewEventsRecordList.length,
+                          itemBuilder: (context, listViewIndex) {
+                            final listViewEventsRecord =
+                                listViewEventsRecordList[listViewIndex];
+                            return Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
+                              child: InkWell(
+                                onTap: () async {
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => EventDetailsWidget(
+                                        eventRef: listViewEventsRecord,
                                       ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 8, 0, 4),
-                                        child: Text(
-                                          FFLocalizations.of(context).getText(
-                                            'g4tz3rog' /* Event Name */,
-                                          ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .subtitle1,
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Expanded(
-                                            child: Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0, 0, 0, 4),
-                                              child: Text(
-                                                FFLocalizations.of(context)
-                                                    .getText(
-                                                  'nna5r8lu' /* Event Date */,
-                                                ),
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText2,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.7,
+                                  height: 27,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 5,
+                                        color: Color(0x44111417),
+                                        offset: Offset(0, 2),
+                                      )
                                     ],
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        12, 12, 12, 12),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: Align(
+                                            alignment:
+                                                AlignmentDirectional(0, 0),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Align(
+                                                  alignment:
+                                                      AlignmentDirectional(
+                                                          0, 0),
+                                                  child: Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.95,
+                                                    height: 240,
+                                                    decoration: BoxDecoration(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .lineColor,
+                                                      image: DecorationImage(
+                                                        fit: BoxFit.cover,
+                                                        image: Image.network(
+                                                          listViewEventsRecord
+                                                              .photo1!,
+                                                        ).image,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                    ),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      children: [
+                                                        Container(
+                                                          width:
+                                                              double.infinity,
+                                                          height: 240,
+                                                          child: Stack(
+                                                            children: [
+                                                              Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            10,
+                                                                            0,
+                                                                            0,
+                                                                            0),
+                                                                    child: Text(
+                                                                      listViewEventsRecord
+                                                                          .eventTitle!,
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .title3,
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            10,
+                                                                            10,
+                                                                            10,
+                                                                            10),
+                                                                    child:
+                                                                        Container(
+                                                                      width: 40,
+                                                                      height:
+                                                                          40,
+                                                                      clipBehavior:
+                                                                          Clip.antiAlias,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        shape: BoxShape
+                                                                            .circle,
+                                                                      ),
+                                                                      child: Image
+                                                                          .network(
+                                                                        listViewEventsRecord
+                                                                            .hostThumbnail!,
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Align(
+                                                                alignment:
+                                                                    AlignmentDirectional(
+                                                                        -0.96,
+                                                                        0.7),
+                                                                child: Padding(
+                                                                  padding: EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          10,
+                                                                          0,
+                                                                          0,
+                                                                          0),
+                                                                  child: Text(
+                                                                    FFLocalizations.of(
+                                                                            context)
+                                                                        .getText(
+                                                                      'zl61sscz' /* Attendee # : */,
+                                                                    ),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyText1,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Align(
+                                                                alignment:
+                                                                    AlignmentDirectional(
+                                                                        -0.96,
+                                                                        0.87),
+                                                                child: Padding(
+                                                                  padding: EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          10,
+                                                                          0,
+                                                                          0,
+                                                                          0),
+                                                                  child: Text(
+                                                                    dateTimeFormat(
+                                                                      'MMMMEEEEd',
+                                                                      listViewEventsRecord
+                                                                          .eventDate!,
+                                                                      locale: FFLocalizations.of(
+                                                                              context)
+                                                                          .languageCode,
+                                                                    ),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyText1,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0, 8, 0, 4),
+                                                  child: GradientText(
+                                                    'VENUE : ${listViewEventsRecord.venueName}',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .subtitle2
+                                                        .override(
+                                                          fontFamily: 'Poppins',
+                                                          fontSize: 10,
+                                                        ),
+                                                    colors: [
+                                                      Color(0xFF6C3BA0),
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondaryColor
+                                                    ],
+                                                    gradientDirection:
+                                                        GradientDirection.ltr,
+                                                    gradientType:
+                                                        GradientType.linear,
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0, 4, 0, 4),
+                                                  child: GradientText(
+                                                    listViewEventsRecord
+                                                        .venueAddress!
+                                                        .maybeHandleOverflow(
+                                                            maxChars: 25),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .subtitle2
+                                                        .override(
+                                                          fontFamily: 'Poppins',
+                                                          fontSize: 10,
+                                                        ),
+                                                    colors: [
+                                                      Color(0xFF6C3BA0),
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondaryColor
+                                                    ],
+                                                    gradientDirection:
+                                                        GradientDirection.ltr,
+                                                    gradientType:
+                                                        GradientType.linear,
+                                                  ),
+                                                ),
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0, 4, 0, 4),
+                                                      child: GradientText(
+                                                        'Language : ${listViewEventsRecord.mainLanguage}',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .subtitle2
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Poppins',
+                                                                  fontSize: 10,
+                                                                ),
+                                                        colors: [
+                                                          Color(0xFF6C3BA0),
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .secondaryColor
+                                                        ],
+                                                        gradientDirection:
+                                                            GradientDirection
+                                                                .ltr,
+                                                        gradientType:
+                                                            GradientType.linear,
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0, 4, 0, 4),
+                                                      child: GradientText(
+                                                        listViewEventsRecord
+                                                            .dressCode!,
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .subtitle2
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Poppins',
+                                                                  fontSize: 10,
+                                                                ),
+                                                        colors: [
+                                                          Color(0xFF6C3BA0),
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .secondaryColor
+                                                        ],
+                                                        gradientDirection:
+                                                            GradientDirection
+                                                                .ltr,
+                                                        gradientType:
+                                                            GradientType.linear,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0, 4, 0, 4),
+                                                  child: GradientText(
+                                                    'Host : ${listViewEventsRecord.nameHost}',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .subtitle2
+                                                        .override(
+                                                          fontFamily: 'Poppins',
+                                                          fontSize: 10,
+                                                        ),
+                                                    colors: [
+                                                      Color(0xFF6C3BA0),
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondaryColor
+                                                    ],
+                                                    gradientDirection:
+                                                        GradientDirection.ltr,
+                                                    gradientType:
+                                                        GradientType.linear,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ),
                 Padding(
@@ -381,14 +704,13 @@ class _MingleWidgetState extends State<MingleWidget> {
                                 EdgeInsetsDirectional.fromSTEB(0, 20, 8, 0),
                             child: InkWell(
                               onTap: () async {
-                                context.pushNamed(
-                                  'MyProfile',
-                                  queryParams: {
-                                    'userRef': serializeParam(
-                                      currentUserReference,
-                                      ParamType.DocumentReference,
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MyProfileWidget(
+                                      userRef: currentUserReference,
                                     ),
-                                  }.withoutNulls,
+                                  ),
                                 );
                               },
                               child: Text(
@@ -411,7 +733,13 @@ class _MingleWidgetState extends State<MingleWidget> {
                                 EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                             child: InkWell(
                               onTap: () async {
-                                context.pushNamed('MyPuffStoryPost');
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        MyPuffStoryPostWidget(),
+                                  ),
+                                );
                               },
                               child: Text(
                                 FFLocalizations.of(context).getText(
@@ -438,7 +766,7 @@ class _MingleWidgetState extends State<MingleWidget> {
                         stream: queryMyPuffStoryRecord(
                           queryBuilder: (myPuffStoryRecord) => myPuffStoryRecord
                               .orderBy('Created_at', descending: true),
-                          limit: 30,
+                          limit: 10,
                         ),
                         builder: (context, snapshot) {
                           // Customize what your widget looks like when it's loading.
@@ -475,17 +803,14 @@ class _MingleWidgetState extends State<MingleWidget> {
                                     12, 12, 0, 12),
                                 child: InkWell(
                                   onTap: () async {
-                                    context.pushNamed(
-                                      'Puff_Story_Details',
-                                      queryParams: {
-                                        'puffstoryRef': serializeParam(
-                                          wrapMyPuffStoryRecord,
-                                          ParamType.Document,
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            PuffStoryDetailsWidget(
+                                          puffstoryRef: wrapMyPuffStoryRecord,
                                         ),
-                                      }.withoutNulls,
-                                      extra: <String, dynamic>{
-                                        'puffstoryRef': wrapMyPuffStoryRecord,
-                                      },
+                                      ),
                                     );
                                   },
                                   child: Container(

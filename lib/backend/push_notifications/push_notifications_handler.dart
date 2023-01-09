@@ -91,6 +91,7 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
   'Login': (data) async => LoginWidget(),
   'signup': (data) async => SignupWidget(),
   'Loggedin': (data) async => LoggedinWidget(),
+  'signup_BusinessAccount': (data) async => SignupBusinessAccountWidget(),
   'SearchStrain': (data) async => NavBarPage(initialPage: 'SearchStrain'),
   'NearMe': (data) async => NavBarPage(initialPage: 'NearMe'),
   'Mingle': (data) async => NavBarPage(initialPage: 'Mingle'),
@@ -144,6 +145,8 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
   'StoreReviewPost': (data) async => StoreReviewPostWidget(
         storeRef: getParameter(data, 'storeRef'),
         ownerUserRef: getParameter(data, 'ownerUserRef'),
+        storeRooftopRef: await getDocumentParameter(
+            data, 'storeRooftopRef', StoreRooftopRecord.serializer),
       ),
   'RewardCenter': (data) async => RewardCenterWidget(
         userRef: getParameter(data, 'userRef'),
@@ -207,7 +210,7 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
         userRef: getParameter(data, 'userRef'),
       ),
   'Smokers_Around_Me': (data) async => SmokersAroundMeWidget(),
-  'MyPuffStorEdit': (data) async => MyPuffStorEditWidget(
+  'MyPuffStoryEdit': (data) async => MyPuffStoryEditWidget(
         storeRef: getParameter(data, 'storeRef'),
         userRef: getParameter(data, 'userRef'),
         puffSttoryRef: await getDocumentParameter(
@@ -250,8 +253,86 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
         csRef: getParameter(data, 'csRef'),
       ),
   'NearMeForOversea': (data) async => NearMeForOverseaWidget(),
-  'StoreDetailViewCopy': (data) async => StoreDetailViewCopyWidget(
-        storeRef: getParameter(data, 'storeRef'),
+  'Event_List_Host': (data) async => EventListHostWidget(),
+  'Event_Details-Before_Host_Request': (data) async =>
+      EventDetailsBeforeHostRequestWidget(
+        eventRef: await getDocumentParameter(
+            data, 'eventRef', EventsRecord.serializer),
+      ),
+  'Event_Details': (data) async => EventDetailsWidget(
+        eventRef: await getDocumentParameter(
+            data, 'eventRef', EventsRecord.serializer),
+      ),
+  'Event_Details_Host': (data) async => EventDetailsHostWidget(
+        eventRef: await getDocumentParameter(
+            data, 'eventRef', EventsRecord.serializer),
+      ),
+  'EventReviewPost': (data) async => EventReviewPostWidget(
+        eventRef: await getDocumentParameter(
+            data, 'eventRef', EventsRecord.serializer),
+      ),
+  'Participant_List': (data) async => ParticipantListWidget(
+        eventRef: await getDocumentParameter(
+            data, 'eventRef', EventsRecord.serializer),
+      ),
+  'Event_List_Manager': (data) async => EventListManagerWidget(),
+  'Create_Event_Manager': (data) async => CreateEventManagerWidget(),
+  'Update_Event_Manager': (data) async => UpdateEventManagerWidget(
+        eventRef: await getDocumentParameter(
+            data, 'eventRef', EventsRecord.serializer),
+      ),
+  'HostCandidate_List': (data) async => HostCandidateListWidget(),
+  'HostCandidateView_Approval': (data) async => HostCandidateViewApprovalWidget(
+        candidateRef: await getDocumentParameter(
+            data, 'candidateRef', HostDBRecord.serializer),
+        userRef:
+            await getDocumentParameter(data, 'userRef', UsersRecord.serializer),
+      ),
+  'Event_Details_Manager': (data) async => EventDetailsManagerWidget(
+        eventRef: await getDocumentParameter(
+            data, 'eventRef', EventsRecord.serializer),
+      ),
+  'Owner_Main': (data) async => OwnerMainWidget(
+        ownerRef: getParameter(data, 'ownerRef'),
+      ),
+  'Owner_FindYourBusiness1': (data) async => OwnerFindYourBusiness1Widget(
+        user: getParameter(data, 'user'),
+      ),
+  'Ownership_Verification_Request': (data) async =>
+      OwnershipVerificationRequestWidget(
+        storeRef: await getDocumentParameter(
+            data, 'storeRef', StoresRecord.serializer),
+      ),
+  'Owner_Business_registration': (data) async =>
+      OwnerBusinessRegistrationWidget(
+        ownerRef: getParameter(data, 'ownerRef'),
+      ),
+  'Store_StoreList_Decorate': (data) async => StoreStoreListDecorateWidget(
+        ownerRef: getParameter(data, 'ownerRef'),
+      ),
+  'Store_Decoration': (data) async => StoreDecorationWidget(
+        storeRef: await getDocumentParameter(
+            data, 'storeRef', StoresRecord.serializer),
+      ),
+  'Store_Customerlist': (data) async => StoreCustomerlistWidget(
+        storeRef: await getDocumentParameter(
+            data, 'storeRef', StoresRecord.serializer),
+      ),
+  'Store_StoreList_Info': (data) async => StoreStoreListInfoWidget(
+        ownerRef: getParameter(data, 'ownerRef'),
+      ),
+  'Owner_FindYourBusiness2': (data) async => OwnerFindYourBusiness2Widget(
+        user: getParameter(data, 'user'),
+      ),
+  'ChatPage': (data) async => ChatPageWidget(
+        chatUser: await getDocumentParameter(
+            data, 'chatUser', UsersRecord.serializer),
+        chatRef: getParameter(data, 'chatRef'),
+      ),
+  'ChatList': (data) async => NavBarPage(initialPage: 'ChatList'),
+  'Store_StoreList_MessageCopy': (data) async =>
+      StoreStoreListMessageCopyWidget(
+        ownerRef: getParameter(data, 'ownerRef'),
       ),
 };
 

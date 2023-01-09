@@ -2,6 +2,7 @@ import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../notice_details/notice_details_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,7 +46,7 @@ class _NoticeWidgetState extends State<NoticeWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         actions: [],
@@ -148,15 +149,16 @@ class _NoticeWidgetState extends State<NoticeWidget> {
                                                   16, 8, 16, 0),
                                           child: InkWell(
                                             onTap: () async {
-                                              context.pushNamed(
-                                                'Notice_Details',
-                                                queryParams: {
-                                                  'noticeRef': serializeParam(
-                                                    columnNoticeRecord
-                                                        .reference,
-                                                    ParamType.DocumentReference,
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      NoticeDetailsWidget(
+                                                    noticeRef:
+                                                        columnNoticeRecord
+                                                            .reference,
                                                   ),
-                                                }.withoutNulls,
+                                                ),
                                               );
                                             },
                                             child: Container(

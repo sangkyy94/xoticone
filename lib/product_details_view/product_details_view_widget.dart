@@ -4,6 +4,8 @@ import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../product_edit/product_edit_widget.dart';
+import '../product_review_post/product_review_post_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -82,7 +84,7 @@ class _ProductDetailsViewWidgetState extends State<ProductDetailsViewWidget>
                 size: 30,
               ),
               onPressed: () async {
-                context.pop();
+                Navigator.pop(context);
               },
             ),
             title: StreamBuilder<List<StoresRecord>>(
@@ -155,22 +157,14 @@ class _ProductDetailsViewWidgetState extends State<ProductDetailsViewWidget>
                               EdgeInsetsDirectional.fromSTEB(15, 15, 15, 15),
                           child: InkWell(
                             onTap: () async {
-                              context.pushNamed(
-                                'Product_Edit',
-                                queryParams: {
-                                  'productRef': serializeParam(
-                                    widget.productRef,
-                                    ParamType.Document,
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProductEditWidget(
+                                    productRef: widget.productRef,
+                                    storeRef: widget.storeRef,
                                   ),
-                                  'storeRef': serializeParam(
-                                    widget.storeRef,
-                                    ParamType.Document,
-                                  ),
-                                }.withoutNulls,
-                                extra: <String, dynamic>{
-                                  'productRef': widget.productRef,
-                                  'storeRef': widget.storeRef,
-                                },
+                                ),
                               );
                             },
                             child: Icon(
@@ -245,7 +239,7 @@ class _ProductDetailsViewWidgetState extends State<ProductDetailsViewWidget>
                         style: FlutterFlowTheme.of(context).bodyText2,
                       ),
                       Text(
-                        '${widget.productRef!.price1g?.toString()} THB / 1 gram',
+                        '${widget.productRef!.price1g?.toString()} THB ',
                         textAlign: TextAlign.end,
                         maxLines: 1,
                         style: FlutterFlowTheme.of(context).title3.override(
@@ -266,14 +260,14 @@ class _ProductDetailsViewWidgetState extends State<ProductDetailsViewWidget>
                     children: [
                       if (widget.productRef!.thc != null)
                         Text(
-                          'THC : ${widget.productRef!.thc?.toString()}%',
+                          '${widget.productRef!.thc?.toString()}%',
                           style: FlutterFlowTheme.of(context).title3,
                         ),
                       if (widget.productRef!.cbd != null)
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
                           child: Text(
-                            'CBD : ${widget.productRef!.cbd?.toString()}%',
+                            '${widget.productRef!.cbd?.toString()}%',
                             style: FlutterFlowTheme.of(context).title3,
                           ),
                         ),
@@ -658,14 +652,15 @@ class _ProductDetailsViewWidgetState extends State<ProductDetailsViewWidget>
                                             size: 20,
                                           ),
                                           onPressed: () async {
-                                            context.pushNamed(
-                                              'ProductReviewPost',
-                                              queryParams: {
-                                                'productref': serializeParam(
-                                                  widget.productRef!.reference,
-                                                  ParamType.DocumentReference,
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ProductReviewPostWidget(
+                                                  productref: widget
+                                                      .productRef!.reference,
                                                 ),
-                                              }.withoutNulls,
+                                              ),
                                             );
                                           },
                                         ),

@@ -67,7 +67,7 @@ class _PuffStoryReviewPostWidgetState extends State<PuffStoryReviewPostWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -120,7 +120,7 @@ class _PuffStoryReviewPostWidgetState extends State<PuffStoryReviewPostWidget> {
                         padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
                         child: Text(
                           FFLocalizations.of(context).getText(
-                            '97x9om84' /* Your review  may be hhelpful f... */,
+                            '97x9om84' /* Your review  may be helpful fo... */,
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyText1.override(
@@ -302,7 +302,7 @@ class _PuffStoryReviewPostWidgetState extends State<PuffStoryReviewPostWidget> {
                                 'puffstoryRef': widget.puffstoryRef,
                               },
                             );
-                            context.pop();
+                            Navigator.pop(context);
                           },
                           text: FFLocalizations.of(context).getText(
                             'kofxi1ul' /* POST REVIEW */,

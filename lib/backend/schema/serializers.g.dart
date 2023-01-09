@@ -11,23 +11,33 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(AmenityTypesStruct.serializer)
       ..add(BusinessHourRecord.serializer)
       ..add(CSTypesRecord.serializer)
+      ..add(ChatMessagesRecord.serializer)
+      ..add(ChatsRecord.serializer)
       ..add(CitiesRecord.serializer)
       ..add(CsDbRecord.serializer)
+      ..add(EventReviewRecord.serializer)
+      ..add(EventsRecord.serializer)
+      ..add(HostDBRecord.serializer)
       ..add(LanguageTypesRecord.serializer)
       ..add(LanguageTypesStruct.serializer)
       ..add(MoodsRecord.serializer)
       ..add(MyPuffStoryRecord.serializer)
+      ..add(NewStoreOwnerRegisterRecord.serializer)
       ..add(NoticeRecord.serializer)
       ..add(NotificationRecord.serializer)
+      ..add(ParticipantDBRecord.serializer)
       ..add(PaymentTypesStruct.serializer)
       ..add(ProductTypesRecord.serializer)
       ..add(ProductTypesStruct.serializer)
       ..add(ProductsRecord.serializer)
+      ..add(PuffStoryLocationRecord.serializer)
       ..add(PuffStoryReviewRecord.serializer)
       ..add(ReviewForProductRecord.serializer)
       ..add(ReviewForStoreRecord.serializer)
       ..add(SearchRecordByStrainRecord.serializer)
+      ..add(ServiceCategoriesRecord.serializer)
       ..add(StampCouponsRecord.serializer)
+      ..add(StoreRooftopRecord.serializer)
       ..add(StoreTypesStruct.serializer)
       ..add(StoresRecord.serializer)
       ..add(StrainTypesRecord.serializer)
@@ -35,6 +45,54 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(SuburbsRecord.serializer)
       ..add(TerpeneTypesRecord.serializer)
       ..add(UsersRecord.serializer)
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])
+          ]),
+          () => new ListBuilder<DocumentReference<Object?>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])
+          ]),
+          () => new ListBuilder<DocumentReference<Object?>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])
+          ]),
+          () => new ListBuilder<DocumentReference<Object?>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])
+          ]),
+          () => new ListBuilder<DocumentReference<Object?>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])
+          ]),
+          () => new ListBuilder<DocumentReference<Object?>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])
+          ]),
+          () => new ListBuilder<DocumentReference<Object?>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])
+          ]),
+          () => new ListBuilder<DocumentReference<Object?>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])
+          ]),
+          () => new ListBuilder<DocumentReference<Object?>>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [
             const FullType(

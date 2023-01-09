@@ -3,6 +3,7 @@ import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../store_productlist/store_productlist_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -54,7 +55,7 @@ class _StoreStoreListProductWidgetState
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -90,7 +91,7 @@ class _StoreStoreListProductWidgetState
                       padding: EdgeInsetsDirectional.fromSTEB(15, 15, 15, 0),
                       child: Text(
                         FFLocalizations.of(context).getText(
-                          'pnft7xzr' /* Select Your Shop */,
+                          'pnft7xzr' /* Select Your Shop to upload pro... */,
                         ),
                         style: FlutterFlowTheme.of(context).title1.override(
                               fontFamily: 'Montserrat',
@@ -114,7 +115,7 @@ class _StoreStoreListProductWidgetState
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(15, 15, 0, 0),
                             child: AuthUserStreamWidget(
-                              child: Text(
+                              builder: (context) => Text(
                                 '${currentUserDisplayName}(${currentUserEmail})',
                                 style: FlutterFlowTheme.of(context).bodyText1,
                               ),
@@ -215,17 +216,14 @@ class _StoreStoreListProductWidgetState
                                   10, 10, 10, 10),
                               child: InkWell(
                                 onTap: () async {
-                                  context.pushNamed(
-                                    'Store_Productlist',
-                                    queryParams: {
-                                      'storeRef': serializeParam(
-                                        listViewStoresRecord,
-                                        ParamType.Document,
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          StoreProductlistWidget(
+                                        storeRef: listViewStoresRecord,
                                       ),
-                                    }.withoutNulls,
-                                    extra: <String, dynamic>{
-                                      'storeRef': listViewStoresRecord,
-                                    },
+                                    ),
                                   );
                                 },
                                 child: Container(

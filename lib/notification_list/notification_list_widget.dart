@@ -56,7 +56,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget>
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -90,7 +90,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget>
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
                         child: AuthUserStreamWidget(
-                          child: StreamBuilder<UsersRecord>(
+                          builder: (context) => StreamBuilder<UsersRecord>(
                             stream: UsersRecord.getDocument(widget.userRef!),
                             builder: (context, snapshot) {
                               // Customize what your widget looks like when it's loading.
